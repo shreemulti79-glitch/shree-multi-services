@@ -7,198 +7,720 @@
     <title>Shree Multi Services - Dashboard</title>
 
     <style>
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             font-family: Arial, sans-serif;
         }
 
         body {
-            background: #f4f6f9;
-            color: #222;
+            background: #050505;
+            color: #fff;
         }
 
-        .header {
-            background: #0d6efd;
-            color: white;
-            padding: 18px;
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: #111;
+            border-right: 1px solid #292929;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+
+        /* PROFILE */
+
+        .profile {
+            padding: 25px 15px;
+            text-align: center;
+            border-bottom: 1px solid #292929;
+        }
+
+        .profile-icon {
+            width: 70px;
+            height: 70px;
+            margin: auto;
+            border-radius: 50%;
+            background: #222;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 2px solid #0d6efd;
         }
 
-        .header h2 {
-            font-size: 20px;
+        .profile h3 {
+            margin-top: 12px;
+            font-size: 16px;
+            color: #fff;
         }
+
+        .profile p {
+            margin-top: 5px;
+            color: #888;
+            font-size: 12px;
+        }
+
+
+        /* SIDEBAR MENU */
+
+        .menu-title {
+            padding: 20px 18px 10px;
+            color: #777;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 18px;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .menu a:hover {
+            background: #1d1d1d;
+            color: #fff;
+            border-left: 3px solid #0d6efd;
+        }
+
+        .menu a.active {
+            background: #1d1d1d;
+            color: #fff;
+            border-left: 3px solid #0d6efd;
+        }
+
+        .icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+
+        /* LOGOUT */
 
         .logout {
-            background: white;
-            color: #0d6efd;
+            margin: 20px 15px;
+            width: calc(100% - 30px);
+            padding: 12px;
+            background: #1b1b1b;
+            color: #ff5c5c;
+            border: 1px solid #333;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .logout:hover {
+            background: #2a1515;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 260px;
+            min-height: 100vh;
+            background: #050505;
+        }
+
+
+        /* TOP BAR */
+
+        .topbar {
+            height: 65px;
+            background: #0b0b0b;
+            border-bottom: 1px solid #292929;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+        }
+
+        .topbar h2 {
+            font-size: 19px;
+        }
+
+        .top-user {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+
+        /* CONTENT */
+
+        .content {
+            padding: 25px;
+        }
+
+
+        /* WELCOME */
+
+        .welcome {
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #888;
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           DASHBOARD CARDS
+        ========================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .stat-card h4 {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card strong {
+            font-size: 27px;
+        }
+
+
+        /* =========================
+           SERVICES
+        ========================= */
+
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(210px, 1fr));
+            gap: 15px;
+        }
+
+        .service {
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 10px;
+            padding: 22px;
+            transition: 0.2s;
+        }
+
+        .service:hover {
+            border-color: #0d6efd;
+            transform: translateY(-2px);
+        }
+
+        .service-icon {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .service h3 {
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .service p {
+            color: #888;
+            font-size: 13px;
+            min-height: 32px;
+        }
+
+        .service button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px;
+            background: #0d6efd;
+            color: #fff;
             border: none;
-            padding: 9px 15px;
             border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 25px auto;
-            padding: 15px;
+        .service button:hover {
+            background: #0b5ed7;
         }
 
-        .welcome {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
 
-        .welcome h3 {
-            margin-bottom: 8px;
-        }
+        /* =========================
+           MOBILE BUTTON
+        ========================= */
 
-        .services {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .service {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            text-align: center;
-        }
-
-        .service button {
-            margin-top: 12px;
-            background: #0d6efd;
-            color: white;
-            border: none;
-            padding: 9px 15px;
+        .mobile-menu {
+            display: none;
+            background: #111;
+            color: #fff;
+            border: 1px solid #333;
+            padding: 8px 12px;
             border-radius: 6px;
             cursor: pointer;
+            font-size: 20px;
         }
 
-        @media(max-width:600px) {
 
-            .header {
-                padding: 14px;
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media(max-width: 800px) {
+
+            .sidebar {
+                left: -260px;
+                transition: 0.3s;
             }
 
-            .header h2 {
-                font-size: 17px;
+            .sidebar.show {
+                left: 0;
             }
 
-            .container {
-                margin-top: 15px;
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media(max-width: 500px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+
+            .stat-card strong {
+                font-size: 22px;
             }
 
             .services {
                 grid-template-columns: 1fr;
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-<!-- HEADER -->
 
-<div class="header">
+<!-- =========================
+     SIDEBAR
+========================= -->
 
-    <h2>Shree Multi Services</h2>
+<aside class="sidebar" id="sidebar">
 
-    <button class="logout" onclick="logout()">
-        Logout
-    </button>
+    <div class="profile">
 
-</div>
+        <div class="profile-icon">
+            👤
+        </div>
 
-
-<!-- MAIN -->
-
-<div class="container">
-
-    <div class="welcome">
-
-        <h3>
-            Welcome,
-            <span id="username">User</span> 👋
+        <h3 id="sidebarUsername">
+            SOHAM VIJAY SALVE
         </h3>
 
-        <p>
-            Shree Multi Services Dashboard
-        </p>
+        <p>Shree Multi Services</p>
 
     </div>
 
 
-    <!-- SERVICES -->
+    <div class="menu">
 
-    <div class="services">
+        <div class="menu-title">
+            Menu
+        </div>
 
-        <div class="service">
+        <a href="#" class="active">
 
-            <h3>🪪 PAN Card</h3>
+            <span class="icon">🏠</span>
 
-            <p>PAN Card Service</p>
+            Dashboard
 
-            <button onclick="serviceAlert('PAN Card')">
-                Apply
+        </a>
+
+
+        <div class="menu-title">
+            Services
+        </div>
+
+
+        <a href="#services">
+            <span class="icon">🪪</span>
+            PAN Card
+        </a>
+
+
+        <a href="#services">
+            <span class="icon">📄</span>
+            PAN Ack Receipt
+        </a>
+
+
+        <a href="#services">
+            <span class="icon">🔍</span>
+            Missing PAN
+        </a>
+
+
+        <a href="#services">
+            <span class="icon">📋</span>
+            Other Category PAN
+        </a>
+
+
+        <a href="#services">
+            <span class="icon">🏪</span>
+            Shop Act
+        </a>
+
+
+        <a href="#services">
+            <span class="icon">🏢</span>
+            Udyog Aadhaar
+        </a>
+
+
+        <a href="#services">
+            <span class="icon">📜</span>
+            Gazetted Certificate
+        </a>
+
+
+        <a href="#services">
+            <span class="icon">🍴</span>
+            Food License
+        </a>
+
+
+        <button class="logout" onclick="logout()">
+            🚪 Logout
+        </button>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div style="display:flex;align-items:center;gap:15px;">
+
+            <button
+                class="mobile-menu"
+                onclick="toggleSidebar()">
+
+                ☰
+
             </button>
+
+            <h2>
+                Dashboard
+            </h2>
 
         </div>
 
 
-        <div class="service">
+        <div class="top-user">
 
-            <h3>🏪 Shop Act</h3>
-
-            <p>Shop Act Licence</p>
-
-            <button onclick="serviceAlert('Shop Act')">
-                Apply
-            </button>
-
-        </div>
-
-
-        <div class="service">
-
-            <h3>📄 Income Certificate</h3>
-
-            <p>Income Certificate</p>
-
-            <button onclick="serviceAlert('Income Certificate')">
-                Apply
-            </button>
-
-        </div>
-
-
-        <div class="service">
-
-            <h3>📄 Caste Certificate</h3>
-
-            <p>Caste Certificate</p>
-
-            <button onclick="serviceAlert('Caste Certificate')">
-                Apply
-            </button>
+            <span id="topUsername">
+                SOHAM VIJAY SALVE
+            </span>
 
         </div>
 
     </div>
 
-</div>
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+        <!-- WELCOME -->
+
+        <div class="welcome">
+
+            <h2>
+                Hello,
+                <span id="username">
+                    SOHAM VIJAY SALVE
+                </span> 👋
+            </h2>
+
+            <p>
+                Welcome to Shree Multi Services Dashboard
+            </p>
+
+        </div>
+
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <h4>
+                    Total Process
+                </h4>
+
+                <strong>
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h4>
+                    Total Rejected
+                </h4>
+
+                <strong>
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h4>
+                    Total Accepted
+                </h4>
+
+                <strong>
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h4>
+                    Total PAN
+                </h4>
+
+                <strong>
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SERVICES -->
+
+        <h2
+            class="section-title"
+            id="services">
+
+            Services
+
+        </h2>
+
+
+        <div class="services">
+
+
+            <!-- PAN CARD -->
+
+            <div class="service">
+
+                <div class="service-icon">
+                    🪪
+                </div>
+
+                <h3>
+                    PAN Card
+                </h3>
+
+                <p>
+                    PAN Card Service
+                </p>
+
+                <button
+                    onclick="serviceAlert('PAN Card')">
+
+                    Apply
+
+                </button>
+
+            </div>
+
+
+
+            <!-- SHOP ACT -->
+
+            <div class="service">
+
+                <div class="service-icon">
+                    🏪
+                </div>
+
+                <h3>
+                    Shop Act
+                </h3>
+
+                <p>
+                    Shop Act Licence
+                </p>
+
+                <button
+                    onclick="serviceAlert('Shop Act')">
+
+                    Apply
+
+                </button>
+
+            </div>
+
+
+
+            <!-- INCOME -->
+
+            <div class="service">
+
+                <div class="service-icon">
+                    📄
+                </div>
+
+                <h3>
+                    Income Certificate
+                </h3>
+
+                <p>
+                    Income Certificate
+                </p>
+
+                <button
+                    onclick="serviceAlert('Income Certificate')">
+
+                    Apply
+
+                </button>
+
+            </div>
+
+
+
+            <!-- CASTE -->
+
+            <div class="service">
+
+                <div class="service-icon">
+                    📄
+                </div>
+
+                <h3>
+                    Caste Certificate
+                </h3>
+
+                <p>
+                    Caste Certificate
+                </p>
+
+                <button
+                    onclick="serviceAlert('Caste Certificate')">
+
+                    Apply
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</main>
+
 
 
 <script>
+
 
 /* =========================
    USERNAME
@@ -209,16 +731,37 @@ function loadUsername() {
     const username =
         localStorage.getItem("username");
 
-    const element =
+    if (!username) {
+        return;
+    }
+
+    const usernameElement =
         document.getElementById("username");
 
-    if (element && username) {
+    const sidebarElement =
+        document.getElementById("sidebarUsername");
 
-        element.innerText = username;
+    const topElement =
+        document.getElementById("topUsername");
 
+
+    if (usernameElement) {
+        usernameElement.innerText =
+            username;
+    }
+
+    if (sidebarElement) {
+        sidebarElement.innerText =
+            username;
+    }
+
+    if (topElement) {
+        topElement.innerText =
+            username;
     }
 
 }
+
 
 
 /* =========================
@@ -235,6 +778,7 @@ function serviceAlert(service) {
 }
 
 
+
 /* =========================
    LOGOUT
 ========================= */
@@ -247,6 +791,22 @@ function logout() {
         "index.html";
 
 }
+
+
+
+/* =========================
+   MOBILE SIDEBAR
+========================= */
+
+function toggleSidebar() {
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    sidebar.classList.toggle("show");
+
+}
+
 
 
 /* =========================
@@ -263,6 +823,7 @@ document.addEventListener(
 );
 
 </script>
+
 
 </body>
 </html>
