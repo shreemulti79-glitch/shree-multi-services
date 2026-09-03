@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Shree Multi Services - Dashboard</title>
+
+<!-- Razorpay Checkout -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <style>
 
@@ -12,7 +16,7 @@
     box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
 }
 
 body{
@@ -174,7 +178,7 @@ body{
     margin-bottom:20px;
 }
 
-/* AMOUNT BUTTONS */
+/* AMOUNT */
 
 .amount-grid{
     display:grid;
@@ -247,11 +251,27 @@ body{
     background:#0d47a1;
 }
 
+.continue-btn:disabled{
+    background:#999;
+    cursor:not-allowed;
+}
+
 .note{
     text-align:center;
     font-size:12px;
     color:#888;
     margin-top:12px;
+}
+
+/* STATUS */
+
+.payment-status{
+    display:none;
+    margin-top:15px;
+    padding:12px;
+    border-radius:8px;
+    text-align:center;
+    font-weight:bold;
 }
 
 /* FOOTER */
@@ -297,6 +317,7 @@ body{
 
 </style>
 </head>
+
 
 <body>
 
@@ -409,34 +430,40 @@ body{
 
         <div class="amount-grid">
 
-            <button class="amount-btn" onclick="selectAmount(50,this)">
+            <button class="amount-btn"
+                    onclick="selectAmount(50,this)">
                 ₹50
             </button>
 
-            <button class="amount-btn" onclick="selectAmount(100,this)">
+            <button class="amount-btn"
+                    onclick="selectAmount(100,this)">
                 ₹100
             </button>
 
-            <button class="amount-btn" onclick="selectAmount(200,this)">
+            <button class="amount-btn"
+                    onclick="selectAmount(200,this)">
                 ₹200
             </button>
 
-            <button class="amount-btn" onclick="selectAmount(500,this)">
+            <button class="amount-btn"
+                    onclick="selectAmount(500,this)">
                 ₹500
             </button>
 
-            <button class="amount-btn" onclick="selectAmount(1000,this)">
+            <button class="amount-btn"
+                    onclick="selectAmount(1000,this)">
                 ₹1,000
             </button>
 
-            <button class="amount-btn" onclick="customAmount()">
+            <button class="amount-btn"
+                    onclick="customAmount()">
                 Custom
             </button>
 
         </div>
 
 
-        <!-- CUSTOM AMOUNT -->
+        <!-- CUSTOM -->
 
         <label class="custom-label">
             Custom Amount
@@ -460,22 +487,31 @@ body{
 
             <br>
 
-            ₹<span id="selectedAmount">
-                50
-            </span>
+            ₹<span id="selectedAmount">50</span>
 
         </div>
 
 
         <!-- CONTINUE -->
 
-        <button class="continue-btn" onclick="continuePayment()">
-            Continue
+        <button
+            class="continue-btn"
+            id="continueBtn"
+            onclick="continuePayment()">
+
+            Continue to Payment
+
         </button>
 
 
+        <div
+            class="payment-status"
+            id="paymentStatus">
+        </div>
+
+
         <div class="note">
-            ⚠️ Payment Gateway पुढील Step मध्ये जोडला जाईल.
+            🔐 Secure Razorpay Test Payment
         </div>
 
     </div>
@@ -494,9 +530,33 @@ body{
 
 <script>
 
-/* ==========================
+/* ==================================================
+   RAZORPAY SETTINGS
+================================================== */
+
+/*
+   IMPORTANT:
+   येथे तुमचा RAZORPAY TEST KEY ID टाका.
+
+   उदाहरण:
+   rzp_test_xxxxxxxxxxxxx
+*/
+
+const RAZORPAY_KEY_ID =
+    "YOUR_RAZORPAY_TEST_KEY_ID";
+
+
+/*
+   तुमचा Render Backend
+*/
+
+const BACKEND_URL =
+    "https://shree-multi-services-backend.onrender.com";
+
+
+/* ==================================================
    USERNAME
-========================== */
+================================================== */
 
 let username =
     localStorage.getItem("registeredUsername");
@@ -509,15 +569,15 @@ if(username){
 }
 
 
-/* ==========================
+/* ==================================================
    WALLET
-========================== */
+================================================== */
 
 let walletBalance =
-    localStorage.getItem("walletBalance");
+    Number(localStorage.getItem("walletBalance"));
 
 
-if(walletBalance === null){
+if(!localStorage.getItem("walletBalance")){
 
     walletBalance = 50;
 
@@ -533,9 +593,9 @@ document.getElementById("walletBalance").innerText =
     walletBalance;
 
 
-/* ==========================
+/* ==================================================
    ADD MONEY
-========================== */
+================================================== */
 
 let selectedAmount = 50;
 
@@ -560,7 +620,7 @@ function closeAddMoney(){
 }
 
 
-/* SELECT AMOUNT */
+/* SELECT */
 
 function selectAmount(amount,button){
 
@@ -609,7 +669,9 @@ function customAmount(){
 function setCustomAmount(){
 
     let value =
-        Number(document.getElementById("customAmount").value);
+        Number(
+            document.getElementById("customAmount").value
+        );
 
     if(value >= 10){
 
@@ -623,14 +685,44 @@ function setCustomAmount(){
 }
 
 
-/* ==========================
-   CONTINUE PAYMENT
-========================== */
+/* ==================================================
+   SHOW STATUS
+================================================== */
 
-function continuePayment(){
+function showStatus(message,type){
+
+    const status =
+        document.getElementById("paymentStatus");
+
+    status.style.display = "block";
+
+    status.innerText = message;
+
+    if(type === "success"){
+
+        status.style.background = "#e8f5e9";
+        status.style.color = "#2e7d32";
+
+    }else{
+
+        status.style.background = "#ffebee";
+        status.style.color = "#c62828";
+
+    }
+
+}
+
+
+/* ==================================================
+   CONTINUE PAYMENT
+================================================== */
+
+async function continuePayment(){
 
     let custom =
-        Number(document.getElementById("customAmount").value);
+        Number(
+            document.getElementById("customAmount").value
+        );
 
 
     if(custom >= 10){
@@ -649,24 +741,364 @@ function continuePayment(){
     }
 
 
-    alert(
-        "Demo Payment\n\n" +
-        "Amount: ₹" +
-        selectedAmount +
-        "\n\n" +
-        "Payment Gateway पुढील Step मध्ये जोडला जाईल."
+    /*
+       Check Razorpay Key
+    */
+
+    if(
+        !RAZORPAY_KEY_ID ||
+        RAZORPAY_KEY_ID ===
+        "YOUR_RAZORPAY_TEST_KEY_ID"
+    ){
+
+        alert(
+            "Razorpay Test Key ID dashboard.html मध्ये टाका."
+        );
+
+        return;
+
+    }
+
+
+    const continueBtn =
+        document.getElementById("continueBtn");
+
+
+    continueBtn.disabled = true;
+
+    continueBtn.innerText =
+        "Creating Payment...";
+
+
+    showStatus(
+        "Payment order तयार होत आहे...",
+        "success"
     );
+
+
+    try{
+
+        /* ==========================================
+           CREATE RAZORPAY ORDER
+        ========================================== */
+
+        const response =
+            await fetch(
+                BACKEND_URL + "/create-order",
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                        "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        amount:selectedAmount
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            throw new Error(
+                data.message ||
+                "Order creation failed"
+            );
+
+        }
+
+
+        const order =
+            data.order;
+
+
+        /* ==========================================
+           RAZORPAY CHECKOUT
+        ========================================== */
+
+        const options = {
+
+            key:
+                RAZORPAY_KEY_ID,
+
+            amount:
+                order.amount,
+
+            currency:
+                order.currency,
+
+            name:
+                "Shree Multi Services",
+
+            description:
+                "Wallet Recharge",
+
+            order_id:
+                order.id,
+
+
+            handler:
+                async function(paymentResponse){
+
+                    await verifyPayment(
+                        paymentResponse
+                    );
+
+                },
+
+
+            prefill:{
+
+                name:
+                    username || "Customer"
+
+            },
+
+
+            theme:{
+
+                color:"#1565c0"
+
+            },
+
+
+            modal:{
+
+                ondismiss:function(){
+
+                    continueBtn.disabled =
+                        false;
+
+                    continueBtn.innerText =
+                        "Continue to Payment";
+
+                    showStatus(
+                        "Payment cancelled.",
+                        "error"
+                    );
+
+                }
+
+            }
+
+        };
+
+
+        const razorpay =
+            new Razorpay(options);
+
+
+        razorpay.on(
+            "payment.failed",
+            function(response){
+
+                console.error(
+                    "Payment failed:",
+                    response.error
+                );
+
+                continueBtn.disabled =
+                    false;
+
+                continueBtn.innerText =
+                    "Continue to Payment";
+
+                showStatus(
+                    "Payment failed. पुन्हा प्रयत्न करा.",
+                    "error"
+                );
+
+            }
+        );
+
+
+        razorpay.open();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        continueBtn.disabled =
+            false;
+
+        continueBtn.innerText =
+            "Continue to Payment";
+
+        showStatus(
+            "Payment सुरू करता आला नाही. Backend तपासा.",
+            "error"
+        );
+
+    }
 
 }
 
 
-/* ==========================
+/* ==================================================
+   VERIFY PAYMENT
+================================================== */
+
+async function verifyPayment(paymentResponse){
+
+    showStatus(
+        "Payment verify होत आहे...",
+        "success"
+    );
+
+
+    try{
+
+        const response =
+            await fetch(
+                BACKEND_URL + "/verify-payment",
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                        "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        razorpay_order_id:
+                            paymentResponse.razorpay_order_id,
+
+                        razorpay_payment_id:
+                            paymentResponse.razorpay_payment_id,
+
+                        razorpay_signature:
+                            paymentResponse.razorpay_signature
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            throw new Error(
+                data.message ||
+                "Payment verification failed"
+            );
+
+        }
+
+
+        /* ==========================================
+           PAYMENT SUCCESS
+        ========================================== */
+
+        walletBalance =
+            Number(walletBalance) +
+            Number(selectedAmount);
+
+
+        localStorage.setItem(
+            "walletBalance",
+            walletBalance
+        );
+
+
+        document.getElementById(
+            "walletBalance"
+        ).innerText =
+            walletBalance;
+
+
+        showStatus(
+            "✅ Payment successful! ₹" +
+            selectedAmount +
+            " Wallet मध्ये जमा झाले.",
+            "success"
+        );
+
+
+        setTimeout(function(){
+
+            closeAddMoney();
+
+            document.getElementById(
+                "paymentStatus"
+            ).style.display =
+                "none";
+
+            document.getElementById(
+                "continueBtn"
+            ).disabled =
+                false;
+
+            document.getElementById(
+                "continueBtn"
+            ).innerText =
+                "Continue to Payment";
+
+        },2000);
+
+
+        console.log(
+            "Payment ID:",
+            data.payment_id
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+        showStatus(
+            "Payment झाला पण verification failed. Wallet update केले नाही.",
+            "error"
+        );
+
+
+        document.getElementById(
+            "continueBtn"
+        ).disabled =
+            false;
+
+        document.getElementById(
+            "continueBtn"
+        ).innerText =
+            "Continue to Payment";
+
+    }
+
+}
+
+
+/* ==================================================
    LOGOUT
-========================== */
+================================================== */
 
 function logout(){
 
-    localStorage.removeItem("loginStatus");
+    localStorage.removeItem(
+        "loginStatus"
+    );
 
     window.location.href =
         "index.html";
@@ -674,14 +1106,17 @@ function logout(){
 }
 
 
-/* ==========================
+/* ==================================================
    CLOSE MODAL OUTSIDE
-========================== */
+================================================== */
 
-window.onclick = function(event){
+window.onclick =
+function(event){
 
     let modal =
-        document.getElementById("addMoneyModal");
+        document.getElementById(
+            "addMoneyModal"
+        );
 
     if(event.target === modal){
 
@@ -689,7 +1124,7 @@ window.onclick = function(event){
 
     }
 
-}
+};
 
 </script>
 
