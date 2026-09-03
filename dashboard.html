@@ -129,6 +129,7 @@ body{
     padding:11px 13px 11px 38px;
     font-size:13px;
     border-bottom:1px solid #444;
+    cursor:pointer;
 }
 
 .submenu a:last-child{
@@ -398,6 +399,274 @@ body{
 }
 
 /* =========================
+   ALL PAN RECEIPT AREA
+========================= */
+
+.receipt-container{
+    display:none;
+    padding:28px;
+    background:#f5f6f8;
+    min-height:calc(100vh - 70px);
+}
+
+.receipt-container.show{
+    display:block;
+}
+
+.receipt-header{
+    background:white;
+    border:1px solid #e3e3e3;
+    border-radius:10px 10px 0 0;
+    padding:18px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.receipt-header h2{
+    font-size:21px;
+    color:#222;
+}
+
+.receipt-header p{
+    color:#777;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.receipt-back-btn{
+    border:none;
+    background:#1976d2;
+    color:white;
+    padding:9px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.receipt-back-btn:hover{
+    background:#125ca8;
+}
+
+.receipt-body{
+    background:white;
+    border:1px solid #e3e3e3;
+    border-top:none;
+    padding:20px;
+    border-radius:0 0 10px 10px;
+    overflow-x:auto;
+}
+
+.receipt-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.receipt-count{
+    font-size:14px;
+    color:#555;
+}
+
+.search-box{
+    padding:9px 12px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    width:260px;
+    outline:none;
+}
+
+.search-box:focus{
+    border-color:#1976d2;
+}
+
+.receipt-table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+
+.receipt-table th{
+    background:#292929;
+    color:white;
+    padding:12px 10px;
+    font-size:12px;
+    text-align:left;
+}
+
+.receipt-table td{
+    padding:12px 10px;
+    border-bottom:1px solid #e5e5e5;
+    font-size:12px;
+    color:#333;
+}
+
+.receipt-table tr:hover{
+    background:#f7f9fc;
+}
+
+.status{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:12px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.status-pending{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.status-processing{
+    background:#cfe2ff;
+    color:#084298;
+}
+
+.status-completed{
+    background:#d1e7dd;
+    color:#0f5132;
+}
+
+.status-rejected{
+    background:#f8d7da;
+    color:#842029;
+}
+
+.action-btn{
+    border:none;
+    padding:7px 9px;
+    border-radius:4px;
+    cursor:pointer;
+    color:white;
+    font-size:11px;
+    margin-right:4px;
+}
+
+.view-btn{
+    background:#1976d2;
+}
+
+.print-btn{
+    background:#333;
+}
+
+.action-btn:hover{
+    opacity:0.85;
+}
+
+.no-data{
+    text-align:center;
+    padding:50px 20px;
+    color:#777;
+}
+
+.no-data h3{
+    color:#444;
+    margin-bottom:8px;
+}
+
+.no-data p{
+    font-size:13px;
+}
+
+/* =========================
+   RECEIPT MODAL
+========================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.55);
+    z-index:3000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:800px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:white;
+    border-radius:10px;
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #ddd;
+    padding-bottom:15px;
+    margin-bottom:20px;
+}
+
+.modal-header h2{
+    font-size:20px;
+}
+
+.modal-close{
+    border:none;
+    background:#b71c1c;
+    color:white;
+    width:32px;
+    height:32px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.details-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.detail-item{
+    border:1px solid #e5e5e5;
+    padding:12px;
+    border-radius:6px;
+}
+
+.detail-item strong{
+    display:block;
+    font-size:11px;
+    color:#777;
+    margin-bottom:5px;
+}
+
+.detail-item span{
+    font-size:13px;
+    color:#222;
+    word-break:break-word;
+}
+
+.modal-footer{
+    margin-top:20px;
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+.modal-print{
+    border:none;
+    background:#1976d2;
+    color:white;
+    padding:10px 18px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+/* =========================
    LOGOUT
 ========================= */
 
@@ -509,6 +778,23 @@ body{
         height:calc(100vh - 150px);
     }
 
+    .receipt-container{
+        padding:15px;
+    }
+
+    .receipt-header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .search-box{
+        width:100%;
+    }
+
+    .details-grid{
+        grid-template-columns:1fr;
+    }
+
 }
 
 @media(max-width:480px){
@@ -544,6 +830,7 @@ body{
         <div class="menu-title">Dashboard</div>
 
         <button class="menu-btn active"
+                id="dashboardMenuBtn"
                 onclick="showDashboard()">
 
             <span class="menu-left">
@@ -592,11 +879,13 @@ body{
 
             </a>
 
+            <!-- ALL PAN RECEIPT -->
+
             <a href="#"
-               onclick="serviceAlert(event,'All PAN Receipt')">
+               onclick="openAllPanReceipt(event)">
 
                 <span>All PAN (Receipt)</span>
-                <span class="count">6</span>
+                <span class="count" id="allPanCount">0</span>
 
             </a>
 
@@ -930,7 +1219,8 @@ body{
 
                 <h4>Total Rejected</h4>
 
-                <div class="number">
+                <div class="number"
+                     id="totalRejected">
                     0
                 </div>
 
@@ -941,7 +1231,8 @@ body{
 
                 <h4>Total Accepted</h4>
 
-                <div class="number">
+                <div class="number"
+                     id="totalAccepted">
                     0
                 </div>
 
@@ -1103,6 +1394,116 @@ body{
 
     </div>
 
+
+    <!-- =========================
+         ALL PAN RECEIPT
+    ========================= -->
+
+    <div class="receipt-container"
+         id="receiptContainer">
+
+        <div class="receipt-header">
+
+            <div>
+
+                <h2>
+                    📄 All PAN (Receipt)
+                </h2>
+
+                <p>
+                    All submitted Physical PAN applications
+                </p>
+
+            </div>
+
+            <button class="receipt-back-btn"
+                    onclick="showDashboard()">
+
+                ← Back to Dashboard
+
+            </button>
+
+        </div>
+
+
+        <div class="receipt-body">
+
+            <div class="receipt-top">
+
+                <div class="receipt-count">
+
+                    Total Applications:
+                    <strong id="receiptTotal">
+                        0
+                    </strong>
+
+                </div>
+
+                <input
+                    type="text"
+                    id="receiptSearch"
+                    class="search-box"
+                    placeholder="Search applicant / application no..."
+                    oninput="filterReceipts()">
+
+            </div>
+
+
+            <div id="receiptTableArea">
+                <!-- Table will load here -->
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     VIEW DETAILS MODAL
+========================= -->
+
+<div class="modal"
+     id="detailsModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                📄 PAN Application Details
+            </h2>
+
+            <button class="modal-close"
+                    onclick="closeDetails()">
+
+                ✕
+
+            </button>
+
+        </div>
+
+
+        <div class="details-grid"
+             id="detailsGrid">
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button class="modal-print"
+                    onclick="printSelectedReceipt()">
+
+                🖨️ Print Receipt
+
+            </button>
+
+        </div>
+
+    </div>
+
 </div>
 
 
@@ -1127,17 +1528,45 @@ if(savedUsername){
 
 
 /* =========================
+   GET PAN APPLICATIONS
+========================= */
+
+function getPanApplications(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem("panApplications") || "[]"
+        );
+
+    }catch(error){
+
+        console.error(
+            "PAN data error:",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================
    PAN COUNT
 ========================= */
 
 function updatePanCount(){
 
     const applications =
-    JSON.parse(
-        localStorage.getItem("panApplications") || "[]"
-    );
+    getPanApplications();
 
     document.getElementById("totalPan")
+    .innerText =
+    applications.length;
+
+    document.getElementById("allPanCount")
     .innerText =
     applications.length;
 
@@ -1145,10 +1574,76 @@ function updatePanCount(){
 
 
 /* =========================
-   UPDATE DASHBOARD
+   DASHBOARD STATS
 ========================= */
 
-updatePanCount();
+function updateDashboardStats(){
+
+    const applications =
+    getPanApplications();
+
+    let process = 0;
+    let rejected = 0;
+    let accepted = 0;
+
+    applications.forEach(function(app){
+
+        const status =
+        String(app.status || "Pending")
+        .toLowerCase();
+
+        if(status === "rejected"){
+
+            rejected++;
+
+        }
+        else if(
+            status === "completed" ||
+            status === "accepted" ||
+            status === "approved"
+        ){
+
+            accepted++;
+
+        }
+        else{
+
+            process++;
+
+        }
+
+    });
+
+    document.getElementById("totalProcess")
+    .innerText = process;
+
+    document.getElementById("totalRejected")
+    .innerText = rejected;
+
+    document.getElementById("totalAccepted")
+    .innerText = accepted;
+
+}
+
+
+/* =========================
+   UPDATE EVERYTHING
+========================= */
+
+function updateDashboard(){
+
+    updatePanCount();
+
+    updateDashboardStats();
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+updateDashboard();
 
 
 /* =========================
@@ -1182,12 +1677,26 @@ function showDashboard(){
     .classList.remove("show");
 
     document
+    .getElementById("receiptContainer")
+    .classList.remove("show");
+
+    document
     .getElementById("pageTitle")
-    .innerText = "Dashboard";
+    .innerText =
+    "Dashboard";
+
+    document
+    .getElementById("dashboardMenuBtn")
+    .classList.add("active");
 
     closeSidebar();
 
-    updatePanCount();
+    updateDashboard();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 
 }
 
@@ -1199,12 +1708,18 @@ function showDashboard(){
 function openPanForm(event){
 
     if(event){
+
         event.preventDefault();
+
     }
 
     document
     .getElementById("dashboardContent")
     .style.display = "none";
+
+    document
+    .getElementById("receiptContainer")
+    .classList.remove("show");
 
     document
     .getElementById("panFormContainer")
@@ -1214,6 +1729,10 @@ function openPanForm(event){
     .getElementById("pageTitle")
     .innerText =
     "PAN Application";
+
+    document
+    .getElementById("dashboardMenuBtn")
+    .classList.remove("active");
 
     closeSidebar();
 
@@ -1240,16 +1759,1046 @@ function closePanForm(){
     .style.display = "block";
 
     document
+    .getElementById("receiptContainer")
+    .classList.remove("show");
+
+    document
     .getElementById("pageTitle")
     .innerText =
     "Dashboard";
 
-    updatePanCount();
+    document
+    .getElementById("dashboardMenuBtn")
+    .classList.add("active");
+
+    updateDashboard();
 
     window.scrollTo({
         top:0,
         behavior:"smooth"
     });
+
+}
+
+
+/* =========================
+   OPEN ALL PAN RECEIPT
+========================= */
+
+function openAllPanReceipt(event){
+
+    if(event){
+
+        event.preventDefault();
+
+    }
+
+    document
+    .getElementById("dashboardContent")
+    .style.display = "none";
+
+    document
+    .getElementById("panFormContainer")
+    .classList.remove("show");
+
+    document
+    .getElementById("receiptContainer")
+    .classList.add("show");
+
+    document
+    .getElementById("pageTitle")
+    .innerText =
+    "All PAN (Receipt)";
+
+    document
+    .getElementById("dashboardMenuBtn")
+    .classList.remove("active");
+
+    closeSidebar();
+
+    document
+    .getElementById("receiptSearch")
+    .value = "";
+
+    loadPanReceipts();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =========================
+   LOAD PAN RECEIPTS
+========================= */
+
+function loadPanReceipts(){
+
+    const applications =
+    getPanApplications();
+
+    document
+    .getElementById("receiptTotal")
+    .innerText =
+    applications.length;
+
+    const area =
+    document.getElementById("receiptTableArea");
+
+
+    if(applications.length === 0){
+
+        area.innerHTML = `
+
+            <div class="no-data">
+
+                <h3>
+                    No PAN Applications Found
+                </h3>
+
+                <p>
+                    PAN application submit केल्यानंतर
+                    येथे Receipt दिसेल.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <table class="receipt-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Sr.</th>
+
+                    <th>Application No.</th>
+
+                    <th>Applicant Name</th>
+
+                    <th>PAN Type</th>
+
+                    <th>Mobile</th>
+
+                    <th>Date</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    applications.forEach(function(app,index){
+
+        const status =
+        app.status || "Pending";
+
+        let statusClass =
+        "status-pending";
+
+        const lowerStatus =
+        String(status).toLowerCase();
+
+        if(lowerStatus === "processing"){
+
+            statusClass =
+            "status-processing";
+
+        }
+        else if(
+            lowerStatus === "completed" ||
+            lowerStatus === "accepted" ||
+            lowerStatus === "approved"
+        ){
+
+            statusClass =
+            "status-completed";
+
+        }
+        else if(lowerStatus === "rejected"){
+
+            statusClass =
+            "status-rejected";
+
+        }
+
+
+        const date =
+        formatDate(
+            app.submittedAt
+        );
+
+
+        html += `
+
+            <tr>
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td>
+                    <strong>
+                        ${escapeHtml(
+                            app.applicationNumber || "-"
+                        )}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        app.fullName || "-"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        app.panType || "-"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        app.mobile || "-"
+                    )}
+                </td>
+
+                <td>
+                    ${date}
+                </td>
+
+                <td>
+
+                    <span class="status ${statusClass}">
+                        ${escapeHtml(status)}
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="action-btn view-btn"
+                        onclick="viewPanApplication(${index})">
+
+                        View
+
+                    </button>
+
+                    <button
+                        class="action-btn print-btn"
+                        onclick="printPanReceipt(${index})">
+
+                        🖨️ Print
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    `;
+
+
+    area.innerHTML = html;
+
+}
+
+
+/* =========================
+   SEARCH / FILTER
+========================= */
+
+function filterReceipts(){
+
+    const search =
+    document
+    .getElementById("receiptSearch")
+    .value
+    .toLowerCase()
+    .trim();
+
+    const applications =
+    getPanApplications();
+
+    const filtered =
+    applications.filter(function(app){
+
+        const applicationNumber =
+        String(
+            app.applicationNumber || ""
+        ).toLowerCase();
+
+        const fullName =
+        String(
+            app.fullName || ""
+        ).toLowerCase();
+
+        const mobile =
+        String(
+            app.mobile || ""
+        ).toLowerCase();
+
+        return (
+            applicationNumber.includes(search) ||
+            fullName.includes(search) ||
+            mobile.includes(search)
+        );
+
+    });
+
+
+    document
+    .getElementById("receiptTotal")
+    .innerText =
+    filtered.length;
+
+
+    const area =
+    document.getElementById("receiptTableArea");
+
+
+    if(filtered.length === 0){
+
+        area.innerHTML = `
+
+            <div class="no-data">
+
+                <h3>
+                    No Application Found
+                </h3>
+
+                <p>
+                    Search result उपलब्ध नाही.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <table class="receipt-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Sr.</th>
+                    <th>Application No.</th>
+                    <th>Applicant Name</th>
+                    <th>PAN Type</th>
+                    <th>Mobile</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    filtered.forEach(function(app){
+
+        const originalIndex =
+        applications.indexOf(app);
+
+        const status =
+        app.status || "Pending";
+
+        let statusClass =
+        "status-pending";
+
+        const lowerStatus =
+        String(status).toLowerCase();
+
+        if(lowerStatus === "processing"){
+
+            statusClass =
+            "status-processing";
+
+        }
+        else if(
+            lowerStatus === "completed" ||
+            lowerStatus === "accepted" ||
+            lowerStatus === "approved"
+        ){
+
+            statusClass =
+            "status-completed";
+
+        }
+        else if(lowerStatus === "rejected"){
+
+            statusClass =
+            "status-rejected";
+
+        }
+
+
+        html += `
+
+            <tr>
+
+                <td>
+                    ${originalIndex + 1}
+                </td>
+
+                <td>
+                    <strong>
+                        ${escapeHtml(
+                            app.applicationNumber || "-"
+                        )}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        app.fullName || "-"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        app.panType || "-"
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        app.mobile || "-"
+                    )}
+                </td>
+
+                <td>
+                    ${formatDate(
+                        app.submittedAt
+                    )}
+                </td>
+
+                <td>
+
+                    <span class="status ${statusClass}">
+                        ${escapeHtml(status)}
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="action-btn view-btn"
+                        onclick="viewPanApplication(${originalIndex})">
+
+                        View
+
+                    </button>
+
+                    <button
+                        class="action-btn print-btn"
+                        onclick="printPanReceipt(${originalIndex})">
+
+                        🖨️ Print
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    `;
+
+
+    area.innerHTML = html;
+
+}
+
+
+/* =========================
+   VIEW PAN APPLICATION
+========================= */
+
+let selectedApplicationIndex = null;
+
+
+function viewPanApplication(index){
+
+    const applications =
+    getPanApplications();
+
+    const app =
+    applications[index];
+
+    if(!app){
+
+        alert(
+            "Application not found."
+        );
+
+        return;
+
+    }
+
+
+    selectedApplicationIndex =
+    index;
+
+
+    const fields = [
+
+        ["Application No.", app.applicationNumber],
+        ["Service", app.service],
+        ["PAN Type", app.panType],
+        ["Old PAN", app.oldPan],
+        ["Title", app.title],
+        ["Gender", app.gender],
+        ["Full Name", app.fullName],
+        ["Father Name", app.fatherName],
+        ["Date of Birth", app.dob],
+        ["Mobile Number", app.mobile],
+        ["Email ID", app.email],
+        ["Aadhaar Number", app.aadhaar],
+        ["DOB Proof", app.dobProof],
+        ["Dispatch State", app.dispatchState],
+        ["Pin Code", app.pinCode],
+        ["House", app.house],
+        ["Village", app.village],
+        ["Tehsil", app.tehsil],
+        ["Post", app.post],
+        ["District", app.district],
+        ["Status", app.status],
+        ["Submitted At", app.submittedAt]
+
+    ];
+
+
+    let html = "";
+
+
+    fields.forEach(function(item){
+
+        if(
+            item[1] !== undefined &&
+            item[1] !== null &&
+            item[1] !== ""
+        ){
+
+            html += `
+
+                <div class="detail-item">
+
+                    <strong>
+                        ${escapeHtml(item[0])}
+                    </strong>
+
+                    <span>
+                        ${escapeHtml(
+                            String(item[1])
+                        )}
+                    </span>
+
+                </div>
+
+            `;
+
+        }
+
+    });
+
+
+    document
+    .getElementById("detailsGrid")
+    .innerHTML = html;
+
+
+    document
+    .getElementById("detailsModal")
+    .classList.add("show");
+
+}
+
+
+/* =========================
+   CLOSE DETAILS
+========================= */
+
+function closeDetails(){
+
+    document
+    .getElementById("detailsModal")
+    .classList.remove("show");
+
+    selectedApplicationIndex = null;
+
+}
+
+
+/* =========================
+   PRINT SELECTED
+========================= */
+
+function printSelectedReceipt(){
+
+    if(
+        selectedApplicationIndex === null
+    ){
+
+        return;
+
+    }
+
+    printPanReceipt(
+        selectedApplicationIndex
+    );
+
+}
+
+
+/* =========================
+   PRINT PAN RECEIPT
+========================= */
+
+function printPanReceipt(index){
+
+    const applications =
+    getPanApplications();
+
+    const app =
+    applications[index];
+
+    if(!app){
+
+        alert(
+            "Application not found."
+        );
+
+        return;
+
+    }
+
+
+    const printWindow =
+    window.open(
+        "",
+        "_blank",
+        "width=900,height=700"
+    );
+
+
+    if(!printWindow){
+
+        alert(
+            "Please allow pop-ups for printing."
+        );
+
+        return;
+
+    }
+
+
+    printWindow.document.write(`
+
+        <!DOCTYPE html>
+
+        <html>
+
+        <head>
+
+            <title>
+                PAN Receipt -
+                ${escapeHtml(
+                    app.applicationNumber || ""
+                )}
+            </title>
+
+            <style>
+
+                body{
+                    font-family:Arial, sans-serif;
+                    padding:30px;
+                    color:#222;
+                }
+
+                .receipt{
+                    max-width:800px;
+                    margin:auto;
+                    border:1px solid #222;
+                    padding:25px;
+                }
+
+                .header{
+                    text-align:center;
+                    border-bottom:2px solid #222;
+                    padding-bottom:15px;
+                    margin-bottom:20px;
+                }
+
+                .header h1{
+                    margin:0;
+                    font-size:24px;
+                }
+
+                .header p{
+                    margin:6px 0 0;
+                    font-size:13px;
+                }
+
+                .receipt-title{
+                    text-align:center;
+                    font-size:18px;
+                    font-weight:bold;
+                    margin-bottom:20px;
+                }
+
+                table{
+                    width:100%;
+                    border-collapse:collapse;
+                }
+
+                td{
+                    border:1px solid #ccc;
+                    padding:9px;
+                    font-size:13px;
+                }
+
+                td:first-child{
+                    width:35%;
+                    font-weight:bold;
+                    background:#f5f5f5;
+                }
+
+                .status{
+                    font-weight:bold;
+                }
+
+                .footer{
+                    margin-top:30px;
+                    display:flex;
+                    justify-content:space-between;
+                    font-size:12px;
+                }
+
+                @media print{
+
+                    body{
+                        padding:0;
+                    }
+
+                    .receipt{
+                        border:1px solid #222;
+                    }
+
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            <div class="receipt">
+
+                <div class="header">
+
+                    <h1>
+                        Shree Multi Services
+                    </h1>
+
+                    <p>
+                        Maha E-Seva Kendra
+                    </p>
+
+                </div>
+
+
+                <div class="receipt-title">
+                    PAN APPLICATION RECEIPT
+                </div>
+
+
+                <table>
+
+                    <tr>
+                        <td>Application No.</td>
+                        <td>
+                            ${escapeHtml(
+                                app.applicationNumber || "-"
+                            )}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Applicant Name</td>
+                        <td>
+                            ${escapeHtml(
+                                app.fullName || "-"
+                            )}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>PAN Type</td>
+                        <td>
+                            ${escapeHtml(
+                                app.panType || "-"
+                            )}
+                        </td>
+                    </tr>
+
+                    ${
+                        app.oldPan
+                        ?
+                        `
+                        <tr>
+                            <td>Old PAN Number</td>
+                            <td>
+                                ${escapeHtml(
+                                    app.oldPan
+                                )}
+                            </td>
+                        </tr>
+                        `
+                        :
+                        ""
+                    }
+
+                    <tr>
+                        <td>Father Name</td>
+                        <td>
+                            ${escapeHtml(
+                                app.fatherName || "-"
+                            )}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Date of Birth</td>
+                        <td>
+                            ${escapeHtml(
+                                app.dob || "-"
+                            )}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Mobile Number</td>
+                        <td>
+                            ${escapeHtml(
+                                app.mobile || "-"
+                            )}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Email ID</td>
+                        <td>
+                            ${escapeHtml(
+                                app.email || "-"
+                            )}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Aadhaar Number</td>
+                        <td>
+                            ${escapeHtml(
+                                app.aadhaar || "-"
+                            )}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Dispatch State</td>
+                        <td>
+                            ${escapeHtml(
+                                app.dispatchState || "-"
+                            )}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Pin Code</td>
+                        <td>
+                            ${escapeHtml(
+                                app.pinCode || "-"
+                            )}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Address</td>
+                        <td>
+                            ${escapeHtml(
+                                [
+                                    app.house,
+                                    app.village,
+                                    app.tehsil,
+                                    app.post,
+                                    app.district
+                                ]
+                                .filter(Boolean)
+                                .join(", ")
+                                || "-"
+                            )}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Status</td>
+                        <td class="status">
+                            ${escapeHtml(
+                                app.status || "Pending"
+                            )}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Submitted At</td>
+                        <td>
+                            ${escapeHtml(
+                                app.submittedAt || "-"
+                            )}
+                        </td>
+                    </tr>
+
+                </table>
+
+
+                <div class="footer">
+
+                    <span>
+                        Shree Multi Services
+                    </span>
+
+                    <span>
+                        Applicant Receipt
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <script>
+
+                window.onload = function(){
+
+                    window.print();
+
+                };
+
+            <\/script>
+
+        </body>
+
+        </html>
+
+    `);
+
+
+    printWindow.document.close();
+
+}
+
+
+/* =========================
+   FORMAT DATE
+========================= */
+
+function formatDate(value){
+
+    if(!value){
+
+        return "-";
+
+    }
+
+
+    const date =
+    new Date(value);
+
+
+    if(isNaN(date.getTime())){
+
+        return escapeHtml(
+            String(value)
+        );
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"2-digit",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* =========================
+   HTML SECURITY
+========================= */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
 
@@ -1261,7 +2810,9 @@ function closePanForm(){
 function serviceAlert(event,service){
 
     if(event){
+
         event.preventDefault();
+
     }
 
     alert(
@@ -1314,6 +2865,54 @@ function logout(){
     "index.html";
 
 }
+
+
+/* =========================
+   MODAL OUTSIDE CLICK
+========================= */
+
+document
+.getElementById("detailsModal")
+.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target ===
+            this
+        ){
+
+            closeDetails();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   AUTO UPDATE
+========================= */
+
+window.addEventListener(
+    "storage",
+    function(){
+
+        updateDashboard();
+
+        if(
+            document
+            .getElementById("receiptContainer")
+            .classList
+            .contains("show")
+        ){
+
+            loadPanReceipts();
+
+        }
+
+    }
+);
 
 </script>
 
