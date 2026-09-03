@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Dashboard - Shree Multi Services</title>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -18,10 +20,15 @@
       min-height: 100vh;
     }
 
+    /* =========================
+       HEADER
+    ========================= */
+
     .header {
       background: #1e3a8a;
       color: white;
       padding: 18px 25px;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -35,12 +42,23 @@
     .logout {
       background: white;
       color: #1e3a8a;
+
       border: none;
       padding: 9px 16px;
+
       border-radius: 8px;
+
       font-weight: bold;
       cursor: pointer;
     }
+
+    .logout:hover {
+      background: #e2e8f0;
+    }
+
+    /* =========================
+       MAIN CONTAINER
+    ========================= */
 
     .container {
       max-width: 1100px;
@@ -48,17 +66,27 @@
       padding: 0 20px;
     }
 
+    /* =========================
+       WELCOME
+    ========================= */
+
     .welcome {
       background: white;
+
       padding: 25px;
+
       border-radius: 15px;
+
       box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+
       margin-bottom: 25px;
     }
 
     .welcome h1 {
       color: #1e3a8a;
+
       margin-bottom: 8px;
+
       font-size: 25px;
     }
 
@@ -68,97 +96,409 @@
 
     .user-info {
       margin-top: 15px;
+
       padding: 12px;
+
       background: #f1f5f9;
+
       border-radius: 8px;
     }
 
-    .services {
+    /* =========================
+       WALLET
+    ========================= */
+
+    .wallet {
+
       background: white;
-      padding: 30px;
+
+      padding: 25px;
+
       border-radius: 15px;
-      text-align: center;
+
+      margin-bottom: 25px;
+
       box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+
+    }
+
+    .wallet-title {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      color: #1e3a8a;
+
+      font-size: 20px;
+
+      font-weight: bold;
+
+    }
+
+    .wallet-balance {
+
+      font-size: 36px;
+
+      font-weight: bold;
+
+      color: #16a34a;
+
+      margin-top: 15px;
+
+    }
+
+    .wallet p {
+
+      color: #777;
+
+      margin: 5px 0 18px;
+
+    }
+
+    .add-money {
+
+      border: none;
+
+      background: #1e3a8a;
+
+      color: white;
+
+      padding: 12px 20px;
+
+      border-radius: 9px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      font-size: 15px;
+
+    }
+
+    .add-money:hover {
+
+      background: #172554;
+
+    }
+
+    /* =========================
+       SERVICES
+    ========================= */
+
+    .services {
+
+      background: white;
+
+      padding: 30px;
+
+      border-radius: 15px;
+
+      text-align: center;
+
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+
     }
 
     .services h2 {
+
       color: #1e3a8a;
+
       margin-bottom: 10px;
+
     }
 
     .services p {
+
       color: #777;
+
     }
+
+    /* =========================
+       FOOTER
+    ========================= */
 
     footer {
+
       text-align: center;
+
       margin-top: 35px;
+
+      padding-bottom: 20px;
+
       color: #888;
+
       font-size: 13px;
+
     }
 
+    /* =========================
+       MOBILE
+    ========================= */
+
     @media (max-width: 600px) {
+
       .header {
+
         padding: 15px;
+
       }
 
       .brand {
+
         font-size: 17px;
+
       }
 
       .container {
+
         margin-top: 20px;
+
       }
 
       .welcome,
+      .wallet,
       .services {
+
         padding: 20px;
+
       }
+
+      .wallet-balance {
+
+        font-size: 32px;
+
+      }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
+  <!-- =========================
+       HEADER
+  ========================= -->
+
   <header class="header">
-    <div class="brand">Shree Multi Services</div>
-    <button class="logout" onclick="logout()">Logout</button>
+
+    <div class="brand">
+      Shree Multi Services
+    </div>
+
+    <button
+      class="logout"
+      onclick="logout()">
+
+      Logout
+
+    </button>
+
   </header>
+
+
+  <!-- =========================
+       MAIN
+  ========================= -->
 
   <main class="container">
 
+
+    <!-- WELCOME -->
+
     <section class="welcome">
-      <h1>Welcome 👋</h1>
-      <p>Shree Multi Services Online Portal मध्ये आपले स्वागत आहे.</p>
+
+      <h1>
+        Welcome 👋
+      </h1>
+
+      <p>
+        Shree Multi Services Online Portal मध्ये आपले स्वागत आहे.
+      </p>
+
 
       <div class="user-info">
-        <strong>Username:</strong>
-        <span id="username">SM00001</span>
+
+        <strong>
+          Username:
+        </strong>
+
+        <span id="username">
+          SM00001
+        </span>
+
       </div>
+
     </section>
+
+
+
+    <!-- =========================
+         WALLET
+    ========================= -->
+
+    <section class="wallet">
+
+
+      <div class="wallet-title">
+
+        <span>
+          My Wallet
+        </span>
+
+        <span>
+          💰
+        </span>
+
+      </div>
+
+
+      <div class="wallet-balance">
+
+        ₹<span id="walletBalance">
+          50
+        </span>
+
+      </div>
+
+
+      <p>
+        Available Balance
+      </p>
+
+
+      <button
+        class="add-money"
+        onclick="addMoney()">
+
+        + Add Money
+
+      </button>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         SERVICES
+    ========================= -->
 
     <section class="services">
-      <h2>Services</h2>
-      <p>लवकरच येथे Online Services उपलब्ध होतील.</p>
+
+      <h2>
+        Services
+      </h2>
+
+      <p>
+        Services लवकरच येथे उपलब्ध होतील.
+      </p>
+
     </section>
 
+
+
+    <!-- FOOTER -->
+
     <footer>
+
       © 2026 Shree Multi Services
+
     </footer>
+
 
   </main>
 
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
+
   <script>
-    const username = localStorage.getItem("registeredUsername");
+
+
+    /* =========================
+       USERNAME
+    ========================= */
+
+    const username =
+      localStorage.getItem("registeredUsername");
+
 
     if (username) {
-      document.getElementById("username").textContent = username;
+
+      document.getElementById("username")
+        .textContent = username;
+
     }
 
-    function logout() {
-      window.location.href = "index.html";
+
+
+    /* =========================
+       WALLET
+    ========================= */
+
+    let walletBalance =
+      localStorage.getItem("walletBalance");
+
+
+    /* First Time User */
+
+    if (walletBalance === null) {
+
+      walletBalance = 50;
+
+      localStorage.setItem(
+        "walletBalance",
+        walletBalance
+      );
+
     }
+
+
+    /* Show Balance */
+
+    document.getElementById(
+      "walletBalance"
+    ).textContent = walletBalance;
+
+
+
+    /* =========================
+       ADD MONEY
+    ========================= */
+
+    function addMoney() {
+
+      alert(
+        "Add Money / Payment Gateway पुढच्या Step मध्ये जोडणार आहोत."
+      );
+
+    }
+
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    function logout() {
+
+      window.location.href =
+        "index.html";
+
+    }
+
+
   </script>
+
 
 </body>
 </html>
