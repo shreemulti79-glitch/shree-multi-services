@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Shree Multi Services</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f1f5f9;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: #1e3a8a;
+      color: white;
+      padding: 18px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .logout {
+      background: white;
+      color: #1e3a8a;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .welcome {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
+    }
+
+    .welcome h1 {
+      color: #1e3a8a;
+      margin-bottom: 8px;
+      font-size: 25px;
+    }
+
+    .welcome p {
+      color: #666;
+    }
+
+    .user-info {
+      margin-top: 15px;
+      padding: 12px;
+      background: #f1f5f9;
+      border-radius: 8px;
+    }
+
+    .services {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .services h2 {
+      color: #1e3a8a;
+      margin-bottom: 10px;
+    }
+
+    .services p {
+      color: #777;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 35px;
+      color: #888;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .header {
+        padding: 15px;
+      }
+
+      .brand {
+        font-size: 17px;
+      }
+
+      .container {
+        margin-top: 20px;
+      }
+
+      .welcome,
+      .services {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="brand">Shree Multi Services</div>
+    <button class="logout" onclick="logout()">Logout</button>
+  </header>
+
+  <main class="container">
+
+    <section class="welcome">
+      <h1>Welcome 👋</h1>
+      <p>Shree Multi Services Online Portal मध्ये आपले स्वागत आहे.</p>
+
+      <div class="user-info">
+        <strong>Username:</strong>
+        <span id="username">SM00001</span>
+      </div>
+    </section>
+
+    <section class="services">
+      <h2>Services</h2>
+      <p>लवकरच येथे Online Services उपलब्ध होतील.</p>
+    </section>
+
+    <footer>
+      © 2026 Shree Multi Services
+    </footer>
+
+  </main>
+
+  <script>
+    const username = localStorage.getItem("registeredUsername");
+
+    if (username) {
+      document.getElementById("username").textContent = username;
+    }
+
+    function logout() {
+      window.location.href = "index.html";
+    }
+  </script>
+
+</body>
+</html>
