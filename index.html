@@ -1,599 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Login - Shree Multi Services</title>
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-
-      min-height: 100vh;
-
-      display: flex;
-
-      justify-content: center;
-
-      align-items: center;
-
-      background:
-        linear-gradient(
-          135deg,
-          #0f172a,
-          #1e3a8a
-        );
-
-      padding: 20px;
-
-    }
-
-
-    .login-box {
-
-      width: 100%;
-
-      max-width: 400px;
-
-      background: white;
-
-      padding: 35px;
-
-      border-radius: 20px;
-
-      box-shadow:
-        0 15px 40px
-        rgba(0,0,0,0.25);
-
-    }
-
-
-    .logo {
-
-      width: 75px;
-
-      height: 75px;
-
-      margin:
-        0 auto 15px;
-
-      border-radius: 50%;
-
-      background: #1e3a8a;
-
-      color: white;
-
-      display: flex;
-
-      justify-content: center;
-
-      align-items: center;
-
-      font-size: 24px;
-
-      font-weight: bold;
-
-    }
-
-
-    h1 {
-
-      text-align: center;
-
-      color: #1e3a8a;
-
-      font-size: 24px;
-
-      margin-bottom: 5px;
-
-    }
-
-
-    .subtitle {
-
-      text-align: center;
-
-      color: #666;
-
-      margin-bottom: 28px;
-
-      font-size: 14px;
-
-    }
-
-
-    label {
-
-      display: block;
-
-      margin-bottom: 7px;
-
-      font-weight: bold;
-
-      color: #333;
-
-    }
-
-
-    input {
-
-      width: 100%;
-
-      padding: 13px;
-
-      border: 1px solid #ccc;
-
-      border-radius: 10px;
-
-      margin-bottom: 18px;
-
-      font-size: 15px;
-
-      outline: none;
-
-    }
-
-
-    input:focus {
-
-      border-color: #1e3a8a;
-
-    }
-
-
-    .login-btn {
-
-      width: 100%;
-
-      padding: 14px;
-
-      border: none;
-
-      border-radius: 10px;
-
-      background: #1e3a8a;
-
-      color: white;
-
-      font-size: 16px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-
-    }
-
-
-    .login-btn:hover {
-
-      background: #172554;
-
-    }
-
-
-    .login-btn:disabled {
-
-      background: #777;
-
-      cursor: not-allowed;
-
-    }
-
-
-    .register {
-
-      text-align: center;
-
-      margin-top: 22px;
-
-      font-size: 14px;
-
-      color: #555;
-
-    }
-
-
-    .register a {
-
-      color: #1e3a8a;
-
-      font-weight: bold;
-
-      text-decoration: none;
-
-    }
-
-
-    .register a:hover {
-
-      text-decoration: underline;
-
-    }
-
-
-    .message {
-
-      text-align: center;
-
-      margin-top: 15px;
-
-      font-size: 14px;
-
-      font-weight: bold;
-
-      min-height: 20px;
-
-    }
-
-
-    .footer {
-
-      text-align: center;
-
-      margin-top: 25px;
-
-      font-size: 12px;
-
-      color: #888;
-
-    }
-
-
-    @media (max-width: 480px) {
-
-      .login-box {
-
-        margin: 10px;
-
-        padding: 28px 22px;
-
-      }
-
-      h1 {
-
-        font-size: 21px;
-
-      }
-
-    }
-
-  </style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Shree Multi Services</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            padding: 35px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo h1 {
+            font-size: 27px;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 48px;
+            padding: 0 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.12);
+        }
+
+        #loginBtn {
+            width: 100%;
+            height: 50px;
+            border: none;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #loginBtn:hover {
+            background: #5568d9;
+        }
+
+        #loginBtn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 15px;
+            min-height: 22px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .register-text {
+            text-align: center;
+            margin-top: 22px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .register-text a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-text a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 28px 20px;
+            }
+
+            .logo h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
+    <div class="login-box">
 
-  <div class="login-box">
+        <div class="logo">
+            <h1>Shree Multi Services</h1>
+            <p>Login to your account</p>
+        </div>
 
+        <form id="loginForm">
 
-    <div class="logo">
-      SM
-    </div>
+            <div class="form-group">
+                <label for="username">Login ID</label>
 
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Enter Login ID"
+                    autocomplete="username"
+                    required
+                >
+            </div>
 
-    <h1>
-      Shree Multi Services
-    </h1>
+            <div class="form-group">
+                <label for="password">Password</label>
 
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter Password"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
 
-    <p class="subtitle">
-      Online Services Portal
-    </p>
+            <button type="submit" id="loginBtn">
+                Login
+            </button>
 
+            <div id="message"></div>
 
-    <form id="loginForm">
+        </form>
 
-
-      <label for="username">
-        Username
-      </label>
-
-
-      <input
-        type="text"
-        id="username"
-        placeholder="Enter Username"
-        autocomplete="username"
-        required
-      >
-
-
-      <label for="password">
-        Password
-      </label>
-
-
-      <input
-        type="password"
-        id="password"
-        placeholder="Enter Password"
-        autocomplete="current-password"
-        required
-      >
-
-
-      <button
-        type="submit"
-        class="login-btn"
-        id="loginBtn"
-      >
-        Login
-      </button>
-
-
-      <div
-        id="message"
-        class="message">
-      </div>
-
-
-    </form>
-
-
-    <div class="register">
-
-      New User?
-
-      <a href="register.html">
-        Register Now
-      </a>
+        <div class="register-text">
+            Don't have an account?
+            <a href="register.html">Register</a>
+        </div>
 
     </div>
 
 
-    <div class="footer">
+    <script>
 
-      © 2026 Shree Multi Services
+        /*
+        ==========================================
+        LOGIN PAGE PROTECTION
+        ==========================================
+        जर user आधीच login असेल तर
+        पुन्हा Login Page दाखवायची नाही.
+        */
 
-    </div>
+        (function () {
 
+            if (sessionStorage.getItem("isLoggedIn") === "true") {
 
-  </div>
+                window.location.replace("dashboard.html");
 
+            }
 
-
-  <script>
-
-
-    /*
-    ==========================================
-          LOGIN SYSTEM
-    ==========================================
-    */
-
-
-    const loginForm =
-      document.getElementById("loginForm");
-
-
-    const usernameInput =
-      document.getElementById("username");
-
-
-    const passwordInput =
-      document.getElementById("password");
-
-
-    const loginBtn =
-      document.getElementById("loginBtn");
-
-
-    const message =
-      document.getElementById("message");
-
-
-
-    /*
-    ==========================================
-       IF ALREADY LOGGED IN
-    ==========================================
-    */
-
-    if (
-      sessionStorage.getItem("isLoggedIn")
-      === "true"
-    ) {
-
-      window.location.replace(
-        "dashboard.html"
-      );
-
-    }
-
-
-
-    /*
-    ==========================================
-             LOGIN SUBMIT
-    ==========================================
-    */
-
-    loginForm.addEventListener(
-      "submit",
-      function(e) {
-
-        e.preventDefault();
-
-
-        const username =
-          usernameInput.value.trim();
-
-
-        const password =
-          passwordInput.value;
-
+        })();
 
 
         /*
-        ======================================
-          GET REGISTERED ACCOUNT
-        ======================================
+        ==========================================
+        LOGIN FORM
+        ==========================================
         */
 
-        const registeredUsername =
-          localStorage.getItem(
-            "registeredUsername"
-          );
+        document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+
+            e.preventDefault();
 
 
-        const registeredPassword =
-          localStorage.getItem(
-            "registeredPassword"
-          );
+            const username =
+                document.getElementById("username").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+            const message =
+                document.getElementById("message");
+
+            const loginBtn =
+                document.getElementById("loginBtn");
 
 
+            /*
+            ==========================================
+            REGISTER केलेला USER शोधणे
+            ==========================================
+            */
 
-        /*
-        ======================================
-             ACCOUNT NOT FOUND
-        ======================================
-        */
+            const registeredUsername =
+                localStorage.getItem("registeredUsername");
 
-        if (
-          !registeredUsername ||
-          !registeredPassword
-        ) {
-
-          message.style.color = "red";
-
-          message.textContent =
-            "Account not found. Please Register first.";
-
-          return;
-
-        }
+            const registeredPassword =
+                localStorage.getItem("registeredPassword");
 
 
+            /*
+            ==========================================
+            ACCOUNT CHECK
+            ==========================================
+            */
 
-        /*
-        ======================================
-             CHECK USERNAME + PASSWORD
-        ======================================
-        */
+            if (!registeredUsername || !registeredPassword) {
 
-        if (
-          username === registeredUsername &&
-          password === registeredPassword
-        ) {
+                message.style.color = "red";
 
+                message.textContent =
+                    "Account not found. Please Register first.";
 
-
-          /*
-          ====================================
-              CREATE LOGIN SESSION
-          ====================================
-          */
-
-          sessionStorage.setItem(
-            "isLoggedIn",
-            "true"
-          );
+                return;
+            }
 
 
-          sessionStorage.setItem(
-            "loginUser",
-            username
-          );
+            /*
+            ==========================================
+            USERNAME + PASSWORD CHECK
+            ==========================================
+            */
+
+            if (
+                username === registeredUsername &&
+                password === registeredPassword
+            ) {
+
+                /*
+                LOGIN SUCCESS
+                */
+
+                sessionStorage.setItem(
+                    "isLoggedIn",
+                    "true"
+                );
+
+                sessionStorage.setItem(
+                    "loginUser",
+                    username
+                );
 
 
-          /*
-          ====================================
-             SAVE USERNAME
-          ====================================
-          */
+                /*
+                जुना dashboard code सुद्धा
+                username वापरत असल्यामुळे ठेवत आहोत.
+                */
 
-          localStorage.setItem(
-            "username",
-            username
-          );
+                localStorage.setItem(
+                    "username",
+                    username
+                );
 
-
-
-          /*
-          ====================================
-                SUCCESS MESSAGE
-          ====================================
-          */
-
-          message.style.color =
-            "green";
-
-          message.textContent =
-            "Login Successful!";
+                localStorage.setItem(
+                    "loginStatus",
+                    "true"
+                );
 
 
-          /*
-          ====================================
-                 DISABLE BUTTON
-          ====================================
-          */
+                message.style.color = "green";
 
-          loginBtn.disabled = true;
-
-          loginBtn.textContent =
-            "Opening Dashboard...";
+                message.textContent =
+                    "Login Successful!";
 
 
+                loginBtn.disabled = true;
 
-          /*
-          ====================================
-                 OPEN DASHBOARD
-          ====================================
-          */
-
-          setTimeout(
-            function() {
-
-              window.location.replace(
-                "dashboard.html"
-              );
-
-            },
-            500
-          );
+                loginBtn.textContent =
+                    "Opening Dashboard...";
 
 
-        }
+                /*
+                ==========================================
+                DASHBOARD OPEN
+                ==========================================
+                */
 
-        else {
+                setTimeout(function () {
 
+                    window.location.replace(
+                        "dashboard.html"
+                    );
 
-          /*
-          ====================================
-                INVALID LOGIN
-          ====================================
-          */
-
-          message.style.color =
-            "red";
-
-          message.textContent =
-            "Invalid Username or Password.";
+                }, 500);
 
 
-          passwordInput.value = "";
+            } else {
 
-          passwordInput.focus();
+                /*
+                LOGIN FAILED
+                */
 
-        }
+                message.style.color = "red";
 
-      }
-    );
+                message.textContent =
+                    "Invalid Username or Password.";
 
 
-  </script>
+                document.getElementById(
+                    "password"
+                ).value = "";
 
+
+                document.getElementById(
+                    "password"
+                ).focus();
+
+            }
+
+        });
+
+    </script>
 
 </body>
 </html>
