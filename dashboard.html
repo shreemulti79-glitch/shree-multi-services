@@ -1,1196 +1,2418 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>Shree Multi Services - Dashboard</title>
 
+
+<!-- ==================================================
+     LOGIN PROTECTION
+     ================================================== -->
+
+<script>
+
+(function(){
+
+    /*
+    Login केलेले नसेल तर Dashboard उघडू देऊ नका.
+    */
+
+    if(
+        sessionStorage.getItem("isLoggedIn") !== "true"
+    ){
+
+        window.location.replace("index.html");
+
+    }
+    else{
+
+        document.documentElement.classList.add(
+            "auth-ok"
+        );
+
+    }
+
+})();
+
+</script>
+
+
 <style>
 
+/* Login check होईपर्यंत page hide */
+
+html:not(.auth-ok) body{
+
+    visibility:hidden;
+
+}
+
+
+/* ==================================================
+   BASIC
+   ================================================== */
+
 *{
+
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
+
+    font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
 }
+
 
 body{
+
     background:#fff;
+
     color:#222;
+
 }
 
-/* =========================
+
+/* ==================================================
    SIDEBAR
-========================= */
+   ================================================== */
 
 .sidebar{
+
     position:fixed;
+
     left:0;
     top:0;
+
     width:270px;
+
     height:100vh;
+
     background:#292929;
+
     color:#fff;
+
     overflow-y:auto;
+
     z-index:1000;
+
     transition:.3s;
+
 }
+
 
 .logo{
+
     padding:22px 18px;
+
     text-align:center;
-    border-bottom:1px solid #444;
+
+    border-bottom:
+    1px solid #444;
+
 }
+
 
 .logo h2{
+
     font-size:21px;
+
     color:#fff;
+
 }
+
 
 .logo p{
+
     font-size:12px;
+
     margin-top:5px;
+
     color:#ccc;
+
 }
+
 
 .menu{
+
     padding:12px 10px;
+
 }
+
 
 .menu-title{
+
     font-size:11px;
+
     color:#999;
-    padding:12px 12px 7px;
+
+    padding:
+    12px 12px 7px;
+
     text-transform:uppercase;
+
 }
+
 
 .menu-btn{
+
     width:100%;
+
     border:none;
+
     background:none;
+
     color:#fff;
+
     padding:13px 12px;
+
     text-align:left;
+
     cursor:pointer;
+
     font-size:14px;
+
     border-radius:6px;
+
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
+
     margin-bottom:3px;
+
 }
+
 
 .menu-btn:hover{
+
     background:#3b3b3b;
+
 }
+
 
 .menu-btn.active{
+
     background:#1976d2;
+
 }
+
 
 .menu-left{
+
     display:flex;
+
     align-items:center;
+
     gap:10px;
+
 }
+
 
 .arrow{
+
     font-size:12px;
+
     transition:.3s;
+
 }
+
 
 .menu-btn.open .arrow{
-    transform:rotate(180deg);
+
+    transform:
+    rotate(180deg);
+
 }
 
-/* =========================
+
+/* ==================================================
    SUBMENU
-========================= */
+   ================================================== */
 
 .submenu{
+
     display:none;
+
     background:#353535;
+
     border-radius:5px;
+
     margin:2px 0 5px;
+
     overflow:hidden;
+
 }
+
 
 .submenu.show{
+
     display:block;
+
 }
+
 
 .submenu a{
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
     color:#fff;
+
     text-decoration:none;
-    padding:11px 13px 11px 38px;
+
+    padding:
+    11px 13px 11px 38px;
+
     font-size:13px;
-    border-bottom:1px solid #444;
+
+    border-bottom:
+    1px solid #444;
+
     cursor:pointer;
+
 }
+
 
 .submenu a:last-child{
+
     border-bottom:none;
+
 }
+
 
 .submenu a:hover{
+
     background:#444;
+
 }
+
 
 .count{
+
     min-width:22px;
+
     padding:3px 6px;
+
     text-align:center;
+
     border-radius:12px;
+
     background:#555;
+
     color:#fff;
+
     font-size:11px;
+
 }
 
-/* =========================
+
+/* ==================================================
    MAIN
-========================= */
+   ================================================== */
 
 .main{
+
     margin-left:270px;
+
     min-height:100vh;
+
     background:#fff;
+
 }
 
-/* =========================
+
+/* ==================================================
    HEADER
-========================= */
+   ================================================== */
 
 .header{
+
     height:70px;
-    border-bottom:1px solid #e5e5e5;
+
+    border-bottom:
+    1px solid #e5e5e5;
+
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
+
     padding:0 28px;
+
     background:#fff;
+
     position:sticky;
+
     top:0;
+
     z-index:500;
+
 }
+
 
 .header-left{
+
     display:flex;
+
     align-items:center;
+
     gap:15px;
+
 }
+
 
 .header h2{
+
     font-size:21px;
+
     color:#222;
+
 }
+
 
 .user-box{
+
     display:flex;
+
     align-items:center;
+
     gap:10px;
+
 }
+
 
 .user-icon{
+
     width:40px;
+
     height:40px;
+
     border-radius:50%;
+
     background:#1976d2;
+
     color:#fff;
+
     display:flex;
+
     align-items:center;
+
     justify-content:center;
+
     font-size:18px;
+
 }
+
 
 .user-info{
+
     line-height:18px;
+
 }
+
 
 .user-info strong{
+
     display:block;
+
     font-size:13px;
+
 }
+
 
 .user-info span{
+
     font-size:11px;
+
     color:#777;
+
 }
+
 
 .mobile-menu{
+
     display:none;
+
     border:none;
+
     background:#1976d2;
+
     color:#fff;
+
     width:40px;
+
     height:40px;
+
     border-radius:5px;
+
     font-size:20px;
+
     cursor:pointer;
+
 }
 
-/* =========================
+
+/* ==================================================
    CONTENT
-========================= */
+   ================================================== */
 
 .content{
+
     padding:28px;
+
 }
+
 
 .welcome{
+
     margin-bottom:25px;
+
 }
+
 
 .welcome h1{
+
     font-size:26px;
+
     color:#222;
+
     margin-bottom:6px;
+
 }
+
 
 .welcome p{
+
     color:#777;
+
     font-size:14px;
+
 }
 
-/* =========================
+
+/* ==================================================
    STATS
-========================= */
+   ================================================== */
 
 .stats{
+
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+
+    grid-template-columns:
+    repeat(4,1fr);
+
     gap:18px;
+
     margin-bottom:30px;
+
 }
+
 
 .stat-card{
+
     background:#fff;
-    border:1px solid #e4e4e4;
+
+    border:
+    1px solid #e4e4e4;
+
     border-radius:10px;
+
     padding:20px;
-    box-shadow:0 2px 8px rgba(0,0,0,.06);
+
+    box-shadow:
+    0 2px 8px
+    rgba(0,0,0,.06);
+
 }
+
 
 .stat-card h4{
+
     font-size:13px;
+
     color:#777;
+
     margin-bottom:10px;
+
 }
+
 
 .stat-card .number{
+
     font-size:28px;
+
     font-weight:bold;
+
     color:#222;
+
 }
 
-/* =========================
+
+/* ==================================================
    SERVICES
-========================= */
+   ================================================== */
 
 .section-title{
+
     font-size:20px;
+
     margin-bottom:18px;
+
     color:#222;
+
 }
+
 
 .services{
+
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+    repeat(3,1fr);
+
     gap:20px;
+
 }
+
 
 .service-card{
+
     background:#fff;
-    border:1px solid #e3e3e3;
+
+    border:
+    1px solid #e3e3e3;
+
     border-radius:10px;
+
     padding:22px;
-    box-shadow:0 2px 8px rgba(0,0,0,.05);
+
+    box-shadow:
+    0 2px 8px
+    rgba(0,0,0,.05);
+
 }
+
 
 .service-card h3{
+
     font-size:17px;
+
     margin-bottom:8px;
+
     color:#222;
+
 }
+
 
 .service-card p{
+
     font-size:13px;
+
     color:#777;
+
     margin-bottom:18px;
+
 }
+
 
 .service-card button{
+
     border:none;
+
     background:#1976d2;
+
     color:#fff;
+
     padding:9px 16px;
+
     border-radius:5px;
+
     cursor:pointer;
+
 }
+
 
 .service-card button:hover{
+
     background:#125ca8;
+
 }
 
-/* =========================
+
+/* ==================================================
    PAN FORM
-========================= */
+   ================================================== */
 
 .pan-form-container{
+
     display:none;
-    padding:20px 28px 35px;
+
+    padding:
+    20px 28px 35px;
+
     background:#f5f6f8;
-    min-height:calc(100vh - 70px);
+
+    min-height:
+    calc(100vh - 70px);
+
 }
+
 
 .pan-form-container.show{
+
     display:block;
+
 }
+
 
 .pan-form-header{
+
     background:#fff;
+
     padding:16px 20px;
-    border:1px solid #e3e3e3;
-    border-radius:10px 10px 0 0;
+
+    border:
+    1px solid #e3e3e3;
+
+    border-radius:
+    10px 10px 0 0;
+
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
+
 }
+
 
 .pan-form-header h2{
+
     font-size:20px;
+
     color:#222;
+
 }
+
 
 .close-pan-btn{
+
     border:none;
+
     background:#b71c1c;
+
     color:#fff;
+
     padding:8px 14px;
+
     border-radius:5px;
+
     cursor:pointer;
+
 }
+
 
 .close-pan-btn:hover{
+
     background:#8e1515;
+
 }
+
 
 .pan-form-box{
+
     background:#fff;
-    border:1px solid #e3e3e3;
+
+    border:
+    1px solid #e3e3e3;
+
     border-top:none;
+
     padding:25px;
-    border-radius:0 0 10px 10px;
+
+    border-radius:
+    0 0 10px 10px;
+
 }
+
 
 .pan-form-title{
+
     font-size:18px;
+
     font-weight:bold;
+
     margin-bottom:20px;
+
     color:#222;
+
 }
+
 
 .form-grid{
+
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+
+    grid-template-columns:
+    repeat(2,1fr);
+
     gap:18px;
+
 }
+
 
 .form-group{
+
     display:flex;
+
     flex-direction:column;
+
 }
+
 
 .form-group.full{
+
     grid-column:1/-1;
+
 }
+
 
 .form-group label{
+
     font-size:13px;
+
     font-weight:bold;
+
     margin-bottom:7px;
+
     color:#333;
+
 }
 
+
 .form-group label span{
+
     color:#d00;
+
 }
+
 
 .form-group input,
 .form-group select{
+
     width:100%;
+
     padding:11px 12px;
-    border:1px solid #ccc;
+
+    border:
+    1px solid #ccc;
+
     border-radius:6px;
+
     outline:none;
+
     background:#fff;
+
     font-size:13px;
+
 }
+
 
 .form-group input:focus,
 .form-group select:focus{
+
     border-color:#1976d2;
+
 }
+
 
 .dob-row{
+
     display:grid;
-    grid-template-columns:1fr 1.5fr 1fr;
+
+    grid-template-columns:
+    1fr 1.5fr 1fr;
+
     gap:8px;
+
 }
+
 
 .form-buttons{
+
     margin-top:25px;
+
     display:flex;
+
     gap:10px;
+
     justify-content:flex-end;
+
 }
+
 
 .reset-btn{
+
     border:none;
+
     background:#666;
+
     color:#fff;
+
     padding:11px 20px;
+
     border-radius:5px;
+
     cursor:pointer;
+
 }
+
 
 .submit-btn{
+
     border:none;
+
     background:#1976d2;
+
     color:#fff;
+
     padding:11px 25px;
+
     border-radius:5px;
+
     cursor:pointer;
+
     font-weight:bold;
+
 }
+
 
 .submit-btn:hover{
+
     background:#125ca8;
+
 }
+
 
 .success-box{
+
     display:none;
+
     margin-top:20px;
+
     padding:18px;
+
     background:#d1e7dd;
+
     color:#0f5132;
-    border:1px solid #badbcc;
+
+    border:
+    1px solid #badbcc;
+
     border-radius:7px;
+
 }
+
 
 .success-box.show{
+
     display:block;
+
 }
+
 
 .success-box h3{
+
     margin-bottom:8px;
+
 }
+
 
 .success-box button{
+
     margin-top:12px;
+
     border:none;
+
     background:#1976d2;
+
     color:#fff;
+
     padding:9px 16px;
+
     border-radius:5px;
+
     cursor:pointer;
+
 }
 
-/* =========================
+
+/* ==================================================
    RECEIPT
-========================= */
+   ================================================== */
 
 .receipt-container{
+
     display:none;
+
     padding:28px;
+
     background:#f5f6f8;
-    min-height:calc(100vh - 70px);
+
+    min-height:
+    calc(100vh - 70px);
+
 }
+
 
 .receipt-container.show{
+
     display:block;
+
 }
+
 
 .receipt-header{
+
     background:#fff;
-    border:1px solid #e3e3e3;
-    border-radius:10px 10px 0 0;
+
+    border:
+    1px solid #e3e3e3;
+
+    border-radius:
+    10px 10px 0 0;
+
     padding:18px 20px;
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
     gap:15px;
+
 }
+
 
 .receipt-header h2{
+
     font-size:21px;
+
 }
+
 
 .receipt-header p{
+
     color:#777;
+
     font-size:12px;
+
     margin-top:5px;
+
 }
+
 
 .receipt-back-btn{
+
     border:none;
+
     background:#1976d2;
+
     color:#fff;
+
     padding:9px 15px;
+
     border-radius:5px;
+
     cursor:pointer;
+
 }
+
 
 .receipt-body{
+
     background:#fff;
-    border:1px solid #e3e3e3;
+
+    border:
+    1px solid #e3e3e3;
+
     border-top:none;
+
     padding:20px;
-    border-radius:0 0 10px 10px;
+
+    border-radius:
+    0 0 10px 10px;
+
     overflow-x:auto;
+
 }
+
 
 .receipt-top{
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
     margin-bottom:18px;
+
     gap:15px;
+
     flex-wrap:wrap;
+
 }
+
 
 .receipt-count{
+
     font-size:14px;
+
     color:#555;
+
 }
+
 
 .search-box{
+
     padding:9px 12px;
-    border:1px solid #ccc;
+
+    border:
+    1px solid #ccc;
+
     border-radius:5px;
+
     width:260px;
+
     outline:none;
+
 }
+
 
 .receipt-table{
+
     width:100%;
+
     border-collapse:collapse;
+
     min-width:850px;
+
 }
+
 
 .receipt-table th{
+
     background:#292929;
+
     color:#fff;
+
     padding:12px 10px;
+
     font-size:12px;
+
     text-align:left;
+
 }
+
 
 .receipt-table td{
+
     padding:12px 10px;
-    border-bottom:1px solid #e5e5e5;
+
+    border-bottom:
+    1px solid #e5e5e5;
+
     font-size:12px;
+
     color:#333;
+
 }
+
 
 .status{
+
     display:inline-block;
+
     padding:5px 9px;
+
     border-radius:12px;
+
     font-size:11px;
+
     font-weight:bold;
+
 }
+
 
 .status-pending{
+
     background:#fff3cd;
+
     color:#856404;
+
 }
+
 
 .status-processing{
+
     background:#cfe2ff;
+
     color:#084298;
+
 }
+
 
 .status-completed{
+
     background:#d1e7dd;
+
     color:#0f5132;
+
 }
+
 
 .status-rejected{
+
     background:#f8d7da;
+
     color:#842029;
+
 }
+
 
 .action-btn{
+
     border:none;
+
     padding:7px 9px;
+
     border-radius:4px;
+
     cursor:pointer;
+
     color:#fff;
+
     font-size:11px;
+
     margin-right:4px;
+
 }
+
 
 .view-btn{
+
     background:#1976d2;
+
 }
+
 
 .print-btn{
+
     background:#333;
+
 }
+
 
 .no-data{
+
     text-align:center;
+
     padding:50px 20px;
+
     color:#777;
+
 }
+
 
 .no-data h3{
+
     color:#444;
+
     margin-bottom:8px;
+
 }
 
-/* =========================
+
+/* ==================================================
    MODAL
-========================= */
+   ================================================== */
 
 .modal{
+
     display:none;
+
     position:fixed;
+
     inset:0;
-    background:rgba(0,0,0,.55);
+
+    background:
+    rgba(0,0,0,.55);
+
     z-index:3000;
+
     align-items:center;
+
     justify-content:center;
+
     padding:20px;
+
 }
+
 
 .modal.show{
+
     display:flex;
+
 }
+
 
 .modal-box{
+
     width:100%;
+
     max-width:800px;
+
     max-height:90vh;
+
     overflow-y:auto;
+
     background:#fff;
+
     border-radius:10px;
+
     padding:25px;
+
 }
+
 
 .modal-header{
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
-    border-bottom:1px solid #ddd;
+
+    border-bottom:
+    1px solid #ddd;
+
     padding-bottom:15px;
+
     margin-bottom:20px;
+
 }
+
 
 .modal-close{
+
     border:none;
+
     background:#b71c1c;
+
     color:#fff;
+
     width:32px;
+
     height:32px;
+
     border-radius:5px;
+
     cursor:pointer;
+
 }
+
 
 .details-grid{
+
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+
+    grid-template-columns:
+    repeat(2,1fr);
+
     gap:12px;
+
 }
+
 
 .detail-item{
-    border:1px solid #e5e5e5;
+
+    border:
+    1px solid #e5e5e5;
+
     padding:12px;
+
     border-radius:6px;
+
 }
+
 
 .detail-item strong{
+
     display:block;
+
     font-size:11px;
+
     color:#777;
+
     margin-bottom:5px;
+
 }
+
 
 .detail-item span{
+
     font-size:13px;
+
     color:#222;
+
     word-break:break-word;
+
 }
+
 
 .modal-footer{
+
     margin-top:20px;
+
     display:flex;
+
     justify-content:flex-end;
+
 }
+
 
 .modal-print{
+
     border:none;
+
     background:#1976d2;
+
     color:#fff;
+
     padding:10px 18px;
+
     border-radius:5px;
+
     cursor:pointer;
+
 }
 
-/* =========================
+
+/* ==================================================
    LOGOUT
-========================= */
+   ================================================== */
 
 .logout-btn{
-    margin:15px 10px 25px;
-    width:calc(100% - 20px);
+
+    margin:
+    15px 10px 25px;
+
+    width:
+    calc(100% - 20px);
+
     padding:12px;
+
     border:none;
+
     background:#b71c1c;
+
     color:#fff;
+
     border-radius:6px;
+
     cursor:pointer;
+
     font-size:14px;
+
 }
 
-/* =========================
+
+/* ==================================================
    OVERLAY
-========================= */
+   ================================================== */
 
 .overlay{
+
     display:none;
+
     position:fixed;
+
     inset:0;
-    background:rgba(0,0,0,.45);
+
+    background:
+    rgba(0,0,0,.45);
+
     z-index:900;
+
 }
 
-/* =========================
+
+/* ==================================================
    RESPONSIVE
-========================= */
+   ================================================== */
 
 @media(max-width:1000px){
 
     .stats{
-        grid-template-columns:repeat(2,1fr);
+
+        grid-template-columns:
+        repeat(2,1fr);
+
     }
 
+
     .services{
-        grid-template-columns:repeat(2,1fr);
+
+        grid-template-columns:
+        repeat(2,1fr);
+
     }
 
 }
+
 
 @media(max-width:768px){
 
     .sidebar{
+
         left:-270px;
+
     }
+
 
     .sidebar.open{
+
         left:0;
+
     }
+
 
     .main{
+
         margin-left:0;
+
     }
+
 
     .mobile-menu{
+
         display:block;
+
     }
+
 
     .overlay.show{
+
         display:block;
+
     }
+
 
     .header{
+
         padding:0 15px;
+
     }
+
 
     .header h2{
+
         font-size:17px;
+
     }
+
 
     .user-info{
+
         display:none;
+
     }
+
 
     .content{
+
         padding:20px 15px;
+
     }
+
 
     .stats{
-        grid-template-columns:1fr 1fr;
+
+        grid-template-columns:
+        1fr 1fr;
+
         gap:12px;
+
     }
+
 
     .services{
+
         grid-template-columns:1fr;
+
     }
+
 
     .pan-form-container{
+
         padding:15px;
+
     }
+
 
     .pan-form-box{
+
         padding:18px;
+
     }
+
 
     .form-grid{
+
         grid-template-columns:1fr;
+
     }
+
 
     .form-group.full{
+
         grid-column:auto;
+
     }
+
 
     .receipt-container{
+
         padding:15px;
+
     }
+
 
     .receipt-header{
+
         align-items:flex-start;
+
         flex-direction:column;
+
     }
+
 
     .search-box{
+
         width:100%;
+
     }
 
+
     .details-grid{
+
         grid-template-columns:1fr;
+
     }
 
 }
 
+
 @media(max-width:480px){
 
     .stats{
+
         grid-template-columns:1fr;
+
     }
+
 
     .welcome h1{
+
         font-size:22px;
+
     }
 
+
     .dob-row{
+
         grid-template-columns:1fr;
+
     }
 
 }
 
 </style>
+
 </head>
+
 
 <body>
 
-<!-- =========================
+
+<!-- ==================================================
      SIDEBAR
-========================= -->
+     ================================================== -->
 
 <div class="sidebar" id="sidebar">
 
+
     <div class="logo">
-        <h2>Shree Multi Services</h2>
-        <p>Maha E-Seva Kendra</p>
+
+        <h2>
+            Shree Multi Services
+        </h2>
+
+        <p>
+            Maha E-Seva Kendra
+        </p>
+
     </div>
+
 
     <div class="menu">
 
-        <div class="menu-title">Dashboard</div>
 
-        <button class="menu-btn active"
-                id="dashboardMenuBtn"
-                onclick="showDashboard()">
+        <div class="menu-title">
+            Dashboard
+        </div>
+
+
+        <button
+            class="menu-btn active"
+            id="dashboardMenuBtn"
+            onclick="showDashboard()"
+        >
 
             <span class="menu-left">
+
                 <span>🏠</span>
-                <span>Dashboard</span>
+
+                <span>
+                    Dashboard
+                </span>
+
             </span>
 
         </button>
 
-        <div class="menu-title">Services</div>
 
-        <!-- PHYSICAL PAN -->
+        <div class="menu-title">
+            Services
+        </div>
 
-        <button class="menu-btn"
-                onclick="toggleMenu('panMenu',this)">
+
+        <!-- ==================================================
+             PHYSICAL PAN
+             ================================================== -->
+
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('panMenu',this)"
+        >
 
             <span class="menu-left">
+
                 <span>📄</span>
-                <span>Physical PAN</span>
+
+                <span>
+                    Physical PAN
+                </span>
+
             </span>
 
-            <span class="arrow">▼</span>
+            <span class="arrow">
+                ▼
+            </span>
 
         </button>
 
-        <div class="submenu" id="panMenu">
 
-            <a href="#" onclick="openPanForm(event)">
-                <span>Apply New Pan</span>
+        <div
+            class="submenu"
+            id="panMenu"
+        >
+
+
+            <a
+                href="#"
+                onclick="openPanForm(event)"
+            >
+
+                <span>
+                    Apply New Pan
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Ack Rejected List')">
-                <span>Ack Rejected List</span>
-                <span class="count">1</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Ack Rejected List')"
+            >
+
+                <span>
+                    Ack Rejected List
+                </span>
+
+                <span class="count">
+                    1
+                </span>
+
             </a>
 
-            <a href="#" onclick="openAllPanReceipt(event)">
-                <span>All PAN (Receipt)</span>
-                <span class="count" id="allPanCount">0</span>
+
+            <a
+                href="#"
+                onclick="openAllPanReceipt(event)"
+            >
+
+                <span>
+                    All PAN (Receipt)
+                </span>
+
+                <span
+                    class="count"
+                    id="allPanCount"
+                >
+                    0
+                </span>
+
             </a>
 
-            <!-- OWN SERVICES -->
 
-            <a href="#" onclick="serviceAlert(event,'Upload PDF')">
-                <span>Upload PDF</span>
-                <span class="count">0</span>
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Upload PDF')"
+            >
+
+                <span>
+                    Upload PDF
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Reject PDF')">
-                <span>Reject PDF</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Reject PDF')"
+            >
+
+                <span>
+                    Reject PDF
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Complete PAN')">
-                <span>Complete PAN</span>
-                <span class="count">6</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Complete PAN')"
+            >
+
+                <span>
+                    Complete PAN
+                </span>
+
+                <span class="count">
+                    6
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Reject by HO')">
-                <span>Reject by HO</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Reject by HO')"
+            >
+
+                <span>
+                    Reject by HO
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
+
 
         </div>
 
-        <!-- SHOP ACT -->
 
-        <button class="menu-btn"
-                onclick="toggleMenu('shopMenu',this)">
+        <!-- ==================================================
+             SHOP ACT
+             ================================================== -->
+
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('shopMenu',this)"
+        >
 
             <span class="menu-left">
+
                 <span>🏪</span>
-                <span>Shop Act</span>
+
+                <span>
+                    Shop Act
+                </span>
+
             </span>
 
-            <span class="arrow">▼</span>
+            <span class="arrow">
+                ▼
+            </span>
 
         </button>
 
-        <div class="submenu" id="shopMenu">
 
-            <a href="#" onclick="serviceAlert(event,'New Shop Act Application')">
-                <span>New Application</span>
+        <div
+            class="submenu"
+            id="shopMenu"
+        >
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'New Shop Act Application')"
+            >
+
+                <span>
+                    New Application
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Pending ShopAct')">
-                <span>Pending ShopAct</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Pending ShopAct')"
+            >
+
+                <span>
+                    Pending ShopAct
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Rejected ShopAct')">
-                <span>Rejected ShopAct</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Rejected ShopAct')"
+            >
+
+                <span>
+                    Rejected ShopAct
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Accepted ShopAct')">
-                <span>Accepted ShopAct</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Accepted ShopAct')"
+            >
+
+                <span>
+                    Accepted ShopAct
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'All ShopAct')">
-                <span>All ShopAct</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'All ShopAct')"
+            >
+
+                <span>
+                    All ShopAct
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
+
 
         </div>
 
-        <!-- GAZETTED -->
 
-        <button class="menu-btn"
-                onclick="toggleMenu('gazetteMenu',this)">
+        <!-- ==================================================
+             GAZETTED CERTIFICATE
+             ================================================== -->
+
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('gazetteMenu',this)"
+        >
 
             <span class="menu-left">
+
                 <span>📜</span>
-                <span>Gazetted Certificate</span>
+
+                <span>
+                    Gazetted Certificate
+                </span>
+
             </span>
 
-            <span class="arrow">▼</span>
+            <span class="arrow">
+                ▼
+            </span>
 
         </button>
 
-        <div class="submenu" id="gazetteMenu">
 
-            <a href="#" onclick="serviceAlert(event,'New Certificate Application')">
-                <span>New Application</span>
+        <div
+            class="submenu"
+            id="gazetteMenu"
+        >
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'New Certificate Application')"
+            >
+
+                <span>
+                    New Application
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Pending Certificate')">
-                <span>Pending Certificate</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Pending Certificate')"
+            >
+
+                <span>
+                    Pending Certificate
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Rejected Certificate')">
-                <span>Rejected Certificate</span>
-                <span class="count">1</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Rejected Certificate')"
+            >
+
+                <span>
+                    Rejected Certificate
+                </span>
+
+                <span class="count">
+                    1
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Approved Certificate')">
-                <span>Approved Certificate</span>
-                <span class="count">1</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Approved Certificate')"
+            >
+
+                <span>
+                    Approved Certificate
+                </span>
+
+                <span class="count">
+                    1
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Accepted Certificate')">
-                <span>Accepted Certificate</span>
-                <span class="count">1</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Accepted Certificate')"
+            >
+
+                <span>
+                    Accepted Certificate
+                </span>
+
+                <span class="count">
+                    1
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'All Certificate')">
-                <span>All Certificate</span>
-                <span class="count">2</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'All Certificate')"
+            >
+
+                <span>
+                    All Certificate
+                </span>
+
+                <span class="count">
+                    2
+                </span>
+
             </a>
+
 
         </div>
 
-        <!-- FOOD -->
 
-        <button class="menu-btn"
-                onclick="toggleMenu('foodMenu',this)">
+        <!-- ==================================================
+             FOOD LICENSE
+             ================================================== -->
+
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('foodMenu',this)"
+        >
 
             <span class="menu-left">
+
                 <span>🍴</span>
-                <span>Food License</span>
+
+                <span>
+                    Food License
+                </span>
+
             </span>
 
-            <span class="arrow">▼</span>
+            <span class="arrow">
+                ▼
+            </span>
 
         </button>
 
-        <div class="submenu" id="foodMenu">
 
-            <a href="#" onclick="serviceAlert(event,'New Food License Application')">
-                <span>New Application</span>
+        <div
+            class="submenu"
+            id="foodMenu"
+        >
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'New Food License Application')"
+            >
+
+                <span>
+                    New Application
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Pending License')">
-                <span>Pending License</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Pending License')"
+            >
+
+                <span>
+                    Pending License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Rejected License')">
-                <span>Rejected License</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Rejected License')"
+            >
+
+                <span>
+                    Rejected License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Approved License')">
-                <span>Approved License</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Approved License')"
+            >
+
+                <span>
+                    Approved License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Reverted License')">
-                <span>Reverted License</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Reverted License')"
+            >
+
+                <span>
+                    Reverted License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Accepted License')">
-                <span>Accepted License</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Accepted License')"
+            >
+
+                <span>
+                    Accepted License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'All License')">
-                <span>All License</span>
-                <span class="count">2</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'All License')"
+            >
+
+                <span>
+                    All License
+                </span>
+
+                <span class="count">
+                    2
+                </span>
+
             </a>
+
 
         </div>
 
-        <!-- UDYOG -->
 
-        <button class="menu-btn"
-                onclick="toggleMenu('udyogMenu',this)">
+        <!-- ==================================================
+             UDYOG AADHAAR
+             ================================================== -->
+
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('udyogMenu',this)"
+        >
 
             <span class="menu-left">
+
                 <span>🏭</span>
-                <span>Udyog Aadhaar</span>
+
+                <span>
+                    Udyog Aadhaar
+                </span>
+
             </span>
 
-            <span class="arrow">▼</span>
+            <span class="arrow">
+                ▼
+            </span>
 
         </button>
 
-        <div class="submenu" id="udyogMenu">
 
-            <a href="#" onclick="serviceAlert(event,'New Udyog Application')">
-                <span>New Application</span>
+        <div
+            class="submenu"
+            id="udyogMenu"
+        >
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'New Udyog Application')"
+            >
+
+                <span>
+                    New Application
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Pending Udyog')">
-                <span>Pending Udyog</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Pending Udyog')"
+            >
+
+                <span>
+                    Pending Udyog
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Rejected Udyog')">
-                <span>Rejected Udyog</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Rejected Udyog')"
+            >
+
+                <span>
+                    Rejected Udyog
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Accepted Udyog')">
-                <span>Accepted Udyog</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Accepted Udyog')"
+            >
+
+                <span>
+                    Accepted Udyog
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'All Udyog')">
-                <span>All Udyog</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'All Udyog')"
+            >
+
+                <span>
+                    All Udyog
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
+
 
         </div>
+
 
     </div>
 
-    <button class="logout-btn" onclick="logout()">
+
+    <!-- ==================================================
+         LOGOUT
+         ================================================== -->
+
+    <button
+        class="logout-btn"
+        onclick="logout()"
+    >
+
         🚪 Logout
+
     </button>
 
+
 </div>
 
-<div class="overlay"
-     id="overlay"
-     onclick="closeSidebar()">
+
+<!-- MOBILE OVERLAY -->
+
+<div
+    class="overlay"
+    id="overlay"
+    onclick="closeSidebar()"
+>
 </div>
 
-<!-- =========================
+
+<!-- ==================================================
      MAIN
-========================= -->
+     ================================================== -->
 
 <div class="main">
 
+
 <header class="header">
+
 
     <div class="header-left">
 
-        <button class="mobile-menu"
-                onclick="openSidebar()">
+
+        <button
+            class="mobile-menu"
+            onclick="openSidebar()"
+        >
             ☰
         </button>
+
 
         <h2 id="pageTitle">
             Dashboard
         </h2>
 
+
     </div>
 
+
     <div class="user-box">
+
 
         <div class="user-icon">
             👤
         </div>
+
 
         <div class="user-info">
 
@@ -1204,2140 +2426,8 @@ body{
 
         </div>
 
+
     </div>
+
 
 </header>
-
-<!-- =========================
-     DASHBOARD
-========================= -->
-
-<main class="content"
-      id="dashboardContent">
-
-    <div class="welcome">
-
-        <h1>
-            Welcome to Shree Multi Services
-        </h1>
-
-        <p>
-            Manage your online services from one place.
-        </p>
-
-    </div>
-
-    <div class="stats">
-
-        <div class="stat-card">
-            <h4>Total Process</h4>
-            <div class="number" id="totalProcess">0</div>
-        </div>
-
-        <div class="stat-card">
-            <h4>Total Rejected</h4>
-            <div class="number" id="totalRejected">0</div>
-        </div>
-
-        <div class="stat-card">
-            <h4>Total Accepted</h4>
-            <div class="number" id="totalAccepted">0</div>
-        </div>
-
-        <div class="stat-card">
-            <h4>Total PAN</h4>
-            <div class="number" id="totalPan">0</div>
-        </div>
-
-    </div>
-
-    <h2 class="section-title">
-        Available Services
-    </h2>
-
-    <div class="services">
-
-        <div class="service-card">
-
-            <h3>📄 Physical PAN</h3>
-
-            <p>
-                New PAN application and PAN related services.
-            </p>
-
-            <button onclick="openPanForm()">
-                Open Service
-            </button>
-
-        </div>
-
-        <div class="service-card">
-
-            <h3>🏪 Shop Act</h3>
-
-            <p>
-                Shop Act application and status management.
-            </p>
-
-            <button onclick="serviceAlert(null,'Shop Act')">
-                Open Service
-            </button>
-
-        </div>
-
-        <div class="service-card">
-
-            <h3>📜 Gazetted Certificate</h3>
-
-            <p>
-                Gazetted certificate application and status.
-            </p>
-
-            <button onclick="serviceAlert(null,'Gazetted Certificate')">
-                Open Service
-            </button>
-
-        </div>
-
-        <div class="service-card">
-
-            <h3>🍴 Food License</h3>
-
-            <p>
-                Food license application and management.
-            </p>
-
-            <button onclick="serviceAlert(null,'Food License')">
-                Open Service
-            </button>
-
-        </div>
-
-        <div class="service-card">
-
-            <h3>🏭 Udyog Aadhaar</h3>
-
-            <p>
-                Udyog Aadhaar application and status.
-            </p>
-
-            <button onclick="serviceAlert(null,'Udyog Aadhaar')">
-                Open Service
-            </button>
-
-        </div>
-
-    </div>
-
-</main>
-
-<!-- =========================
-     PAN FORM
-========================= -->
-
-<div class="pan-form-container"
-     id="panFormContainer">
-
-    <div class="pan-form-header">
-
-        <h2>
-            📄 PAN Application
-        </h2>
-
-        <button class="close-pan-btn"
-                onclick="closePanForm()">
-            ✕ Close
-        </button>
-
-    </div>
-
-    <div class="pan-form-box">
-
-        <div class="pan-form-title">
-            PAN Application (New / Correction)
-        </div>
-
-        <form id="panApplicationForm">
-
-            <div class="form-grid">
-
-                <div class="form-group">
-
-                    <label>
-                        PAN Type <span>*</span>
-                    </label>
-
-                    <select id="panType"
-                            required
-                            onchange="toggleOldPan()">
-
-                        <option value="">
-                            -- Please Select --
-                        </option>
-
-                        <option value="New PAN">
-                            New PAN
-                        </option>
-
-                        <option value="PAN Correction">
-                            PAN Correction
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <div class="form-group"
-                     id="oldPanGroup"
-                     style="display:none;">
-
-                    <label>
-                        Old PAN Number <span>*</span>
-                    </label>
-
-                    <input type="text"
-                           id="oldPan"
-                           maxlength="10"
-                           placeholder="Enter Old PAN Number"
-                           style="text-transform:uppercase;">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Title <span>*</span>
-                    </label>
-
-                    <select id="title"
-                            required>
-
-                        <option value="">
-                            -- Select Title --
-                        </option>
-
-                        <option value="SHRI">
-                            SHRI
-                        </option>
-
-                        <option value="SMT">
-                            SMT
-                        </option>
-
-                        <option value="KUMARI">
-                            KUMARI
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Gender <span>*</span>
-                    </label>
-
-                    <select id="gender"
-                            required>
-
-                        <option value="">
-                            -- Select Gender --
-                        </option>
-
-                        <option value="MALE">
-                            MALE
-                        </option>
-
-                        <option value="FEMALE">
-                            FEMALE
-                        </option>
-
-                        <option value="TRANSGENDER">
-                            TRANSGENDER
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <div class="form-group full">
-
-                    <label>
-                        Full Name (As Per Aadhaar) <span>*</span>
-                    </label>
-
-                    <input type="text"
-                           id="fullName"
-                           required
-                           placeholder="Enter Full Name">
-
-                </div>
-
-                <div class="form-group full">
-
-                    <label>
-                        Father Full Name <span>*</span>
-                    </label>
-
-                    <input type="text"
-                           id="fatherName"
-                           required
-                           placeholder="Enter Father's Full Name">
-
-                </div>
-
-                <div class="form-group full">
-
-                    <label>
-                        Date Of Birth <span>*</span>
-                    </label>
-
-                    <div class="dob-row">
-
-                        <select id="dobDay" required>
-                            <option value="">DD</option>
-                        </select>
-
-                        <select id="dobMonth" required>
-                            <option value="">Month</option>
-                        </select>
-
-                        <select id="dobYear" required>
-                            <option value="">YYYY</option>
-                        </select>
-
-                    </div>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Mobile Number <span>*</span>
-                    </label>
-
-                    <input type="tel"
-                           id="mobile"
-                           maxlength="10"
-                           pattern="[0-9]{10}"
-                           required
-                           placeholder="10 Digit Mobile Number">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Email ID
-                    </label>
-
-                    <input type="email"
-                           id="email"
-                           placeholder="Enter Email ID">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Aadhaar Number <span>*</span>
-                    </label>
-
-                    <input type="text"
-                           id="aadhaar"
-                           maxlength="12"
-                           pattern="[0-9]{12}"
-                           required
-                           placeholder="12 Digit Aadhaar Number">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Proof Of Date Of Birth <span>*</span>
-                    </label>
-
-                    <select id="dobProof" required>
-
-                        <option value="">
-                            -- Select Proof --
-                        </option>
-
-                        <option>Birth Certificate</option>
-                        <option>Pension Payment Order</option>
-                        <option>Marriage Certificate</option>
-                        <option>Matriculation Certificate</option>
-                        <option>Passport</option>
-                        <option>Driving License</option>
-                        <option>Domicile Certificate</option>
-                        <option>Affidavit</option>
-                        <option>Matriculation Marksheet</option>
-                        <option>Elector's Photo ID Card</option>
-                        <option>AABHA CARD</option>
-                        <option>CGHS Card</option>
-                        <option>ECHS Photo Card</option>
-
-                    </select>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        PAN Card Dispatch State <span>*</span>
-                    </label>
-
-                    <select id="dispatchState" required>
-
-                        <option value="">
-                            -- Select State --
-                        </option>
-
-                        <option>ANDAMAN AND NICOBAR ISLANDS</option>
-                        <option>ANDHRA PRADESH</option>
-                        <option>ARUNACHAL PRADESH</option>
-                        <option>ASSAM</option>
-                        <option>BIHAR</option>
-                        <option>CHANDIGARH</option>
-                        <option>CHHATTISGARH</option>
-                        <option>DADRA & NAGAR HAVELI</option>
-                        <option>DAMAN & DIU</option>
-                        <option>DELHI</option>
-                        <option>GOA</option>
-                        <option>GUJARAT</option>
-                        <option>HARYANA</option>
-                        <option>HIMACHAL PRADESH</option>
-                        <option>JAMMU AND KASHMIR</option>
-                        <option>JHARKHAND</option>
-                        <option>KARNATAKA</option>
-                        <option>KERALA</option>
-                        <option>LADAKH</option>
-                        <option>LAKSHADWEEP</option>
-                        <option>MADHYA PRADESH</option>
-                        <option>MAHARASHTRA</option>
-                        <option>MANIPUR</option>
-                        <option>MEGHALAYA</option>
-                        <option>MIZORAM</option>
-                        <option>NAGALAND</option>
-                        <option>ODISHA</option>
-                        <option>OUTSIDE INDIA</option>
-                        <option>PONDICHERRY</option>
-                        <option>PUNJAB</option>
-                        <option>RAJASTHAN</option>
-                        <option>SIKKIM</option>
-                        <option>TAMIL NADU</option>
-                        <option>TELANGANA</option>
-                        <option>TRIPURA</option>
-                        <option>UTTAR PRADESH</option>
-                        <option>UTTARAKHAND</option>
-                        <option>WEST BENGAL</option>
-
-                    </select>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Pin Code (As Per Aadhaar) <span>*</span>
-                    </label>
-
-                    <input type="text"
-                           id="pinCode"
-                           maxlength="6"
-                           pattern="[0-9]{6}"
-                           required
-                           placeholder="6 Digit Pin Code">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        House <span>*</span>
-                    </label>
-
-                    <input type="text"
-                           id="house"
-                           required
-                           placeholder="House">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Village <span>*</span>
-                    </label>
-
-                    <input type="text"
-                           id="village"
-                           required
-                           placeholder="Village">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Tehsil <span>*</span>
-                    </label>
-
-                    <input type="text"
-                           id="tehsil"
-                           required
-                           placeholder="Tehsil">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        Post <span>*</span>
-                    </label>
-
-                    <input type="text"
-                           id="post"
-                           required
-                           placeholder="Post">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-                        District <span>*</span>
-                    </label>
-
-                    <input type="text"
-                           id="district"
-                           required
-                           placeholder="District">
-
-                </div>
-
-            </div>
-
-            <div class="form-buttons">
-
-                <button type="reset"
-                        class="reset-btn">
-                    Reset
-                </button>
-
-                <button type="submit"
-                        class="submit-btn">
-                    Submit PAN Application
-                </button>
-
-            </div>
-
-        </form>
-
-        <div class="success-box"
-             id="successBox">
-
-            <h3>
-                ✅ PAN Application Submitted Successfully
-            </h3>
-
-            <p>
-                Application Number:
-                <strong id="successApplicationNumber"></strong>
-            </p>
-
-            <button onclick="closePanForm()">
-                Go To Dashboard
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- =========================
-     ALL PAN RECEIPT
-========================= -->
-
-<div class="receipt-container"
-     id="receiptContainer">
-
-    <div class="receipt-header">
-
-        <div>
-
-            <h2>
-                📄 All PAN (Receipt)
-            </h2>
-
-            <p>
-                All submitted Physical PAN applications
-            </p>
-
-        </div>
-
-        <button class="receipt-back-btn"
-                onclick="showDashboard()">
-            ← Back to Dashboard
-        </button>
-
-    </div>
-
-    <div class="receipt-body">
-
-        <div class="receipt-top">
-
-            <div class="receipt-count">
-
-                Total Applications:
-                <strong id="receiptTotal">0</strong>
-
-            </div>
-
-            <input type="text"
-                   id="receiptSearch"
-                   class="search-box"
-                   placeholder="Search applicant / application no..."
-                   oninput="filterReceipts()">
-
-        </div>
-
-        <div id="receiptTableArea"></div>
-
-    </div>
-
-</div>
-
-</div>
-
-<!-- =========================
-     MODAL
-========================= -->
-
-<div class="modal"
-     id="detailsModal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h2>
-                📄 PAN Application Details
-            </h2>
-
-            <button class="modal-close"
-                    onclick="closeDetails()">
-                ✕
-            </button>
-
-        </div>
-
-        <div class="details-grid"
-             id="detailsGrid">
-        </div>
-
-        <div class="modal-footer">
-
-            <button class="modal-print"
-                    onclick="printSelectedReceipt()">
-                🖨️ Print Receipt
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<script>
-
-/* =========================
-   USERNAME
-========================= */
-
-const usernameElement =
-document.getElementById("username");
-
-const savedUsername =
-localStorage.getItem("username");
-
-if(savedUsername){
-    usernameElement.innerText = savedUsername;
-}
-
-
-/* =========================
-   PAN DATA
-========================= */
-
-function getPanApplications(){
-
-    try{
-
-        return JSON.parse(
-            localStorage.getItem("panApplications") || "[]"
-        );
-
-    }catch(error){
-
-        console.error(error);
-        return [];
-
-    }
-
-}
-
-
-/* =========================
-   DOB DROPDOWNS
-========================= */
-
-function createDobOptions(){
-
-    const day =
-    document.getElementById("dobDay");
-
-    const month =
-    document.getElementById("dobMonth");
-
-    const year =
-    document.getElementById("dobYear");
-
-    for(let i=1;i<=31;i++){
-
-        const option =
-        document.createElement("option");
-
-        option.value =
-        String(i).padStart(2,"0");
-
-        option.textContent =
-        String(i).padStart(2,"0");
-
-        day.appendChild(option);
-
-    }
-
-    const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-    ];
-
-    months.forEach(function(name,index){
-
-        const option =
-        document.createElement("option");
-
-        option.value =
-        String(index+1).padStart(2,"0");
-
-        option.textContent =
-        name;
-
-        month.appendChild(option);
-
-    });
-
-    const currentYear =
-    new Date().getFullYear();
-
-    for(let y=currentYear;y>=1900;y--){
-
-        const option =
-        document.createElement("option");
-
-        option.value = y;
-        option.textContent = y;
-
-        year.appendChild(option);
-
-    }
-
-}
-
-createDobOptions();
-
-
-/* =========================
-   OLD PAN
-========================= */
-
-function toggleOldPan(){
-
-    const type =
-    document.getElementById("panType").value;
-
-    const group =
-    document.getElementById("oldPanGroup");
-
-    const input =
-    document.getElementById("oldPan");
-
-    if(type === "PAN Correction"){
-
-        group.style.display = "flex";
-        input.required = true;
-
-    }else{
-
-        group.style.display = "none";
-        input.required = false;
-        input.value = "";
-
-    }
-
-}
-
-
-/* =========================
-   UPDATE COUNTS
-========================= */
-
-function updatePanCount(){
-
-    const applications =
-    getPanApplications();
-
-    document.getElementById("totalPan")
-        .innerText = applications.length;
-
-    document.getElementById("allPanCount")
-        .innerText = applications.length;
-
-}
-
-
-/* =========================
-   DASHBOARD STATS
-========================= */
-
-function updateDashboardStats(){
-
-    const applications =
-    getPanApplications();
-
-    let process = 0;
-    let rejected = 0;
-    let accepted = 0;
-
-    applications.forEach(function(app){
-
-        const status =
-        String(app.status || "Pending")
-        .toLowerCase();
-
-        if(status === "rejected"){
-
-            rejected++;
-
-        }else if(
-            status === "completed" ||
-            status === "accepted" ||
-            status === "approved"
-        ){
-
-            accepted++;
-
-        }else{
-
-            process++;
-
-        }
-
-    });
-
-    document.getElementById("totalProcess")
-        .innerText = process;
-
-    document.getElementById("totalRejected")
-        .innerText = rejected;
-
-    document.getElementById("totalAccepted")
-        .innerText = accepted;
-
-}
-
-
-/* =========================
-   UPDATE DASHBOARD
-========================= */
-
-function updateDashboard(){
-
-    updatePanCount();
-    updateDashboardStats();
-
-}
-
-updateDashboard();
-
-
-/* =========================
-   TOGGLE MENU
-========================= */
-
-function toggleMenu(menuId,button){
-
-    const menu =
-    document.getElementById(menuId);
-
-    menu.classList.toggle("show");
-
-    button.classList.toggle("open");
-
-}
-
-
-/* =========================
-   SHOW DASHBOARD
-========================= */
-
-function showDashboard(){
-
-    document.getElementById("dashboardContent")
-        .style.display = "block";
-
-    document.getElementById("panFormContainer")
-        .classList.remove("show");
-
-    document.getElementById("receiptContainer")
-        .classList.remove("show");
-
-    document.getElementById("pageTitle")
-        .innerText = "Dashboard";
-
-    document.getElementById("dashboardMenuBtn")
-        .classList.add("active");
-
-    closeSidebar();
-
-    updateDashboard();
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-
-/* =========================
-   OPEN PAN FORM
-========================= */
-
-function openPanForm(event){
-
-    if(event){
-        event.preventDefault();
-    }
-
-    document.getElementById("dashboardContent")
-        .style.display = "none";
-
-    document.getElementById("receiptContainer")
-        .classList.remove("show");
-
-    document.getElementById("panFormContainer")
-        .classList.add("show");
-
-    document.getElementById("pageTitle")
-        .innerText = "PAN Application";
-
-    document.getElementById("dashboardMenuBtn")
-        .classList.remove("active");
-
-    document.getElementById("successBox")
-        .classList.remove("show");
-
-    closeSidebar();
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-
-/* =========================
-   CLOSE PAN
-========================= */
-
-function closePanForm(){
-
-    document.getElementById("panFormContainer")
-        .classList.remove("show");
-
-    document.getElementById("dashboardContent")
-        .style.display = "block";
-
-    document.getElementById("receiptContainer")
-        .classList.remove("show");
-
-    document.getElementById("pageTitle")
-        .innerText = "Dashboard";
-
-    document.getElementById("dashboardMenuBtn")
-        .classList.add("active");
-
-    document.getElementById("panApplicationForm")
-        .reset();
-
-    toggleOldPan();
-
-    document.getElementById("successBox")
-        .classList.remove("show");
-
-    updateDashboard();
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-
-/* =========================
-   PAN FORM SUBMIT
-========================= */
-
-document.getElementById("panApplicationForm")
-.addEventListener("submit",function(event){
-
-    event.preventDefault();
-
-    const panType =
-    document.getElementById("panType").value;
-
-    const oldPan =
-    document.getElementById("oldPan").value
-    .trim()
-    .toUpperCase();
-
-    const title =
-    document.getElementById("title").value;
-
-    const gender =
-    document.getElementById("gender").value;
-
-    const fullName =
-    document.getElementById("fullName").value.trim();
-
-    const fatherName =
-    document.getElementById("fatherName").value.trim();
-
-    const dobDay =
-    document.getElementById("dobDay").value;
-
-    const dobMonth =
-    document.getElementById("dobMonth").value;
-
-    const dobYear =
-    document.getElementById("dobYear").value;
-
-    const mobile =
-    document.getElementById("mobile").value.trim();
-
-    const email =
-    document.getElementById("email").value.trim();
-
-    const aadhaar =
-    document.getElementById("aadhaar").value.trim();
-
-    const dobProof =
-    document.getElementById("dobProof").value;
-
-    const dispatchState =
-    document.getElementById("dispatchState").value;
-
-    const pinCode =
-    document.getElementById("pinCode").value.trim();
-
-    const house =
-    document.getElementById("house").value.trim();
-
-    const village =
-    document.getElementById("village").value.trim();
-
-    const tehsil =
-    document.getElementById("tehsil").value.trim();
-
-    const post =
-    document.getElementById("post").value.trim();
-
-    const district =
-    document.getElementById("district").value.trim();
-
-
-    /* VALIDATION */
-
-    if(!/^[0-9]{10}$/.test(mobile)){
-
-        alert("Please enter valid 10 digit mobile number.");
-        return;
-
-    }
-
-    if(!/^[0-9]{12}$/.test(aadhaar)){
-
-        alert("Please enter valid 12 digit Aadhaar number.");
-        return;
-
-    }
-
-    if(!/^[0-9]{6}$/.test(pinCode)){
-
-        alert("Please enter valid 6 digit Pin Code.");
-        return;
-
-    }
-
-    if(
-        panType === "PAN Correction" &&
-        !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(oldPan)
-    ){
-
-        alert("Please enter valid Old PAN Number.");
-        return;
-
-    }
-
-
-    const dob =
-    dobDay + "-" +
-    dobMonth + "-" +
-    dobYear;
-
-
-    const application = {
-
-        applicationNumber:
-            "PAN" + Date.now(),
-
-        userId:
-            localStorage.getItem("username") || "",
-
-        panType:
-            panType,
-
-        oldPan:
-            oldPan,
-
-        title:
-            title,
-
-        gender:
-            gender,
-
-        fullName:
-            fullName,
-
-        fatherName:
-            fatherName,
-
-        dob:
-            dob,
-
-        mobile:
-            mobile,
-
-        email:
-            email,
-
-        aadhaar:
-            aadhaar,
-
-        dobProof:
-            dobProof,
-
-        dispatchState:
-            dispatchState,
-
-        pinCode:
-            pinCode,
-
-        house:
-            house,
-
-        village:
-            village,
-
-        tehsil:
-            tehsil,
-
-        post:
-            post,
-
-        district:
-            district,
-
-        status:
-            "Pending",
-
-        service:
-            "Physical PAN",
-
-        submittedAt:
-            new Date().toISOString()
-
-    };
-
-
-    let applications =
-    getPanApplications();
-
-    applications.push(application);
-
-    localStorage.setItem(
-        "panApplications",
-        JSON.stringify(applications)
-    );
-
-    localStorage.setItem(
-        "lastPanApplication",
-        JSON.stringify(application)
-    );
-
-
-    document.getElementById(
-        "successApplicationNumber"
-    ).innerText =
-    application.applicationNumber;
-
-    document.getElementById(
-        "successBox"
-    ).classList.add("show");
-
-
-    updateDashboard();
-
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-});
-
-
-/* =========================
-   ALL PAN RECEIPT
-========================= */
-
-function openAllPanReceipt(event){
-
-    if(event){
-        event.preventDefault();
-    }
-
-    document.getElementById("dashboardContent")
-        .style.display = "none";
-
-    document.getElementById("panFormContainer")
-        .classList.remove("show");
-
-    document.getElementById("receiptContainer")
-        .classList.add("show");
-
-    document.getElementById("pageTitle")
-        .innerText = "All PAN (Receipt)";
-
-    document.getElementById("dashboardMenuBtn")
-        .classList.remove("active");
-
-    document.getElementById("receiptSearch")
-        .value = "";
-
-    loadPanReceipts();
-
-    closeSidebar();
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-
-/* =========================
-   LOAD RECEIPTS
-========================= */
-
-function loadPanReceipts(){
-
-    const applications =
-    getPanApplications();
-
-    document.getElementById("receiptTotal")
-        .innerText = applications.length;
-
-    const area =
-    document.getElementById("receiptTableArea");
-
-
-    if(applications.length === 0){
-
-        area.innerHTML = `
-            <div class="no-data">
-                <h3>No PAN Applications Found</h3>
-                <p>
-                    PAN application submit केल्यानंतर
-                    येथे Receipt दिसेल.
-                </p>
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    let html = `
-
-        <table class="receipt-table">
-
-            <thead>
-
-                <tr>
-                    <th>Sr.</th>
-                    <th>Application No.</th>
-                    <th>Applicant Name</th>
-                    <th>PAN Type</th>
-                    <th>Mobile</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-    `;
-
-
-    applications.forEach(function(app,index){
-
-        const status =
-        app.status || "Pending";
-
-        const lower =
-        String(status).toLowerCase();
-
-        let statusClass =
-        "status-pending";
-
-        if(lower === "processing"){
-            statusClass = "status-processing";
-        }
-
-        if(
-            lower === "completed" ||
-            lower === "accepted" ||
-            lower === "approved"
-        ){
-            statusClass = "status-completed";
-        }
-
-        if(lower === "rejected"){
-            statusClass = "status-rejected";
-        }
-
-
-        html += `
-
-            <tr>
-
-                <td>${index+1}</td>
-
-                <td>
-                    <strong>
-                        ${escapeHtml(app.applicationNumber || "-")}
-                    </strong>
-                </td>
-
-                <td>
-                    ${escapeHtml(app.fullName || "-")}
-                </td>
-
-                <td>
-                    ${escapeHtml(app.panType || "-")}
-                </td>
-
-                <td>
-                    ${escapeHtml(app.mobile || "-")}
-                </td>
-
-                <td>
-                    ${formatDate(app.submittedAt)}
-                </td>
-
-                <td>
-                    <span class="status ${statusClass}">
-                        ${escapeHtml(status)}
-                    </span>
-                </td>
-
-                <td>
-
-                    <button class="action-btn view-btn"
-                            onclick="viewPanApplication(${index})">
-                        View
-                    </button>
-
-                    <button class="action-btn print-btn"
-                            onclick="printPanReceipt(${index})">
-                        🖨️ Print
-                    </button>
-
-                </td>
-
-            </tr>
-
-        `;
-
-    });
-
-
-    html += `
-            </tbody>
-        </table>
-    `;
-
-    area.innerHTML = html;
-
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-function filterReceipts(){
-
-    const search =
-    document.getElementById("receiptSearch")
-    .value
-    .toLowerCase()
-    .trim();
-
-    const applications =
-    getPanApplications();
-
-    const filtered =
-    applications.filter(function(app){
-
-        return (
-
-            String(app.applicationNumber || "")
-            .toLowerCase()
-            .includes(search)
-
-            ||
-
-            String(app.fullName || "")
-            .toLowerCase()
-            .includes(search)
-
-            ||
-
-            String(app.mobile || "")
-            .toLowerCase()
-            .includes(search)
-
-        );
-
-    });
-
-
-    document.getElementById("receiptTotal")
-        .innerText = filtered.length;
-
-    const area =
-    document.getElementById("receiptTableArea");
-
-
-    if(filtered.length === 0){
-
-        area.innerHTML = `
-            <div class="no-data">
-                <h3>No Application Found</h3>
-                <p>Search result उपलब्ध नाही.</p>
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    let html = `
-
-        <table class="receipt-table">
-
-            <thead>
-
-                <tr>
-                    <th>Sr.</th>
-                    <th>Application No.</th>
-                    <th>Applicant Name</th>
-                    <th>PAN Type</th>
-                    <th>Mobile</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-    `;
-
-
-    filtered.forEach(function(app){
-
-        const originalIndex =
-        applications.indexOf(app);
-
-        const status =
-        app.status || "Pending";
-
-        const lower =
-        String(status).toLowerCase();
-
-        let statusClass =
-        "status-pending";
-
-        if(lower === "processing"){
-            statusClass = "status-processing";
-        }
-
-        if(
-            lower === "completed" ||
-            lower === "accepted" ||
-            lower === "approved"
-        ){
-            statusClass = "status-completed";
-        }
-
-        if(lower === "rejected"){
-            statusClass = "status-rejected";
-        }
-
-
-        html += `
-
-            <tr>
-
-                <td>
-                    ${originalIndex+1}
-                </td>
-
-                <td>
-                    <strong>
-                        ${escapeHtml(app.applicationNumber || "-")}
-                    </strong>
-                </td>
-
-                <td>
-                    ${escapeHtml(app.fullName || "-")}
-                </td>
-
-                <td>
-                    ${escapeHtml(app.panType || "-")}
-                </td>
-
-                <td>
-                    ${escapeHtml(app.mobile || "-")}
-                </td>
-
-                <td>
-                    ${formatDate(app.submittedAt)}
-                </td>
-
-                <td>
-                    <span class="status ${statusClass}">
-                        ${escapeHtml(status)}
-                    </span>
-                </td>
-
-                <td>
-
-                    <button class="action-btn view-btn"
-                            onclick="viewPanApplication(${originalIndex})">
-                        View
-                    </button>
-
-                    <button class="action-btn print-btn"
-                            onclick="printPanReceipt(${originalIndex})">
-                        🖨️ Print
-                    </button>
-
-                </td>
-
-            </tr>
-
-        `;
-
-    });
-
-
-    html += `
-            </tbody>
-        </table>
-    `;
-
-    area.innerHTML = html;
-
-}
-
-
-/* =========================
-   VIEW
-========================= */
-
-let selectedApplicationIndex = null;
-
-function viewPanApplication(index){
-
-    const applications =
-    getPanApplications();
-
-    const app =
-    applications[index];
-
-    if(!app){
-
-        alert("Application not found.");
-        return;
-
-    }
-
-    selectedApplicationIndex =
-    index;
-
-
-    const fields = [
-
-        ["Application No.",app.applicationNumber],
-        ["Service",app.service],
-        ["PAN Type",app.panType],
-        ["Old PAN",app.oldPan],
-        ["Title",app.title],
-        ["Gender",app.gender],
-        ["Full Name",app.fullName],
-        ["Father Name",app.fatherName],
-        ["Date of Birth",app.dob],
-        ["Mobile Number",app.mobile],
-        ["Email ID",app.email],
-        ["Aadhaar Number",app.aadhaar],
-        ["DOB Proof",app.dobProof],
-        ["Dispatch State",app.dispatchState],
-        ["Pin Code",app.pinCode],
-        ["House",app.house],
-        ["Village",app.village],
-        ["Tehsil",app.tehsil],
-        ["Post",app.post],
-        ["District",app.district],
-        ["Status",app.status],
-        ["Submitted At",app.submittedAt]
-
-    ];
-
-
-    let html = "";
-
-
-    fields.forEach(function(item){
-
-        if(
-            item[1] !== undefined &&
-            item[1] !== null &&
-            item[1] !== ""
-        ){
-
-            html += `
-
-                <div class="detail-item">
-
-                    <strong>
-                        ${escapeHtml(item[0])}
-                    </strong>
-
-                    <span>
-                        ${escapeHtml(String(item[1]))}
-                    </span>
-
-                </div>
-
-            `;
-
-        }
-
-    });
-
-
-    document.getElementById("detailsGrid")
-        .innerHTML = html;
-
-    document.getElementById("detailsModal")
-        .classList.add("show");
-
-}
-
-
-/* =========================
-   CLOSE DETAILS
-========================= */
-
-function closeDetails(){
-
-    document.getElementById("detailsModal")
-        .classList.remove("show");
-
-    selectedApplicationIndex = null;
-
-}
-
-
-/* =========================
-   PRINT SELECTED
-========================= */
-
-function printSelectedReceipt(){
-
-    if(selectedApplicationIndex === null){
-        return;
-    }
-
-    printPanReceipt(
-        selectedApplicationIndex
-    );
-
-}
-
-
-/* =========================
-   PRINT
-========================= */
-
-function printPanReceipt(index){
-
-    const applications =
-    getPanApplications();
-
-    const app =
-    applications[index];
-
-    if(!app){
-
-        alert("Application not found.");
-        return;
-
-    }
-
-
-    const printWindow =
-    window.open(
-        "",
-        "_blank",
-        "width=900,height=700"
-    );
-
-
-    if(!printWindow){
-
-        alert(
-            "Please allow pop-ups for printing."
-        );
-
-        return;
-
-    }
-
-
-    const address = [
-
-        app.house,
-        app.village,
-        app.tehsil,
-        app.post,
-        app.district
-
-    ].filter(Boolean).join(", ");
-
-
-    printWindow.document.write(`
-
-        <!DOCTYPE html>
-
-        <html>
-
-        <head>
-
-            <title>
-                PAN Receipt
-            </title>
-
-            <style>
-
-                body{
-                    font-family:Arial,sans-serif;
-                    padding:30px;
-                    color:#222;
-                }
-
-                .receipt{
-                    max-width:800px;
-                    margin:auto;
-                    border:1px solid #222;
-                    padding:25px;
-                }
-
-                .header{
-                    text-align:center;
-                    border-bottom:2px solid #222;
-                    padding-bottom:15px;
-                    margin-bottom:20px;
-                }
-
-                .header h1{
-                    margin:0;
-                    font-size:24px;
-                }
-
-                .header p{
-                    margin:6px 0 0;
-                    font-size:13px;
-                }
-
-                .title{
-                    text-align:center;
-                    font-size:18px;
-                    font-weight:bold;
-                    margin-bottom:20px;
-                }
-
-                table{
-                    width:100%;
-                    border-collapse:collapse;
-                }
-
-                td{
-                    border:1px solid #ccc;
-                    padding:9px;
-                    font-size:13px;
-                }
-
-                td:first-child{
-                    width:35%;
-                    font-weight:bold;
-                    background:#f5f5f5;
-                }
-
-                .footer{
-                    margin-top:30px;
-                    display:flex;
-                    justify-content:space-between;
-                    font-size:12px;
-                }
-
-            </style>
-
-        </head>
-
-        <body>
-
-            <div class="receipt">
-
-                <div class="header">
-
-                    <h1>
-                        Shree Multi Services
-                    </h1>
-
-                    <p>
-                        Maha E-Seva Kendra
-                    </p>
-
-                </div>
-
-                <div class="title">
-                    PAN APPLICATION RECEIPT
-                </div>
-
-                <table>
-
-                    <tr>
-                        <td>Application No.</td>
-                        <td>${escapeHtml(app.applicationNumber || "-")}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Applicant Name</td>
-                        <td>${escapeHtml(app.fullName || "-")}</td>
-                    </tr>
-
-                    <tr>
-                        <td>PAN Type</td>
-                        <td>${escapeHtml(app.panType || "-")}</td>
-                    </tr>
-
-                    ${
-                        app.oldPan
-                        ?
-                        `
-                        <tr>
-                            <td>Old PAN Number</td>
-                            <td>${escapeHtml(app.oldPan)}</td>
-                        </tr>
-                        `
-                        :
-                        ""
-                    }
-
-                    <tr>
-                        <td>Father Name</td>
-                        <td>${escapeHtml(app.fatherName || "-")}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Date of Birth</td>
-                        <td>${escapeHtml(app.dob || "-")}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Mobile Number</td>
-                        <td>${escapeHtml(app.mobile || "-")}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Email ID</td>
-                        <td>${escapeHtml(app.email || "-")}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Aadhaar Number</td>
-                        <td>${escapeHtml(app.aadhaar || "-")}</td>
-                    </tr>
-
-                    <tr>
-                        <td>DOB Proof</td>
-                        <td>${escapeHtml(app.dobProof || "-")}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Dispatch State</td>
-                        <td>${escapeHtml(app.dispatchState || "-")}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Pin Code</td>
-                        <td>${escapeHtml(app.pinCode || "-")}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Address</td>
-                        <td>${escapeHtml(address || "-")}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Status</td>
-                        <td>${escapeHtml(app.status || "Pending")}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Submitted At</td>
-                        <td>${escapeHtml(app.submittedAt || "-")}</td>
-                    </tr>
-
-                </table>
-
-                <div class="footer">
-
-                    <span>
-                        Shree Multi Services
-                    </span>
-
-                    <span>
-                        Applicant Receipt
-                    </span>
-
-                </div>
-
-            </div>
-
-            <script>
-
-                window.onload=function(){
-                    window.print();
-                };
-
-            <\/script>
-
-        </body>
-
-        </html>
-
-    `);
-
-    printWindow.document.close();
-
-}
-
-
-/* =========================
-   DATE
-========================= */
-
-function formatDate(value){
-
-    if(!value){
-        return "-";
-    }
-
-    const date =
-    new Date(value);
-
-    if(isNaN(date.getTime())){
-        return escapeHtml(String(value));
-    }
-
-    return date.toLocaleDateString(
-        "en-IN",
-        {
-            day:"2-digit",
-            month:"2-digit",
-            year:"numeric"
-        }
-    );
-
-}
-
-
-/* =========================
-   ESCAPE HTML
-========================= */
-
-function escapeHtml(value){
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================
-   OTHER SERVICES
-========================= */
-
-function serviceAlert(event,service){
-
-    if(event){
-        event.preventDefault();
-    }
-
-    alert(
-        service +
-        "\n\nService page will be connected here."
-    );
-
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-function openSidebar(){
-
-    document.getElementById("sidebar")
-        .classList.add("open");
-
-    document.getElementById("overlay")
-        .classList.add("show");
-
-}
-
-function closeSidebar(){
-
-    document.getElementById("sidebar")
-        .classList.remove("open");
-
-    document.getElementById("overlay")
-        .classList.remove("show");
-
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-function logout(){
-
-    localStorage.removeItem("username");
-
-    window.location.href =
-    "index.html";
-
-}
-
-
-/* =========================
-   MODAL CLICK
-========================= */
-
-document.getElementById("detailsModal")
-.addEventListener("click",function(event){
-
-    if(event.target === this){
-        closeDetails();
-    }
-
-});
-
-
-/* =========================
-   STORAGE UPDATE
-========================= */
-
-window.addEventListener("storage",function(){
-
-    updateDashboard();
-
-    if(
-        document.getElementById("receiptContainer")
-        .classList.contains("show")
-    ){
-
-        loadPanReceipts();
-
-    }
-
-});
-
-</script>
-
-</body>
-</html>
