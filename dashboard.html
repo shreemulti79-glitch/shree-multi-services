@@ -1,1132 +1,248 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Shree Multi Services - Dashboard</title>
-
 <!-- Razorpay Checkout -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-<style>
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,sans-serif;
-}
-
-body{
-    background:#f4f6f9;
-    color:#222;
-}
-
-/* HEADER */
-
-.header{
-    background:linear-gradient(135deg,#0d47a1,#1976d2);
-    color:white;
-    padding:18px 25px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.logo{
-    font-size:24px;
-    font-weight:bold;
-}
-
-.logout{
-    background:#fff;
-    color:#d32f2f;
-    border:none;
-    padding:10px 18px;
-    border-radius:7px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-/* MAIN */
-
-.container{
-    max-width:1100px;
-    margin:30px auto;
-    padding:0 15px;
-}
-
-/* WELCOME */
-
-.welcome{
-    background:white;
-    padding:25px;
-    border-radius:12px;
-    box-shadow:0 3px 12px rgba(0,0,0,0.08);
-    margin-bottom:20px;
-}
-
-.welcome h2{
-    color:#0d47a1;
-    margin-bottom:8px;
-}
-
-/* WALLET */
-
-.wallet{
-    background:linear-gradient(135deg,#1565c0,#42a5f5);
-    color:white;
-    padding:25px;
-    border-radius:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.15);
-}
-
-.wallet h3{
-    font-size:18px;
-    margin-bottom:8px;
-}
-
-.balance{
-    font-size:32px;
-    font-weight:bold;
-}
-
-.add-money{
-    background:#fff;
-    color:#1565c0;
-    border:none;
-    padding:13px 22px;
-    border-radius:8px;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.add-money:hover{
-    background:#e3f2fd;
-}
-
-/* SERVICES */
-
-.services{
-    background:white;
-    padding:25px;
-    border-radius:12px;
-    box-shadow:0 3px 12px rgba(0,0,0,0.08);
-    min-height:200px;
-}
-
-.services h2{
-    color:#0d47a1;
-    margin-bottom:10px;
-}
-
-.service-message{
-    text-align:center;
-    padding:50px 10px;
-    color:#777;
-}
-
-/* MODAL */
-
-.modal{
-    display:none;
-    position:fixed;
-    z-index:1000;
-    left:0;
-    top:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.6);
-    justify-content:center;
-    align-items:center;
-    padding:15px;
-}
-
-.modal-box{
-    background:white;
-    width:100%;
-    max-width:500px;
-    border-radius:15px;
-    padding:25px;
-    position:relative;
-    box-shadow:0 10px 30px rgba(0,0,0,0.3);
-}
-
-.close{
-    position:absolute;
-    right:18px;
-    top:12px;
-    font-size:28px;
-    cursor:pointer;
-    color:#777;
-}
-
-.modal-box h2{
-    color:#0d47a1;
-    margin-bottom:8px;
-}
-
-.modal-subtitle{
-    color:#777;
-    margin-bottom:20px;
-}
-
-/* AMOUNT */
-
-.amount-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-bottom:20px;
-}
-
-.amount-btn{
-    padding:13px 5px;
-    border:2px solid #1976d2;
-    background:white;
-    color:#1976d2;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-    font-size:15px;
-}
-
-.amount-btn:hover,
-.amount-btn.selected{
-    background:#1976d2;
-    color:white;
-}
-
-/* CUSTOM */
-
-.custom-label{
-    display:block;
-    margin-bottom:7px;
-    font-weight:bold;
-}
-
-.custom-input{
-    width:100%;
-    padding:13px;
-    border:1px solid #ccc;
-    border-radius:7px;
-    font-size:16px;
-    margin-bottom:18px;
-}
-
-.selected-amount{
-    background:#e3f2fd;
-    padding:15px;
-    border-radius:8px;
-    margin-bottom:18px;
-    text-align:center;
-}
-
-.selected-amount span{
-    font-size:24px;
-    font-weight:bold;
-    color:#1565c0;
-}
-
-.continue-btn{
-    width:100%;
-    padding:14px;
-    border:none;
-    background:#1565c0;
-    color:white;
-    border-radius:8px;
-    font-size:17px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.continue-btn:hover{
-    background:#0d47a1;
-}
-
-.continue-btn:disabled{
-    background:#999;
-    cursor:not-allowed;
-}
-
-.note{
-    text-align:center;
-    font-size:12px;
-    color:#888;
-    margin-top:12px;
-}
-
-/* STATUS */
-
-.payment-status{
-    display:none;
-    margin-top:15px;
-    padding:12px;
-    border-radius:8px;
-    text-align:center;
-    font-weight:bold;
-}
-
-/* FOOTER */
-
-.footer{
-    text-align:center;
-    padding:25px;
-    color:#777;
-    margin-top:30px;
-}
-
-/* MOBILE */
-
-@media(max-width:600px){
-
-    .header{
-        padding:15px;
-    }
-
-    .logo{
-        font-size:19px;
-    }
-
-    .logout{
-        padding:8px 12px;
-    }
-
-    .wallet{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:20px;
-    }
-
-    .add-money{
-        width:100%;
-    }
-
-    .amount-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-}
-
-</style>
-</head>
-
-
-<body>
-
-<!-- HEADER -->
-
-<div class="header">
-
-    <div class="logo">
-        श्री मल्टी सर्विसेस
-    </div>
-
-    <button class="logout" onclick="logout()">
-        Logout
-    </button>
-
-</div>
-
-
-<div class="container">
-
-    <!-- WELCOME -->
-
-    <div class="welcome">
-
-        <h2>
-            Welcome to Shree Multi Services
-        </h2>
-
-        <p>
-            Username:
-            <strong id="username">
-                SM00001
-            </strong>
-        </p>
-
-    </div>
-
-
-    <!-- WALLET -->
-
-    <div class="wallet">
-
-        <div>
-
-            <h3>
-                💰 My Wallet
-            </h3>
-
-            <div class="balance">
-                ₹<span id="walletBalance">50</span>
-            </div>
-
-        </div>
-
-
-        <button class="add-money" onclick="openAddMoney()">
-            + Add Money
-        </button>
-
-    </div>
-
-
-    <!-- SERVICES -->
-
-    <div class="services">
-
-        <h2>
-            Our Services
-        </h2>
-
-        <div class="service-message">
-
-            <p>
-                Services लवकरच उपलब्ध होतील.
-            </p>
-
-            <br>
-
-            <p>
-                तुमच्या Wallet मधून service payment करता येईल.
-            </p>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ADD MONEY MODAL -->
-
-<div class="modal" id="addMoneyModal">
-
-    <div class="modal-box">
-
-        <span class="close" onclick="closeAddMoney()">
-            &times;
-        </span>
-
-        <h2>
-            Add Money
-        </h2>
-
-        <p class="modal-subtitle">
-            Wallet मध्ये किती रक्कम Add करायची ते निवडा.
-        </p>
-
-
-        <!-- AMOUNT OPTIONS -->
-
-        <div class="amount-grid">
-
-            <button class="amount-btn"
-                    onclick="selectAmount(50,this)">
-                ₹50
-            </button>
-
-            <button class="amount-btn"
-                    onclick="selectAmount(100,this)">
-                ₹100
-            </button>
-
-            <button class="amount-btn"
-                    onclick="selectAmount(200,this)">
-                ₹200
-            </button>
-
-            <button class="amount-btn"
-                    onclick="selectAmount(500,this)">
-                ₹500
-            </button>
-
-            <button class="amount-btn"
-                    onclick="selectAmount(1000,this)">
-                ₹1,000
-            </button>
-
-            <button class="amount-btn"
-                    onclick="customAmount()">
-                Custom
-            </button>
-
-        </div>
-
-
-        <!-- CUSTOM -->
-
-        <label class="custom-label">
-            Custom Amount
-        </label>
-
-        <input
-            type="number"
-            id="customAmount"
-            class="custom-input"
-            placeholder="उदा. 750"
-            min="10"
-            oninput="setCustomAmount()"
-        >
-
-
-        <!-- SELECTED -->
-
-        <div class="selected-amount">
-
-            Selected Amount
-
-            <br>
-
-            ₹<span id="selectedAmount">50</span>
-
-        </div>
-
-
-        <!-- CONTINUE -->
-
-        <button
-            class="continue-btn"
-            id="continueBtn"
-            onclick="continuePayment()">
-
-            Continue to Payment
-
-        </button>
-
-
-        <div
-            class="payment-status"
-            id="paymentStatus">
-        </div>
-
-
-        <div class="note">
-            🔐 Secure Razorpay Test Payment
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- FOOTER -->
-
-<div class="footer">
-
-    © 2026 Shree Multi Services
-
-</div>
-
-
 <script>
-
-/* ==================================================
-   RAZORPAY SETTINGS
-================================================== */
-
-/*
-   IMPORTANT:
-   येथे तुमचा RAZORPAY TEST KEY ID टाका.
-
-   उदाहरण:
-   rzp_test_xxxxxxxxxxxxx
-*/
-
-const RAZORPAY_KEY_ID =
-    89RZzWRm1uo7kgr90uAMZCwm
+const RAZORPAY_KEY_ID = "YOUR_RAZORPAY_TEST_KEY_ID";
+const BACKEND_URL = "https://shree-multi-services-backend.onrender.com";
 
 
-/*
-   तुमचा Render Backend
-*/
-
-const BACKEND_URL =
-    "https://shree-multi-services-backend.onrender.com";
-
-
-/* ==================================================
-   USERNAME
-================================================== */
-
-let username =
-    localStorage.getItem("registeredUsername");
-
-if(username){
-
-    document.getElementById("username").innerText =
-        username;
-
-}
-
-
-/* ==================================================
-   WALLET
-================================================== */
-
-let walletBalance =
-    Number(localStorage.getItem("walletBalance"));
-
-
-if(!localStorage.getItem("walletBalance")){
-
-    walletBalance = 50;
-
-    localStorage.setItem(
-        "walletBalance",
-        walletBalance
-    );
-
-}
-
-
-document.getElementById("walletBalance").innerText =
-    walletBalance;
-
-
-/* ==================================================
+/* =========================
    ADD MONEY
-================================================== */
+========================= */
 
-let selectedAmount = 50;
+async function openAddMoney(amount) {
 
-
-/* OPEN */
-
-function openAddMoney(){
-
-    document.getElementById("addMoneyModal").style.display =
-        "flex";
-
-}
-
-
-/* CLOSE */
-
-function closeAddMoney(){
-
-    document.getElementById("addMoneyModal").style.display =
-        "none";
-
-}
-
-
-/* SELECT */
-
-function selectAmount(amount,button){
-
-    selectedAmount = amount;
-
-    document.getElementById("selectedAmount").innerText =
-        amount;
-
-    document.getElementById("customAmount").value =
-        "";
-
-    let buttons =
-        document.querySelectorAll(".amount-btn");
-
-    buttons.forEach(function(btn){
-
-        btn.classList.remove("selected");
-
-    });
-
-    button.classList.add("selected");
-
-}
-
-
-/* CUSTOM BUTTON */
-
-function customAmount(){
-
-    document.getElementById("customAmount").focus();
-
-    let buttons =
-        document.querySelectorAll(".amount-btn");
-
-    buttons.forEach(function(btn){
-
-        btn.classList.remove("selected");
-
-    });
-
-}
-
-
-/* CUSTOM INPUT */
-
-function setCustomAmount(){
-
-    let value =
-        Number(
-            document.getElementById("customAmount").value
-        );
-
-    if(value >= 10){
-
-        selectedAmount = value;
-
-        document.getElementById("selectedAmount").innerText =
-            value;
-
-    }
-
-}
-
-
-/* ==================================================
-   SHOW STATUS
-================================================== */
-
-function showStatus(message,type){
-
-    const status =
-        document.getElementById("paymentStatus");
-
-    status.style.display = "block";
-
-    status.innerText = message;
-
-    if(type === "success"){
-
-        status.style.background = "#e8f5e9";
-        status.style.color = "#2e7d32";
-
-    }else{
-
-        status.style.background = "#ffebee";
-        status.style.color = "#c62828";
-
-    }
-
-}
-
-
-/* ==================================================
-   CONTINUE PAYMENT
-================================================== */
-
-async function continuePayment(){
-
-    let custom =
-        Number(
-            document.getElementById("customAmount").value
-        );
-
-
-    if(custom >= 10){
-
-        selectedAmount = custom;
-
-    }
-
-
-    if(selectedAmount < 10){
-
+    if (!amount || amount < 10) {
         alert("किमान ₹10 रक्कम निवडा.");
-
         return;
-
     }
 
+    try {
 
-    /*
-       Check Razorpay Key
-    */
-
-    if(
-        !RAZORPAY_KEY_ID ||
-        RAZORPAY_KEY_ID ===
-        "YOUR_RAZORPAY_TEST_KEY_ID"
-    ){
-
-        alert(
-            "Razorpay Test Key ID dashboard.html मध्ये टाका."
+        // Backend वर Order तयार करणे
+        const response = await fetch(
+            BACKEND_URL + "/create-order",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    amount: amount
+                })
+            }
         );
 
-        return;
+        const data = await response.json();
 
-    }
-
-
-    const continueBtn =
-        document.getElementById("continueBtn");
-
-
-    continueBtn.disabled = true;
-
-    continueBtn.innerText =
-        "Creating Payment...";
-
-
-    showStatus(
-        "Payment order तयार होत आहे...",
-        "success"
-    );
-
-
-    try{
-
-        /* ==========================================
-           CREATE RAZORPAY ORDER
-        ========================================== */
-
-        const response =
-            await fetch(
-                BACKEND_URL + "/create-order",
-                {
-
-                    method:"POST",
-
-                    headers:{
-                        "Content-Type":
-                        "application/json"
-                    },
-
-                    body:JSON.stringify({
-
-                        amount:selectedAmount
-
-                    })
-
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if(
-            !response.ok ||
-            !data.success
-        ){
-
-            throw new Error(
-                data.message ||
-                "Order creation failed"
-            );
-
+        if (!data.success) {
+            alert(data.message || "Order तयार झाला नाही.");
+            return;
         }
 
 
-        const order =
-            data.order;
-
-
-        /* ==========================================
-           RAZORPAY CHECKOUT
-        ========================================== */
+        /* =========================
+           RAZORPAY OPTIONS
+        ========================= */
 
         const options = {
 
-            key:
-                RAZORPAY_KEY_ID,
+            key: RAZORPAY_KEY_ID,
 
-            amount:
-                order.amount,
+            amount: data.order.amount,
 
-            currency:
-                order.currency,
+            currency: "INR",
 
-            name:
-                "Shree Multi Services",
+            name: "Shree Multi Services",
 
-            description:
-                "Wallet Recharge",
+            description: "Wallet Recharge",
 
-            order_id:
-                order.id,
+            order_id: data.order.id,
 
 
-            handler:
-                async function(paymentResponse){
+            handler: async function (payment) {
 
-                    await verifyPayment(
-                        paymentResponse
+                try {
+
+                    // Payment Verify
+                    const verifyResponse = await fetch(
+                        BACKEND_URL + "/verify-payment",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                razorpay_order_id:
+                                    payment.razorpay_order_id,
+
+                                razorpay_payment_id:
+                                    payment.razorpay_payment_id,
+
+                                razorpay_signature:
+                                    payment.razorpay_signature
+                            })
+                        }
                     );
 
-                },
+
+                    const verifyData =
+                        await verifyResponse.json();
 
 
-            prefill:{
+                    if (verifyData.success) {
 
-                name:
-                    username || "Customer"
+                        /* =========================
+                           WALLET UPDATE
+                        ========================= */
 
-            },
+                        let wallet =
+                            Number(
+                                localStorage.getItem(
+                                    "walletBalance"
+                                ) || 50
+                            );
+
+                        wallet += Number(amount);
+
+                        localStorage.setItem(
+                            "walletBalance",
+                            wallet
+                        );
 
 
-            theme:{
-
-                color:"#1565c0"
-
-            },
+                        updateWallet();
 
 
-            modal:{
+                        alert(
+                            "✅ Payment Successful!\n\n" +
+                            "₹" + amount +
+                            " Wallet मध्ये जमा झाले."
+                        );
 
-                ondismiss:function(){
+                    } else {
 
-                    continueBtn.disabled =
-                        false;
+                        alert(
+                            "❌ Payment verification failed."
+                        );
 
-                    continueBtn.innerText =
-                        "Continue to Payment";
+                    }
 
-                    showStatus(
-                        "Payment cancelled.",
-                        "error"
+                } catch (error) {
+
+                    console.error(error);
+
+                    alert(
+                        "Payment verify करताना error आला."
                     );
 
                 }
 
+            },
+
+
+            theme: {
+                color: "#0d6efd"
             }
 
         };
 
 
-        const razorpay =
+        /* =========================
+           OPEN RAZORPAY
+        ========================= */
+
+        const rzp =
             new Razorpay(options);
 
 
-        razorpay.on(
+        rzp.on(
             "payment.failed",
-            function(response){
+            function (response) {
 
-                console.error(
-                    "Payment failed:",
-                    response.error
-                );
+                console.error(response.error);
 
-                continueBtn.disabled =
-                    false;
-
-                continueBtn.innerText =
-                    "Continue to Payment";
-
-                showStatus(
-                    "Payment failed. पुन्हा प्रयत्न करा.",
-                    "error"
+                alert(
+                    "❌ Payment Failed\n\n" +
+                    response.error.description
                 );
 
             }
         );
 
 
-        razorpay.open();
+        rzp.open();
 
 
-    }catch(error){
+    } catch (error) {
 
         console.error(error);
 
-        continueBtn.disabled =
-            false;
-
-        continueBtn.innerText =
-            "Continue to Payment";
-
-        showStatus(
-            "Payment सुरू करता आला नाही. Backend तपासा.",
-            "error"
+        alert(
+            "❌ Server connection error.\n\n" +
+            "कृपया थोड्या वेळाने पुन्हा प्रयत्न करा."
         );
+
+    }
+}
+
+
+/* =========================
+   WALLET DISPLAY
+========================= */
+
+function updateWallet() {
+
+    let wallet =
+        Number(
+            localStorage.getItem(
+                "walletBalance"
+            ) || 50
+        );
+
+
+    const walletElement =
+        document.getElementById(
+            "walletBalance"
+        );
+
+
+    if (walletElement) {
+
+        walletElement.innerText =
+            "₹" + wallet.toFixed(2);
 
     }
 
 }
 
 
-/* ==================================================
-   VERIFY PAYMENT
-================================================== */
+/* =========================
+   PAGE LOAD
+========================= */
 
-async function verifyPayment(paymentResponse){
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    showStatus(
-        "Payment verify होत आहे...",
-        "success"
-    );
+        if (
+            !localStorage.getItem(
+                "walletBalance"
+            )
+        ) {
 
-
-    try{
-
-        const response =
-            await fetch(
-                BACKEND_URL + "/verify-payment",
-                {
-
-                    method:"POST",
-
-                    headers:{
-                        "Content-Type":
-                        "application/json"
-                    },
-
-                    body:JSON.stringify({
-
-                        razorpay_order_id:
-                            paymentResponse.razorpay_order_id,
-
-                        razorpay_payment_id:
-                            paymentResponse.razorpay_payment_id,
-
-                        razorpay_signature:
-                            paymentResponse.razorpay_signature
-
-                    })
-
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if(
-            !response.ok ||
-            !data.success
-        ){
-
-            throw new Error(
-                data.message ||
-                "Payment verification failed"
+            localStorage.setItem(
+                "walletBalance",
+                "50"
             );
 
         }
 
-
-        /* ==========================================
-           PAYMENT SUCCESS
-        ========================================== */
-
-        walletBalance =
-            Number(walletBalance) +
-            Number(selectedAmount);
-
-
-        localStorage.setItem(
-            "walletBalance",
-            walletBalance
-        );
-
-
-        document.getElementById(
-            "walletBalance"
-        ).innerText =
-            walletBalance;
-
-
-        showStatus(
-            "✅ Payment successful! ₹" +
-            selectedAmount +
-            " Wallet मध्ये जमा झाले.",
-            "success"
-        );
-
-
-        setTimeout(function(){
-
-            closeAddMoney();
-
-            document.getElementById(
-                "paymentStatus"
-            ).style.display =
-                "none";
-
-            document.getElementById(
-                "continueBtn"
-            ).disabled =
-                false;
-
-            document.getElementById(
-                "continueBtn"
-            ).innerText =
-                "Continue to Payment";
-
-        },2000);
-
-
-        console.log(
-            "Payment ID:",
-            data.payment_id
-        );
-
-
-    }catch(error){
-
-        console.error(error);
-
-        showStatus(
-            "Payment झाला पण verification failed. Wallet update केले नाही.",
-            "error"
-        );
-
-
-        document.getElementById(
-            "continueBtn"
-        ).disabled =
-            false;
-
-        document.getElementById(
-            "continueBtn"
-        ).innerText =
-            "Continue to Payment";
+        updateWallet();
 
     }
-
-}
-
-
-/* ==================================================
-   LOGOUT
-================================================== */
-
-function logout(){
-
-    localStorage.removeItem(
-        "loginStatus"
-    );
-
-    window.location.href =
-        "index.html";
-
-}
-
-
-/* ==================================================
-   CLOSE MODAL OUTSIDE
-================================================== */
-
-window.onclick =
-function(event){
-
-    let modal =
-        document.getElementById(
-            "addMoneyModal"
-        );
-
-    if(event.target === modal){
-
-        closeAddMoney();
-
-    }
-
-};
-
+);
 </script>
-
-</body>
-</html>
