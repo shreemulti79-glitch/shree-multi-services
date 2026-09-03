@@ -1,773 +1,4035 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shree Multi Services - Dashboard</title>
 
+<script>
+(function(){
+    if(sessionStorage.getItem("isLoggedIn") !== "true"){
+        window.location.replace("index.html");
+    }else{
+        document.documentElement.classList.add("auth-ok");
+    }
+})();
+</script>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#fff;color:#222}
-.sidebar{position:fixed;left:0;top:0;width:260px;height:100vh;background:#292929;color:#fff;overflow:auto}
-.logo{padding:20px;font-size:21px;font-weight:bold;border-bottom:1px solid #444}
-.menu{padding:8px}
-.menu button,.sub button{
- width:100%;border:0;background:none;color:#fff;text-align:left;
- padding:12px;border-radius:5px;cursor:pointer;font-size:14px
+html:not(.auth-ok) body{
+    visibility:hidden;
 }
-.menu button:hover,.sub button:hover,.active{background:#1976d2!important}
-.sub{display:none;padding-left:12px}
-.sub.open{display:block}
-.main{margin-left:260px}
-header{height:65px;border-bottom:1px solid #ddd;display:flex;
-align-items:center;justify-content:space-between;padding:0 22px;
-position:sticky;top:0;background:#fff;z-index:5}
-.user{font-weight:bold}
-.content{padding:22px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
-.stat{padding:20px;border-radius:8px;background:#f5f7fa;border:1px solid #ddd}
-.stat b{font-size:28px;display:block;margin-top:8px}
-.card{background:#fff;border:1px solid #ddd;border-radius:8px;padding:20px;margin-top:20px}
-.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
-label{font-weight:bold;font-size:14px}
-input,select,textarea{
- width:100%;padding:10px;margin-top:6px;border:1px solid #bbb;
- border-radius:5px;font-size:14px
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
 }
-textarea{min-height:80px}
-.full{grid-column:1/-1}
-.btn{border:0;padding:11px 18px;border-radius:5px;
-background:#1976d2;color:white;cursor:pointer;margin-top:15px}
-.btn.red{background:#d32f2f}
-.btn.gray{background:#555}
-table{width:100%;border-collapse:collapse;margin-top:15px}
-th,td{border:1px solid #ddd;padding:10px;text-align:left}
-th{background:#f1f1f1}
-.badge{padding:5px 8px;border-radius:4px;background:#fff3cd}
-.hidden{display:none}
-.mobile{display:none}
-@media(max-width:800px){
- .sidebar{left:-260px;transition:.2s}
- .sidebar.show{left:0}
- .main{margin-left:0}
- .mobile{display:block}
- .stats{grid-template-columns:repeat(2,1fr)}
- .formgrid{grid-template-columns:1fr}
+
+body{
+    background:#fff;
+    color:#222;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:270px;
+    height:100vh;
+    background:#292929;
+    color:#fff;
+    overflow-y:auto;
+    z-index:1000;
+    transition:.3s;
+}
+
+.logo{
+    padding:22px 18px;
+    text-align:center;
+    border-bottom:1px solid #444;
+}
+
+.logo h2{
+    font-size:21px;
+    color:#fff;
+}
+
+.logo p{
+    font-size:12px;
+    margin-top:5px;
+    color:#ccc;
+}
+
+.menu{
+    padding:12px 10px;
+}
+
+.menu-title{
+    font-size:11px;
+    color:#999;
+    padding:12px 12px 7px;
+    text-transform:uppercase;
+}
+
+.menu-btn{
+    width:100%;
+    border:none;
+    background:none;
+    color:#fff;
+    padding:13px 12px;
+    text-align:left;
+    cursor:pointer;
+    font-size:14px;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:3px;
+}
+
+.menu-btn:hover{
+    background:#3b3b3b;
+}
+
+.menu-btn.active{
+    background:#1976d2;
+}
+
+.menu-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.arrow{
+    font-size:12px;
+    transition:.3s;
+}
+
+.menu-btn.open .arrow{
+    transform:rotate(180deg);
+}
+
+.submenu{
+    display:none;
+    background:#353535;
+    border-radius:5px;
+    margin:2px 0 5px;
+    overflow:hidden;
+}
+
+.submenu.show{
+    display:block;
+}
+
+.submenu a{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:#fff;
+    text-decoration:none;
+    padding:11px 13px 11px 38px;
+    font-size:13px;
+    border-bottom:1px solid #444;
+    cursor:pointer;
+}
+
+.submenu a:hover{
+    background:#444;
+}
+
+.count{
+    min-width:22px;
+    padding:3px 6px;
+    text-align:center;
+    border-radius:12px;
+    background:#555;
+    color:#fff;
+    font-size:11px;
+}
+
+/* MAIN */
+.main{
+    margin-left:270px;
+    min-height:100vh;
+    background:#fff;
+}
+
+/* HEADER */
+.header{
+    height:70px;
+    border-bottom:1px solid #e5e5e5;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    background:#fff;
+    position:sticky;
+    top:0;
+    z-index:500;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.header h2{
+    font-size:21px;
+    color:#222;
+}
+
+.user-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.user-icon{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#1976d2;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+}
+
+.user-info{
+    line-height:18px;
+}
+
+.user-info strong{
+    display:block;
+    font-size:13px;
+}
+
+.user-info span{
+    font-size:11px;
+    color:#777;
+}
+
+.mobile-menu{
+    display:none;
+    border:none;
+    background:#1976d2;
+    color:#fff;
+    width:40px;
+    height:40px;
+    border-radius:5px;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* CONTENT */
+.content{
+    padding:28px;
+}
+
+.welcome{
+    margin-bottom:25px;
+}
+
+.welcome h1{
+    font-size:26px;
+    color:#222;
+    margin-bottom:6px;
+}
+
+.welcome p{
+    color:#777;
+    font-size:14px;
+}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:30px;
+}
+
+.stat-card{
+    background:#fff;
+    border:1px solid #e4e4e4;
+    border-radius:10px;
+    padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+
+.stat-card h4{
+    font-size:13px;
+    color:#777;
+    margin-bottom:10px;
+}
+
+.stat-card .number{
+    font-size:28px;
+    font-weight:bold;
+    color:#222;
+}
+
+/* SERVICES */
+.section-title{
+    font-size:20px;
+    margin-bottom:18px;
+    color:#222;
+}
+
+.services{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.service-card{
+    background:#fff;
+    border:1px solid #e3e3e3;
+    border-radius:10px;
+    padding:22px;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+
+.service-card h3{
+    font-size:17px;
+    margin-bottom:8px;
+    color:#222;
+}
+
+.service-card p{
+    font-size:13px;
+    color:#777;
+    margin-bottom:18px;
+}
+
+.service-card button{
+    border:none;
+    background:#1976d2;
+    color:#fff;
+    padding:9px 16px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+/* COMMON FORM */
+.form-page{
+    display:none;
+    padding:20px 28px 35px;
+    background:#f5f6f8;
+    min-height:calc(100vh - 70px);
+}
+
+.form-page.show{
+    display:block;
+}
+
+.form-header{
+    background:#fff;
+    padding:16px 20px;
+    border:1px solid #e3e3e3;
+    border-radius:10px 10px 0 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.form-header h2{
+    font-size:20px;
+}
+
+.close-btn{
+    border:none;
+    background:#b71c1c;
+    color:#fff;
+    padding:8px 14px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.form-box{
+    background:#fff;
+    border:1px solid #e3e3e3;
+    border-top:none;
+    padding:25px;
+    border-radius:0 0 10px 10px;
+}
+
+.form-title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+.form-group label{
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:7px;
+    color:#333;
+}
+
+.form-group label span{
+    color:#d00;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    outline:none;
+    background:#fff;
+    font-size:13px;
+}
+
+.form-group textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:#1976d2;
+}
+
+.form-buttons{
+    margin-top:25px;
+    display:flex;
+    gap:10px;
+    justify-content:flex-end;
+}
+
+.reset-btn{
+    border:none;
+    background:#666;
+    color:#fff;
+    padding:11px 20px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.submit-btn{
+    border:none;
+    background:#1976d2;
+    color:#fff;
+    padding:11px 25px;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* NOTICE */
+.notice{
+    background:#fff3cd;
+    border:1px solid #ffe69c;
+    color:#664d03;
+    padding:14px;
+    border-radius:7px;
+    margin-bottom:20px;
+    font-size:13px;
+    line-height:1.6;
+}
+
+/* LIST */
+.list-page{
+    display:none;
+    padding:28px;
+    background:#f5f6f8;
+    min-height:calc(100vh - 70px);
+}
+
+.list-page.show{
+    display:block;
+}
+
+.list-box{
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:20px;
+    overflow:auto;
+}
+
+.search-box{
+    width:280px;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    margin-bottom:15px;
+}
+
+.data-table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:800px;
+}
+
+.data-table th{
+    background:#292929;
+    color:#fff;
+    padding:11px;
+    text-align:left;
+    font-size:12px;
+}
+
+.data-table td{
+    padding:11px;
+    border-bottom:1px solid #ddd;
+    font-size:12px;
+}
+
+.action-btn{
+    border:none;
+    padding:7px 10px;
+    color:#fff;
+    border-radius:4px;
+    cursor:pointer;
+    background:#1976d2;
+}
+
+/* LOGOUT */
+.logout-btn{
+    margin:15px 10px 25px;
+    width:calc(100% - 20px);
+    padding:12px;
+    border:none;
+    background:#b71c1c;
+    color:#fff;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+/* MOBILE */
+@media(max-width:1000px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .services{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:768px){
+    .sidebar{
+        left:-270px;
+    }
+
+    .sidebar.open{
+        left:0;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .header{
+        padding:0 15px;
+    }
+
+    .user-info{
+        display:none;
+    }
+
+    .content{
+        padding:20px 15px;
+    }
+
+    .form-page{
+        padding:15px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .list-page{
+        padding:15px;
+    }
+}
+
+@media(max-width:480px){
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .services{
+        grid-template-columns:1fr;
+    }
+
+    .welcome h1{
+        font-size:22px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN PROTECTION -->
-<script>
-if(sessionStorage.getItem("isLoggedIn")!=="true"){
- location.replace("index.html");
-}
-</script>
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
 
-<aside class="sidebar" id="sidebar">
-<div class="logo">Shree Multi Services</div>
+<div class="logo">
+    <h2>Shree Multi Services</h2>
+    <p>Maha E-Seva Kendra</p>
+</div>
 
 <div class="menu">
 
-<button onclick="toggle('pan')">Physical PAN ▾</button>
-<div class="sub" id="pan">
-<button onclick="newForm('pan')">Apply New PAN</button>
-<button onclick="showList('pan','All')">All PAN (Receipt) <span id="panCount">0</span></button>
-<button onclick="showList('pan','Rejected')">Ack Rejected List 1</button>
-<button onclick="serviceMsg('Upload PDF')">Upload PDF 0</button>
-<button onclick="serviceMsg('Reject PDF')">Reject PDF 0</button>
-<button onclick="serviceMsg('Complete PAN')">Complete PAN 6</button>
-<button onclick="serviceMsg('Reject by HO')">Reject by HO 0</button>
+<div class="menu-title">Dashboard</div>
+
+<button class="menu-btn active" id="dashboardBtn"
+onclick="showDashboard()">
+<span class="menu-left">
+<span>🏠</span>
+<span>Dashboard</span>
+</span>
+</button>
+
+<div class="menu-title">Services</div>
+
+<!-- PHYSICAL PAN -->
+<button class="menu-btn"
+onclick="toggleMenu('panMenu',this)">
+<span class="menu-left">
+<span>📄</span>
+<span>Physical PAN</span>
+</span>
+<span class="arrow">▼</span>
+</button>
+
+<div class="submenu" id="panMenu">
+
+<a href="#" onclick="openForm(event,'panForm')">
+<span>Apply New Pan</span>
+</a>
+
+<a href="#" onclick="openList(event,'pan','Rejected')">
+<span>Ack Rejected List</span>
+<span class="count">1</span>
+</a>
+
+<a href="#" onclick="openList(event,'pan','All')">
+<span>All PAN (Receipt)</span>
+<span class="count" id="panCount">0</span>
+</a>
+
+<a href="#" onclick="serviceAlert(event,'Upload PDF')">
+<span>Upload PDF</span>
+<span class="count">0</span>
+</a>
+
+<a href="#" onclick="serviceAlert(event,'Reject PDF')">
+<span>Reject PDF</span>
+<span class="count">0</span>
+</a>
+
+<a href="#" onclick="serviceAlert(event,'Complete PAN')">
+<span>Complete PAN</span>
+<span class="count">6</span>
+</a>
+
+<a href="#" onclick="serviceAlert(event,'Reject by HO')">
+<span>Reject by HO</span>
+<span class="count">0</span>
+</a>
+
 </div>
 
-<button onclick="toggle('shop')">Shop Act ▾</button>
-<div class="sub" id="shop">
-<button onclick="newForm('shop')">New Application</button>
-<button onclick="showList('shop','Pending')">Pending ShopAct 0</button>
-<button onclick="showList('shop','Rejected')">Rejected ShopAct 0</button>
-<button onclick="showList('shop','Accepted')">Accepted ShopAct 0</button>
-<button onclick="showList('shop','All')">All ShopAct 0</button>
+
+<!-- SHOP ACT -->
+<button class="menu-btn"
+onclick="toggleMenu('shopMenu',this)">
+<span class="menu-left">
+<span>🏪</span>
+<span>Shop Act</span>
+</span>
+<span class="arrow">▼</span>
+</button>
+
+<div class="submenu" id="shopMenu">
+
+<a href="#" onclick="openForm(event,'shopForm')">
+<span>New Application</span>
+</a>
+
+<a href="#" onclick="openList(event,'shop','Pending')">
+<span>Pending ShopAct</span>
+<span class="count">0</span>
+</a>
+
+<a href="#" onclick="openList(event,'shop','Rejected')">
+<span>Rejected ShopAct</span>
+<span class="count">0</span>
+</a>
+
+<a href="#" onclick="openList(event,'shop','Accepted')">
+<span>Accepted ShopAct</span>
+<span class="count">0</span>
+</a>
+
+<a href="#" onclick="openList(event,'shop','All')">
+<span>All ShopAct</span>
+<span class="count">0</span>
+</a>
+
 </div>
 
-<button onclick="toggle('gaz')">Gazetted Certificate ▾</button>
-<div class="sub" id="gaz">
-<button onclick="newForm('gaz')">New Application</button>
-<button onclick="showList('gaz','Pending')">Pending Certificate 0</button>
-<button onclick="showList('gaz','Rejected')">Rejected Certificate 1</button>
-<button onclick="showList('gaz','Approved')">Approved Certificate 1</button>
-<button onclick="showList('gaz','Accepted')">Accepted Certificate 1</button>
-<button onclick="showList('gaz','All')">All Certificate 2</button>
+
+<!-- GAZETTED -->
+<button class="menu-btn"
+onclick="toggleMenu('gazMenu',this)">
+<span class="menu-left">
+<span>📜</span>
+<span>Gazetted Certificate</span>
+</span>
+<span class="arrow">▼</span>
+</button>
+
+<div class="submenu" id="gazMenu">
+
+<a href="#" onclick="openForm(event,'gazForm')">
+<span>New Application</span>
+</a>
+
+<a href="#" onclick="openList(event,'gaz','Pending')">
+<span>Pending Certificate</span>
+<span class="count">0</span>
+</a>
+
+<a href="#" onclick="openList(event,'gaz','Rejected')">
+<span>Rejected Certificate</span>
+<span class="count">1</span>
+</a>
+
+<a href="#" onclick="openList(event,'gaz','Approved')">
+<span>Approved Certificate</span>
+<span class="count">1</span>
+</a>
+
+<a href="#" onclick="openList(event,'gaz','Accepted')">
+<span>Accepted Certificate</span>
+<span class="count">1</span>
+</a>
+
+<a href="#" onclick="openList(event,'gaz','All')">
+<span>All Certificate</span>
+<span class="count">2</span>
+</a>
+
 </div>
 
-<button onclick="toggle('food')">Food License ▾</button>
-<div class="sub" id="food">
-<button onclick="newForm('food')">New Application</button>
-<button onclick="showList('food','Pending')">Pending License 0</button>
-<button onclick="showList('food','Rejected')">Rejected License 0</button>
-<button onclick="showList('food','Approved')">Approved License 0</button>
-<button onclick="showList('food','Reverted')">Reverted License 0</button>
-<button onclick="showList('food','Accepted')">Accepted License 0</button>
-<button onclick="showList('food','All')">All License 2</button>
+
+<!-- FOOD -->
+<button class="menu-btn"
+onclick="toggleMenu('foodMenu',this)">
+<span class="menu-left">
+<span>🍴</span>
+<span>Food License</span>
+</span>
+<span class="arrow">▼</span>
+</button>
+
+<div class="submenu" id="foodMenu">
+
+<a href="#" onclick="openForm(event,'foodForm')">
+<span>New Application</span>
+</a>
+
+<a href="#" onclick="openList(event,'food','Pending')">
+<span>Pending License</span>
+<span class="count">0</span>
+</a>
+
+<a href="#" onclick="openList(event,'food','Rejected')">
+<span>Rejected License</span>
+<span class="count">0</span>
+</a>
+
+<a href="#" onclick="openList(event,'food','Approved')">
+<span>Approved License</span>
+<span class="count">0</span>
+</a>
+
+<a href="#" onclick="openList(event,'food','Reverted')">
+<span>Reverted License</span>
+<span class="count">0</span>
+</a>
+
+<a href="#" onclick="openList(event,'food','Accepted')">
+<span>Accepted License</span>
+<span class="count">0</span>
+</a>
+
+<a href="#" onclick="openList(event,'food','All')">
+<span>All License</span>
+<span class="count">2</span>
+</a>
+
 </div>
 
-<button onclick="toggle('udyog')">Udyog Aadhaar ▾</button>
-<div class="sub" id="udyog">
-<button onclick="newForm('udyog')">New Application</button>
-<button onclick="showList('udyog','Pending')">Pending Udyog 0</button>
-<button onclick="showList('udyog','Rejected')">Rejected Udyog 0</button>
-<button onclick="showList('udyog','Accepted')">Accepted Udyog</button>
-<button onclick="showList('udyog','All')">All Udyog 0</button>
+
+<!-- UDYOG -->
+<button class="menu-btn"
+onclick="toggleMenu('udyogMenu',this)">
+<span class="menu-left">
+<span>🏭</span>
+<span>Udyog Aadhaar</span>
+</span>
+<span class="arrow">▼</span>
+</button>
+
+<div class="submenu" id="udyogMenu">
+
+<a href="#" onclick="openForm(event,'udyogForm')">
+<span>New Application</span>
+</a>
+
+<a href="#" onclick="openList(event,'udyog','Pending')">
+<span>Pending Udyog</span>
+<span class="count">0</span>
+</a>
+
+<a href="#" onclick="openList(event,'udyog','Rejected')">
+<span>Rejected Udyog</span>
+<span class="count">0</span>
+</a>
+
+<a href="#" onclick="openList(event,'udyog','Accepted')">
+<span>Accepted Udyog</span>
+</a>
+
+<a href="#" onclick="openList(event,'udyog','All')">
+<span>All Udyog</span>
+<span class="count">0</span>
+</a>
+
 </div>
 
-<button onclick="logout()">Logout</button>
-</div>
-</aside>
+<button class="logout-btn" onclick="logout()">Logout</button>
 
-<main class="main">
-
-<header>
-<div>
-<button class="btn mobile" onclick="openSide()">☰</button>
-<strong id="title">Dashboard</strong>
 </div>
-<div class="user" id="user"></div>
+</div>
+
+
+<!-- MAIN -->
+<div class="main">
+
+<header class="header">
+
+<div class="header-left">
+
+<button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+
+<h2 id="pageTitle">Dashboard</h2>
+
+</div>
+
+<div class="user-box">
+
+<div class="user-icon">👤</div>
+
+<div class="user-info">
+<strong id="loginUser">User</strong>
+<span>Shree Multi Services</span>
+</div>
+
+</div>
+
 </header>
 
-<div class="content">
 
-<div id="dashboard">
+<!-- DASHBOARD -->
+<div class="content" id="dashboardPage">
+
+<div class="welcome">
+<h1>Welcome to Shree Multi Services</h1>
+<p>Manage all your online service applications from one place.</p>
+</div>
+
 <div class="stats">
-<div class="stat">Total Process<b id="process">0</b></div>
-<div class="stat">Total Rejected<b id="rejected">0</b></div>
-<div class="stat">Total Accepted<b id="accepted">0</b></div>
-<div class="stat">Total PAN<b id="total">0</b></div>
+
+<div class="stat-card">
+<h4>Total Process</h4>
+<div class="number" id="totalProcess">0</div>
 </div>
 
-<div class="card">
-<h2>Welcome to Shree Multi Services</h2>
-<p>Select any service from the left menu.</p>
+<div class="stat-card">
+<h4>Total Rejected</h4>
+<div class="number" id="totalRejected">0</div>
+</div>
+
+<div class="stat-card">
+<h4>Total Accepted</h4>
+<div class="number" id="totalAccepted">0</div>
+</div>
+
+<div class="stat-card">
+<h4>Total PAN</h4>
+<div class="number" id="totalPan">0</div>
+</div>
+
+</div>
+
+
+<h2 class="section-title">Services</h2>
+
+<div class="services">
+
+<div class="service-card">
+<h3>📄 Physical PAN</h3>
+<p>New PAN and PAN related applications.</p>
+<button onclick="openForm(null,'panForm')">Open Service</button>
+</div>
+
+<div class="service-card">
+<h3>🏪 Shop Act</h3>
+<p>Shop Act registration and renewal.</p>
+<button onclick="openForm(null,'shopForm')">Open Service</button>
+</div>
+
+<div class="service-card">
+<h3>📜 Gazetted Certificate</h3>
+<p>Name change Gazetted certificate application.</p>
+<button onclick="openForm(null,'gazForm')">Open Service</button>
+</div>
+
+<div class="service-card">
+<h3>🍴 Food License</h3>
+<p>Food registration and licence application.</p>
+<button onclick="openForm(null,'foodForm')">Open Service</button>
+</div>
+
+<div class="service-card">
+<h3>🏭 Udyog Aadhaar</h3>
+<p>Udyog Aadhaar registration and renewal.</p>
+<button onclick="openForm(null,'udyogForm')">Open Service</button>
+</div>
+
 </div>
 </div>
 
-<div id="formBox" class="card hidden"></div>
-<div id="listBox" class="card hidden"></div>
+
+<!-- =========================
+     PAN FORM
+========================= -->
+
+<div class="form-page" id="panForm">
+
+<div class="form-header">
+<h2>Physical PAN Application</h2>
+<button class="close-btn" onclick="showDashboard()">Close</button>
+</div>
+
+<div class="form-box">
+
+<div class="form-title">PAN Application Form</div>
+
+<form id="panApplicationForm">
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>PAN Type <span>*</span></label>
+<select id="panType" required>
+<option value="">Select</option>
+<option>New PAN</option>
+<option>PAN Correction</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Old PAN</label>
+<input id="oldPan">
+</div>
+
+<div class="form-group">
+<label>Title <span>*</span></label>
+<select id="panTitle" required>
+<option value="">Select</option>
+<option>SHRI</option>
+<option>SMT</option>
+<option>KUMARI</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Gender <span>*</span></label>
+<select id="panGender" required>
+<option value="">Select</option>
+<option>MALE</option>
+<option>FEMALE</option>
+<option>TRANSGENDER</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Full Name <span>*</span></label>
+<input id="panFullName" required>
+</div>
+
+<div class="form-group">
+<label>Father Full Name <span>*</span></label>
+<input id="panFatherName" required>
+</div>
+
+<div class="form-group">
+<label>Date of Birth <span>*</span></label>
+<input type="date" id="panDob" required>
+</div>
+
+<div class="form-group">
+<label>Mobile No <span>*</span></label>
+<input id="panMobile" maxlength="10" required>
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="panEmail">
+</div>
+
+<div class="form-group">
+<label>Aadhaar No <span>*</span></label>
+<input id="panAadhaar" maxlength="12" required>
+</div>
+
+<div class="form-group">
+<label>DOB Proof <span>*</span></label>
+<select id="panDobProof" required>
+<option value="">Select</option>
+<option>Birth Certificate</option>
+<option>Pension Payment Order</option>
+<option>Marriage Certificate</option>
+<option>Matriculation Certificate</option>
+<option>Passport</option>
+<option>Driving License</option>
+<option>Domicile Certificate</option>
+<option>Affidavit</option>
+<option>Matriculation Marksheet</option>
+<option>Elector's Photo ID Card</option>
+<option>AABHA CARD</option>
+<option>CGHS Card</option>
+<option>ECHS Photo Card</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Dispatch State <span>*</span></label>
+<select id="panState" required></select>
+</div>
+
+<div class="form-group">
+<label>Pin Code <span>*</span></label>
+<input id="panPin" required>
+</div>
+
+<div class="form-group full">
+<label>House / Full Address <span>*</span></label>
+<input id="panHouse" required>
+</div>
+
+<div class="form-group">
+<label>Village <span>*</span></label>
+<input id="panVillage" required>
+</div>
+
+<div class="form-group">
+<label>Tehsil <span>*</span></label>
+<input id="panTehsil" required>
+</div>
+
+<div class="form-group">
+<label>Post <span>*</span></label>
+<input id="panPost" required>
+</div>
+
+<div class="form-group">
+<label>District <span>*</span></label>
+<input id="panDistrict" required>
+</div>
 
 </div>
-</main>
+
+<div class="form-buttons">
+<button type="reset" class="reset-btn">Reset</button>
+<button type="submit" class="submit-btn">Submit Application</button>
+</div>
+
+</form>
+</div>
+</div> 
+
+ ```html
+<!-- =========================
+     SHOP ACT FORM
+========================= -->
+
+<div class="form-page" id="shopForm">
+
+<div class="form-header">
+<h2>Shop Act Licence</h2>
+<button class="close-btn" onclick="showDashboard()">Close</button>
+</div>
+
+<div class="form-box">
+
+<div class="notice">
+<b>Shop Act Licence Application</b><br>
+New Registration / Renewal साठी खालील माहिती अचूक भरा.
+</div>
+
+<form id="shopApplicationForm">
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Type of Registration <span>*</span></label>
+<select id="shopRegType" required>
+<option value="">Select</option>
+<option>New</option>
+<option>Renewal</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Full Name (As Per Aadhaar Id) <span>*</span></label>
+<input id="shopFullName" required>
+</div>
+
+<div class="form-group">
+<label>पूर्ण नाव (आधार कार्ड नुसार) <span>*</span></label>
+<input id="shopFullNameMr" required>
+</div>
+
+<div class="form-group">
+<label>Mobile No <span>*</span></label>
+<input id="shopMobile" maxlength="10" required>
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="shopEmail">
+</div>
+
+<div class="form-group">
+<label>Aadhaar ID <span>*</span></label>
+<input id="shopAadhaar" maxlength="12" required>
+</div>
+
+<div class="form-group">
+<label>DOB <span>*</span></label>
+<input type="date" id="shopDob" required>
+</div>
+
+<div class="form-group">
+<label>Gender <span>*</span></label>
+<select id="shopGender" required>
+<option value="">Select</option>
+<option>Male</option>
+<option>Female</option>
+</select>
+</div>
 
 
+<!-- RESIDENTIAL ADDRESS -->
+
+<div class="form-group full">
+<h3>Residential Address</h3>
+</div>
+
+<div class="form-group full">
+<label>Full Address / पत्ता <span>*</span></label>
+<textarea id="resFullAddress" required></textarea>
+</div>
+
+<div class="form-group">
+<label>State <span>*</span></label>
+<select id="resState" class="state-select" required></select>
+</div>
+
+<div class="form-group">
+<label>District <span>*</span></label>
+<input id="resDistrict" required>
+</div>
+
+<div class="form-group">
+<label>Taluka <span>*</span></label>
+<input id="resTaluka" required>
+</div>
+
+<div class="form-group">
+<label>Pin Code <span>*</span></label>
+<input id="resPin" maxlength="6" required>
+</div>
+
+
+<!-- SHOP ADDRESS -->
+
+<div class="form-group full">
+<h3>Shop Address</h3>
+</div>
+
+<div class="form-group full">
+<label>Full Address / पत्ता <span>*</span></label>
+<textarea id="shopFullAddress" required></textarea>
+</div>
+
+<div class="form-group">
+<label>State <span>*</span></label>
+<select id="shopState" class="state-select" required></select>
+</div>
+
+<div class="form-group">
+<label>District <span>*</span></label>
+<input id="shopDistrict" required>
+</div>
+
+<div class="form-group">
+<label>Taluka <span>*</span></label>
+<input id="shopTaluka" required>
+</div>
+
+<div class="form-group">
+<label>Pin Code <span>*</span></label>
+<input id="shopPin" maxlength="6" required>
+</div>
+
+
+<!-- BUSINESS -->
+
+<div class="form-group full">
+<h3>Organization / Business / Enterprise</h3>
+</div>
+
+<div class="form-group">
+<label>Shop Name <span>*</span></label>
+<input id="businessShopName" required>
+</div>
+
+<div class="form-group">
+<label>दुकानाचे नाव <span>*</span></label>
+<input id="businessShopNameMr" required>
+</div>
+
+<div class="form-group full">
+<label>Type of Business <span>*</span></label>
+<input id="businessType" required>
+</div>
+
+<div class="form-group">
+<label>Type of Enterprise / Business <span>*</span></label>
+<select id="enterpriseType" required>
+<option value="">Select</option>
+<option>Small</option>
+<option>Medium</option>
+<option>Large</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Ownership of Premises <span>*</span></label>
+<select id="premisesOwnership" required>
+<option value="">Select</option>
+<option>Rented</option>
+<option>Owned</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Date of Start <span>*</span></label>
+<input type="date" id="businessStartDate" required>
+</div>
+
+<div class="form-group">
+<label>Total Employees <span>*</span></label>
+<input type="number" id="totalEmployees" min="0" required>
+</div>
+
+<div class="form-group">
+<label>No of Male Employees <span>*</span></label>
+<input type="number" id="maleEmployees" min="0" required>
+</div>
+
+<div class="form-group">
+<label>No of Female Employees <span>*</span></label>
+<input type="number" id="femaleEmployees" min="0" required>
+</div>
+
+<div class="form-group full">
+<label>Remark</label>
+<textarea id="shopRemark"></textarea>
+</div>
+
+
+<!-- DOCUMENTS -->
+
+<div class="form-group full">
+<h3>Upload Documents</h3>
+</div>
+
+<div class="form-group">
+<label>Applicant Photo <span>*</span></label>
+<input type="file" id="shopPhoto" accept=".jpg,.jpeg" required>
+<small>JPEG, size less than 20KB</small>
+</div>
+
+<div class="form-group">
+<label>Applicant Signature <span>*</span></label>
+<input type="file" id="shopSignature" accept=".jpg,.jpeg" required>
+<small>JPEG, size less than 20KB</small>
+</div>
+
+<div class="form-group">
+<label>Aadhar Card Photo <span>*</span></label>
+<input type="file" id="shopAadharFile" accept=".jpg,.jpeg" required>
+<small>JPEG, 75KB–100KB</small>
+</div>
+
+<div class="form-group">
+<label>Pan Card Photo <span>*</span></label>
+<input type="file" id="shopPanFile" accept=".jpg,.jpeg" required>
+</div>
+
+<div class="form-group">
+<label>Shop Photo <span>*</span></label>
+<input type="file" id="shopPhotoFile" accept=".jpg,.jpeg" required>
+<small>JPEG, 75KB–100KB</small>
+</div>
+
+</div>
+
+<div class="form-buttons">
+<button type="reset" class="reset-btn">Reset</button>
+<button type="submit" class="submit-btn">Submit Application</button>
+</div>
+
+</form>
+</div>
+</div>
+
+
+<!-- =========================
+     GAZETTED CERTIFICATE
+========================= -->
+
+<div class="form-page" id="gazForm">
+
+<div class="form-header">
+<h2>Gazetted Certificate</h2>
+<button class="close-btn" onclick="showDashboard()">Close</button>
+</div>
+
+<div class="form-box">
+
+<div class="notice">
+<b>महत्त्वाची सूचना</b><br>
+Gazetted submit करताना जुन्या नावाचा पुरावा आवश्यक आहे.<br>
+लग्नानंतर नाव बदल असल्यास पतीचा Aadhaar जोडावा.<br>
+18 वर्षांखालील Minor असल्यास वडिलांचा Aadhaar जोडावा.
+</div>
+
+<form id="gazApplicationForm">
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Caste <span>*</span></label>
+<select id="gazCaste" required>
+<option value="">Select</option>
+<option>Open/OBC Category - ₹749</option>
+<option>Backward SBC/ST/VJ/SC/NT - ₹499</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Minor? <span>*</span></label>
+<select id="gazMinor" required>
+<option value="">Select</option>
+<option>Yes</option>
+<option>No</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Salutation <span>*</span></label>
+<select id="gazSalutation" required>
+<option value="">Select</option>
+<option>श्री</option>
+<option>सौ</option>
+<option>कुमारी</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Full Name (as per Aadhaar) <span>*</span></label>
+<input id="gazFullName" required>
+</div>
+
+<div class="form-group">
+<label>UID / Aadhaar <span>*</span></label>
+<input id="gazAadhaar" maxlength="12" required>
+</div>
+
+<div class="form-group">
+<label>Full Name Marathi <span>*</span></label>
+<input id="gazMarathiName" required>
+</div>
+
+<div class="form-group">
+<label>Birthdate <span>*</span></label>
+<input type="date" id="gazBirthdate" required>
+</div>
+
+<div class="form-group">
+<label>Age <span>*</span></label>
+<input type="number" id="gazAge" min="0" required>
+</div>
+
+<div class="form-group">
+<label>Gender <span>*</span></label>
+<select id="gazGender" required>
+<option value="">Select</option>
+<option>Male</option>
+<option>Female</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Mobile <span>*</span></label>
+<input id="gazMobile" maxlength="10" required>
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="gazEmail">
+</div>
+
+
+<!-- ADDRESS -->
+
+<div class="form-group full">
+<h3>Address</h3>
+</div>
+
+<div class="form-group full">
+<label>Full Address <span>*</span></label>
+<textarea id="gazAddress" required></textarea>
+</div>
+
+<div class="form-group">
+<label>District <span>*</span></label>
+<input id="gazDistrict" required>
+</div>
+
+<div class="form-group">
+<label>Taluka <span>*</span></label>
+<input id="gazTaluka" required>
+</div>
+
+<div class="form-group">
+<label>Village <span>*</span></label>
+<input id="gazVillage" required>
+</div>
+
+<div class="form-group">
+<label>Pin Code <span>*</span></label>
+<input id="gazPin" maxlength="6" required>
+</div>
+
+
+<!-- OLD NAME -->
+
+<div class="form-group full">
+<h3>Old Name</h3>
+</div>
+
+<div class="form-group">
+<label>First Name <span>*</span></label>
+<input id="oldFirst" required>
+</div>
+
+<div class="form-group">
+<label>Middle Name</label>
+<input id="oldMiddle">
+</div>
+
+<div class="form-group">
+<label>Last Name <span>*</span></label>
+<input id="oldLast" required>
+</div>
+
+
+<!-- NEW NAME -->
+
+<div class="form-group full">
+<h3>New Name</h3>
+</div>
+
+<div class="form-group">
+<label>First Name <span>*</span></label>
+<input id="newFirst" required>
+</div>
+
+<div class="form-group">
+<label>Middle Name</label>
+<input id="newMiddle">
+</div>
+
+<div class="form-group">
+<label>Last Name <span>*</span></label>
+<input id="newLast" required>
+</div>
+
+<div class="form-group full">
+<label>Reason for change of name <span>*</span></label>
+<textarea id="gazReason" required></textarea>
+</div>
+
+<div class="form-group full">
+<label>Agreement / Declaration <span>*</span></label>
+<textarea id="gazDeclaration" required>
+मी दिलेली माहिती माझ्या माहितीनुसार खरी व बरोबर आहे.
+</textarea>
+</div>
+
+
+<!-- DOCUMENTS -->
+
+<div class="form-group full">
+<h3>Documents</h3>
+</div>
+
+<div class="form-group">
+<label>Applicant Photo <span>*</span></label>
+<input type="file" id="gazPhoto" accept=".jpg,.jpeg" required>
+<small>JPEG, less than 20KB</small>
+</div>
+
+<div class="form-group">
+<label>Declaration Document <span>*</span></label>
+<input type="file" id="gazDeclarationFile" accept=".pdf" required>
+<small>PDF 100–500KB</small>
+</div>
+
+<div class="form-group">
+<label>Photo Proof <span>*</span></label>
+<input type="file" id="gazPhotoProof" accept=".pdf" required>
+<small>PDF 100–500KB</small>
+</div>
+
+<div class="form-group">
+<label>Photo Proof Type <span>*</span></label>
+<select id="gazPhotoProofType" required>
+<option value="">Select</option>
+<option>Aadhaar</option>
+<option>PAN</option>
+<option>Passport</option>
+<option>Driving Licence</option>
+<option>Election Card</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Address Proof <span>*</span></label>
+<input type="file" id="gazAddressProof" accept=".pdf" required>
+<small>PDF 100–500KB</small>
+</div>
+
+<div class="form-group">
+<label>Address Proof Type <span>*</span></label>
+<select id="gazAddressProofType" required>
+<option value="">Select</option>
+<option>Aadhaar</option>
+<option>Electricity Bill</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Legal Document Proof <span>*</span></label>
+<input type="file" id="gazLegalProof" accept=".pdf" required>
+<small>PDF 100–500KB</small>
+</div>
+
+<div class="form-group">
+<label>Legal Document Type <span>*</span></label>
+<select id="gazLegalType" required>
+<option value="">Select</option>
+<option>Marriage Certificate</option>
+<option>Affidavit</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Caste Proof</label>
+<input type="file" id="gazCasteProof" accept=".pdf">
+</div>
+
+<div class="form-group">
+<label>Other Documents</label>
+<input type="file" id="gazOther" accept=".pdf">
+</div>
+
+</div>
+
+<div class="form-buttons">
+<button type="reset" class="reset-btn">Reset</button>
+<button type="submit" class="submit-btn">Submit Application</button>
+</div>
+
+</form>
+</div>
+</div>
+
+
+<!-- =========================
+     FOOD LICENSE
+========================= -->
+
+<div class="form-page" id="foodForm">
+
+<div class="form-header">
+<h2>Food License</h2>
+<button class="close-btn" onclick="showDashboard()">Close</button>
+</div>
+
+<div class="form-box">
+
+<div class="notice">
+<b>Food License Category:</b><br>
+Dudh Dairy, Kirana Shop, Retailer, Distributor, Wholesaler, Hawker इत्यादी.
+<br><b>फक्त 1 वर्षासाठी apply करावे.</b>
+</div>
+
+<form id="foodApplicationForm">
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Type of Registration <span>*</span></label>
+<select id="foodRegType" required>
+<option value="">Select</option>
+<option>New</option>
+<option>Renewal</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Shop Name <span>*</span></label>
+<input id="foodShopName" required>
+</div>
+
+<div class="form-group">
+<label>Designation <span>*</span></label>
+<select id="foodDesignation" required>
+<option value="">Select</option>
+<option>Individual</option>
+<option>Partner</option>
+<option>Proprietor</option>
+<option>Co-operative Society</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>PAN No <span>*</span></label>
+<input id="foodPan" required>
+</div>
+
+<div class="form-group">
+<label>Name as per PAN <span>*</span></label>
+<input id="foodPanName" required>
+</div>
+
+<div class="form-group">
+<label>DOB as per PAN <span>*</span></label>
+<input type="date" id="foodPanDob" required>
+</div>
+
+<div class="form-group">
+<label>Aadhaar No <span>*</span></label>
+<input id="foodAadhaar" maxlength="12" required>
+</div>
+
+<div class="form-group">
+<label>Name as per Aadhaar <span>*</span></label>
+<input id="foodAadhaarName" required>
+</div>
+
+<div class="form-group full">
+<label>Kind of Business <span>*</span></label>
+<input id="foodBusinessKind"
+placeholder="Example: Kirana, Hotel, Restaurant, Dudh Dairy, Retailer, Distributor"
+required>
+</div>
+
+<div class="form-group">
+<label>Enter Business Category <span>*</span></label>
+<input id="foodCategory" required>
+</div>
+
+<div class="form-group">
+<label>Business Turnover Yearly (in Lakh) <span>*</span></label>
+<input type="number" id="foodTurnover" min="0" required>
+</div>
+
+
+<!-- PREMISES -->
+
+<div class="form-group full">
+<h3>Premises Address</h3>
+</div>
+
+<div class="form-group full">
+<label>Full Address <span>*</span></label>
+<textarea id="foodAddress" required></textarea>
+</div>
+
+<div class="form-group">
+<label>Nearest Landmark</label>
+<input id="foodLandmark">
+</div>
+
+<div class="form-group">
+<label>Village <span>*</span></label>
+<input id="foodVillage" required>
+</div>
+
+<div class="form-group">
+<label>Taluka <span>*</span></label>
+<input id="foodTaluka" required>
+</div>
+
+<div class="form-group">
+<label>District <span>*</span></label>
+<input id="foodDistrict" required>
+</div>
+
+<div class="form-group">
+<label>Pin Code <span>*</span></label>
+<input id="foodPin" maxlength="6" required>
+</div>
+
+<div class="form-group">
+<label>State <span>*</span></label>
+<select id="foodState" class="state-select" required></select>
+</div>
+
+
+<!-- CORRESPONDENCE -->
+
+<div class="form-group full">
+<h3>Correspondence Address</h3>
+</div>
+
+<div class="form-group">
+<label>Correspondence Address same as Premises? <span>*</span></label>
+<select id="foodSameAddress" required>
+<option value="">Select</option>
+<option>Yes</option>
+<option>No</option>
+</select>
+</div>
+
+<div class="form-group full">
+<label>Full Address</label>
+<textarea id="foodCorrAddress"></textarea>
+</div>
+
+<div class="form-group">
+<label>Village</label>
+<input id="foodCorrVillage">
+</div>
+
+<div class="form-group">
+<label>Taluka</label>
+<input id="foodCorrTaluka">
+</div>
+
+<div class="form-group">
+<label>District</label>
+<input id="foodCorrDistrict">
+</div>
+
+<div class="form-group">
+<label>Pin Code</label>
+<input id="foodCorrPin" maxlength="6">
+</div>
+
+<div class="form-group">
+<label>State</label>
+<select id="foodCorrState" class="state-select"></select>
+</div>
+
+
+<!-- CONTACT -->
+
+<div class="form-group full">
+<h3>Contact Details</h3>
+</div>
+
+<div class="form-group">
+<label>Mobile No <span>*</span></label>
+<input id="foodMobile" maxlength="10" required>
+</div>
+
+<div class="form-group">
+<label>Email-ID</label>
+<input type="email" id="foodEmail">
+</div>
+
+<div class="form-group">
+<label>Shop Owner Name <span>*</span></label>
+<input id="foodOwner" required>
+</div>
+
+<div class="form-group">
+<label>Years you want to apply for <span>*</span></label>
+<input type="number" id="foodYears" value="1" min="1" max="1" required>
+</div>
+
+<div class="form-group full">
+<label>Type of Licence <span>*</span></label>
+<select id="foodLicenceType" required>
+<option value="">Select</option>
+<option>Annual Turnover upto Rs. 1.5Cr [Registration]</option>
+<option>Annual Turnover more than 1.5 Cr to 50 Cr [State License]</option>
+</select>
+</div>
+
+
+<!-- DOCUMENTS -->
+
+<div class="form-group full">
+<h3>Documents</h3>
+</div>
+
+<div class="form-group">
+<label>Passport Photo <span>*</span></label>
+<input type="file" id="foodPhoto" accept=".jpg,.jpeg" required>
+<small>20 KB, .JPG</small>
+</div>
+
+<div class="form-group">
+<label>Aadhar Card <span>*</span></label>
+<input type="file" id="foodAadhar" required>
+</div>
+
+<div class="form-group">
+<label>PAN Card <span>*</span></label>
+<input type="file" id="foodPanFile" required>
+</div>
+
+<div class="form-group">
+<label>ShopAct / Udhyog Aadhaar <span>*</span></label>
+<input type="file" id="foodShopAct" required>
+</div>
+
+<div class="form-group full">
+<label>Light Bill / Rent Agreement <span>*</span></label>
+<input type="file" id="foodLightBill" required>
+<small>
+Light Bill आपल्या नावावर नसल्यास Rent Agreement + Light Bill एकाच PDF मध्ये जोडावे.
+</small>
+</div>
+
+<div class="form-group">
+<label>Shop / Firm Photo <span>*</span></label>
+<input type="file" id="foodFirmPhoto" required>
+</div>
+
+<div class="form-group">
+<label>Other Documents</label>
+<input type="file" id="foodOther">
+<small>उदा. NOC / Water Report इत्यादी</small>
+</div>
+
+</div>
+
+<div class="form-buttons">
+<button type="reset" class="reset-btn">Reset</button>
+<button type="submit" class="submit-btn">Submit Application</button>
+</div>
+
+</form>
+</div>
+</div>
+
+
+<!-- =========================
+     UDYOG AADHAAR
+========================= -->
+
+<div class="form-page" id="udyogForm">
+
+<div class="form-header">
+<h2>Udyog Aadhaar</h2>
+<button class="close-btn" onclick="showDashboard()">Close</button>
+</div>
+
+<div class="form-box">
+
+<div class="notice">
+<b>महत्त्वाची सूचना</b><br>
+Udyog Aadhaar registration साठी customer ला OTP call येईल.<br>
+Office Numbers:
+<b>8208827552 / 7276029094 / 8208608094</b>
+</div>
+
+<form id="udyogApplicationForm">
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Application Type <span>*</span></label>
+<select id="udyogType" required>
+<option value="">Select</option>
+<option>New</option>
+<option>Renewal</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Aadhar ID <span>*</span></label>
+<input id="udyogAadhaar" maxlength="12" required>
+</div>
+
+<div class="form-group">
+<label>PAN No <span>*</span></label>
+<input id="udyogPan" required>
+</div>
+
+<div class="form-group">
+<label>Aadhaar Name <span>*</span></label>
+<input id="udyogAadhaarName" required>
+</div>
+
+<div class="form-group">
+<label>PAN Name <span>*</span></label>
+<input id="udyogPanName" required>
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="udyogEmail">
+</div>
+
+<div class="form-group">
+<label>Mobile No <span>*</span></label>
+<input id="udyogMobile" maxlength="10" required>
+</div>
+
+<div class="form-group">
+<label>DOB <span>*</span></label>
+<input type="date" id="udyogDob" required>
+</div>
+
+<div class="form-group">
+<label>Gender <span>*</span></label>
+<select id="udyogGender" required>
+<option value="">Select</option>
+<option>Male</option>
+<option>Female</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Cast <span>*</span></label>
+<select id="udyogCaste" required>
+<option value="">Select</option>
+<option>OPEN</option>
+<option>OBC</option>
+<option>SC</option>
+<option>ST</option>
+<option>NT</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Is Handicap <span>*</span></label>
+<select id="udyogHandicap" required>
+<option value="">Select</option>
+<option>Yes</option>
+<option>No</option>
+</select>
+</div>
+
+
+<!-- SHOP DETAILS -->
+
+<div class="form-group full">
+<h3>Shop Details</h3>
+</div>
+
+<div class="form-group">
+<label>Shop Name <span>*</span></label>
+<input id="udyogShopName" required>
+</div>
+
+<div class="form-group">
+<label>Category <span>*</span></label>
+<input id="udyogCategory" required>
+</div>
+
+<div class="form-group">
+<label>Shop Start Date <span>*</span></label>
+<input type="date" id="udyogStartDate" required>
+</div>
+
+<div class="form-group">
+<label>Work Type <span>*</span></label>
+<select id="udyogWorkType" required>
+<option value="">Select</option>
+<option>Manufacturing</option>
+<option>Service</option>
+</select>
+</div>
+
+
+<!-- SHOP ADDRESS -->
+
+<div class="form-group full">
+<h3>Shop Address</h3>
+</div>
+
+<div class="form-group">
+<label>Shop No</label>
+<input id="udyogShopNo">
+</div>
+
+<div class="form-group">
+<label>Village / Landmark <span>*</span></label>
+<input id="udyogShopVillage" required>
+</div>
+
+<div class="form-group">
+<label>Post / Street <span>*</span></label>
+<input id="udyogShopPost" required>
+</div>
+
+<div class="form-group">
+<label>Taluka <span>*</span></label>
+<input id="udyogShopTaluka" required>
+</div>
+
+<div class="form-group">
+<label>District <span>*</span></label>
+<input id="udyogShopDistrict" required>
+</div>
+
+<div class="form-group">
+<label>Pin Code <span>*</span></label>
+<input id="udyogShopPin" maxlength="6" required>
+</div>
+
+
+<!-- RESIDENCE -->
+
+<div class="form-group full">
+<h3>Residence Address</h3>
+</div>
+
+<div class="form-group full">
+
+<label style="font-weight:normal">
+<input type="checkbox"
+id="sameResidence"
+style="width:auto;margin-right:8px">
+
+Residence same as shop address.
+</label>
+
+</div>
+
+<div class="form-group">
+<label>Village / Landmark <span>*</span></label>
+<input id="udyogResVillage" required>
+</div>
+
+<div class="form-group">
+<label>Post / Street <span>*</span></label>
+<input id="udyogResPost" required>
+</div>
+
+<div class="form-group">
+<label>Taluka <span>*</span></label>
+<input id="udyogResTaluka" required>
+</div>
+
+<div class="form-group">
+<label>District <span>*</span></label>
+<input id="udyogResDistrict" required>
+</div>
+
+<div class="form-group">
+<label>Pin Code <span>*</span></label>
+<input id="udyogResPin" maxlength="6" required>
+</div>
+
+
+<!-- BANK -->
+
+<div class="form-group full">
+<h3>Bank Details</h3>
+</div>
+
+<div class="form-group">
+<label>Bank Name <span>*</span></label>
+<input id="udyogBank" required>
+</div>
+
+<div class="form-group">
+<label>Account No <span>*</span></label>
+<input id="udyogAccount" required>
+</div>
+
+<div class="form-group">
+<label>IFSC Code <span>*</span></label>
+<input id="udyogIfsc" required>
+</div>
+
+<div class="form-group">
+<label>Is ITR Filled <span>*</span></label>
+<select id="udyogItr" required>
+<option value="">Select</option>
+<option>Yes</option>
+<option>No</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Is GST Filled <span>*</span></label>
+<select id="udyogGst" required>
+<option value="">Select</option>
+<option>Yes</option>
+<option>No</option>
+</select>
+</div>
+
+
+<!-- EMPLOYEE -->
+
+<div class="form-group full">
+<h3>Employee Count</h3>
+</div>
+
+<div class="form-group">
+<label>No. of Male <span>*</span></label>
+<input type="number" id="udyogMale" min="0" required>
+</div>
+
+<div class="form-group">
+<label>No. of Female <span>*</span></label>
+<input type="number" id="udyogFemale" min="0" required>
+</div>
+
+
+<!-- FINANCE -->
+
+<div class="form-group full">
+<h3>Finance</h3>
+</div>
+
+<div class="form-group">
+<label>Investment For Business (in Lakh) <span>*</span></label>
+<input type="number" id="udyogInvestment" min="0" required>
+</div>
+
+<div class="form-group">
+<label>Turnover (in Lakh) <span>*</span></label>
+<input type="number" id="udyogTurnover" min="0" required>
+</div>
+
+
+<!-- DOCUMENTS -->
+
+<div class="form-group full">
+<h3>Documents</h3>
+</div>
+
+<div class="form-group">
+<label>Upload Aadhaar <span>*</span></label>
+<input type="file" id="udyogAadhaarFile"
+accept=".jpg,.jpeg" required>
+<small>Aadhaar/PAN file under 500KB, JPEG</small>
+</div>
+
+<div class="form-group">
+<label>Upload PAN <span>*</span></label>
+<input type="file" id="udyogPanFile"
+accept=".jpg,.jpeg" required>
+<small>Aadhaar/PAN file under 500KB, JPEG</small>
+</div>
+
+</div>
+
+<div class="form-buttons">
+<button type="reset" class="reset-btn">Reset</button>
+<button type="submit" class="submit-btn">Submit Application</button>
+</div>
+
+</form>
+</div>
+</div>
+
+
+<!-- =========================
+     LIST PAGE
+========================= -->
+
+<div class="list-page" id="listPage">
+
+<div class="list-box">
+
+<h2 id="listTitle">Applications</h2>
+
+<br>
+
+<input
+type="text"
+id="searchApplication"
+class="search-box"
+placeholder="Search Application No / Name..."
+onkeyup="searchApplications()">
+
+<div id="applicationTable"></div>
+
+</div>
+
+</div>
+```
+```html
 <script>
-const states=[
-"ANDAMAN AND NICOBAR ISLANDS","ANDHRA PRADESH","ARUNACHAL PRADESH",
-"ASSAM","BIHAR","CHANDIGARH","DADRA & NAGAR HAVELI","DAMAN & DIU",
-"DELHI","GOA","GUJARAT","HARYANA","HIMACHAL PRADESH",
-"JAMMU AND KASHMIR","KARNATAKA","KERALA","LAKSHADWEEP",
-"MADHYA PRADESH","MAHARASHTRA","MANIPUR","MEGHALAYA","MIZORAM",
-"NAGALAND","ODISHA","PONDICHERRY","PUNJAB","RAJASTHAN","SIKKIM",
-"TAMIL NADU","TRIPURA","UTTAR PRADESH","WEST BENGAL","CHHATTISGARH",
-"UTTARAKHAND","JHARKHAND","TELANGANA","LADAKH","OUTSIDE INDIA"
+
+/* =========================
+   AUTH CHECK
+========================= */
+
+if(sessionStorage.getItem("isLoggedIn") !== "true"){
+    window.location.replace("index.html");
+}
+
+
+/* =========================
+   USER
+========================= */
+
+document.getElementById("loginUser").textContent =
+    sessionStorage.getItem("loginUser") ||
+    localStorage.getItem("username") ||
+    "User";
+
+
+/* =========================
+   STATES
+========================= */
+
+const states = [
+"Andhra Pradesh",
+"Arunachal Pradesh",
+"Assam",
+"Bihar",
+"Chhattisgarh",
+"Goa",
+"Gujarat",
+"Haryana",
+"Himachal Pradesh",
+"Jharkhand",
+"Karnataka",
+"Kerala",
+"Madhya Pradesh",
+"Maharashtra",
+"Manipur",
+"Meghalaya",
+"Mizoram",
+"Nagaland",
+"Odisha",
+"Punjab",
+"Rajasthan",
+"Sikkim",
+"Tamil Nadu",
+"Telangana",
+"Tripura",
+"Uttar Pradesh",
+"Uttarakhand",
+"West Bengal",
+"Andaman and Nicobar Islands",
+"Chandigarh",
+"Dadra and Nagar Haveli and Daman and Diu",
+"Delhi",
+"Jammu and Kashmir",
+"Ladakh",
+"Lakshadweep",
+"Puducherry",
+"Outside India"
 ];
 
-const stateOptions=
-`<option value="">Please Select</option>`+
-states.map(x=>`<option>${x}</option>`).join("");
+function loadStates(){
 
-function toggle(id){
- document.getElementById(id).classList.toggle("open");
-}
+    document.querySelectorAll(".state-select").forEach(select=>{
 
-function openSide(){
- document.getElementById("sidebar").classList.toggle("show");
-}
+        select.innerHTML =
+            '<option value="">Select State</option>';
 
-function closeSide(){
- document.getElementById("sidebar").classList.remove("show");
-}
+        states.forEach(state=>{
 
-function serviceMsg(x){
- alert(x+" option is ready for further processing.");
-}
+            const option =
+                document.createElement("option");
 
-function logout(){
- sessionStorage.clear();
- localStorage.removeItem("username");
- localStorage.removeItem("loginStatus");
- location.replace("index.html");
-}
+            option.value = state;
+            option.textContent = state;
 
-document.getElementById("user").textContent=
-sessionStorage.getItem("loginUser")||localStorage.getItem("username")||"User";
+            select.appendChild(option);
 
+        });
 
-/* =========================
-   FORM FIELD HELPERS
-========================= */
+    });
 
-const text=(id,label,req=true,full=false)=>
-`<div class="${full?'full':''}">
-<label>${label}${req?' *':''}</label>
-<input id="${id}" ${req?'required':''}>
-</div>`;
+    const panState =
+        document.getElementById("panState");
 
-const number=(id,label,req=true)=>
-`<div><label>${label}${req?' *':''}</label>
-<input id="${id}" type="number" ${req?'required':''}></div>`;
+    if(panState){
 
-const email=(id,label,req=true)=>
-`<div><label>${label}${req?' *':''}</label>
-<input id="${id}" type="email" ${req?'required':''}></div>`;
+        panState.innerHTML =
+            '<option value="">Select State</option>';
 
-const date=(id,label,req=true)=>
-`<div><label>${label}${req?' *':''}</label>
-<input id="${id}" type="date" ${req?'required':''}></div>`;
+        states.forEach(state=>{
 
-const select=(id,label,options,req=true)=>
-`<div><label>${label}${req?' *':''}</label>
-<select id="${id}" ${req?'required':''}>
-<option value="">-- Select --</option>
-${options.map(x=>`<option>${x}</option>`).join("")}
-</select></div>`;
+            const option =
+                document.createElement("option");
 
-const file=(id,label,accept="",req=true)=>
-`<div><label>${label}${req?' *':''}</label>
-<input id="${id}" type="file" accept="${accept}" ${req?'required':''}></div>`;
+            option.value = state;
+            option.textContent = state;
 
-const statesField=(id,label)=>
-`<div><label>${label} *</label>
-<select id="${id}" required>${stateOptions}</select></div>`;
+            panState.appendChild(option);
 
-function formStart(title){
- return `<h2>${title}</h2>
- <form id="serviceForm"><div class="formgrid">`;
-}
-
-function formEnd(){
- return `</div>
- <button class="btn" type="submit">Submit Application</button>
- <button class="btn gray" type="button" onclick="home()">Cancel</button>
- </form>`;
+        });
+    }
 }
 
 
 /* =========================
-   NEW FORM
+   SIDEBAR
 ========================= */
 
-function newForm(type){
+function toggleSidebar(){
 
- closeSide();
+    document
+    .getElementById("sidebar")
+    .classList.toggle("open");
 
- let h="";
+}
 
- if(type==="pan") h=panForm();
- if(type==="shop") h=shopForm();
- if(type==="gaz") h=gazForm();
- if(type==="food") h=foodForm();
- if(type==="udyog") h=udyogForm();
+function toggleMenu(id,button){
 
- document.getElementById("dashboard").classList.add("hidden");
- document.getElementById("listBox").classList.add("hidden");
+    const menu =
+        document.getElementById(id);
 
- const box=document.getElementById("formBox");
- box.innerHTML=h;
- box.classList.remove("hidden");
+    menu.classList.toggle("show");
 
- document.getElementById("title").textContent=
- type==="pan"?"Physical PAN":
- type==="shop"?"Shop Act Licence":
- type==="gaz"?"Gazetted Certificate":
- type==="food"?"Food License":"Udyog Aadhaar";
+    button.classList.toggle("open");
 
- document.getElementById("serviceForm").onsubmit=
- function(e){
-  e.preventDefault();
-  saveForm(type);
- };
 }
 
 
 /* =========================
-   PAN
+   PAGE CONTROL
 ========================= */
 
-function panForm(){
+function hideAllPages(){
 
- return formStart("Physical PAN")+
+    document
+    .querySelectorAll(".form-page,.list-page")
+    .forEach(page=>{
+        page.classList.remove("show");
+    });
 
- select("panType","PAN Type",["New PAN","PAN Correction"])+
- text("oldPan","Old PAN",false)+
- select("titleName","Title",["SHRI","SMT","KUMARI"])+
- select("gender","Gender",["MALE","FEMALE","TRANSGENDER"])+
- text("fullName","Full Name")+
- text("fatherName","Father Full Name")+
- date("dob","Date of Birth")+
- text("mobile","Mobile No")+
- email("email","Email",false)+
- text("aadhaar","Aadhaar No")+
- select("dobProof","DOB Proof",[
- "Birth Certificate","Pension Payment Order","Marriage Certificate",
- "Matriculation Certificate","Passport","Driving License",
- "Domicile Certificate","Affidavit","Matriculation Marksheet",
- "Elector's Photo ID Card","AABHA CARD","CGHS Card","ECHS Photo Card"
- ])+
- statesField("dispatchState","Dispatch State")+
- text("pin","Pin Code")+
- text("house","House / Address",true,true)+
- text("village","Village")+
- text("tehsil","Tehsil")+
- text("post","Post")+
- text("district","District")+
+    document
+    .getElementById("dashboardPage")
+    .style.display = "block";
 
- formEnd();
+}
+
+
+function showDashboard(){
+
+    hideAllPages();
+
+    document
+    .getElementById("pageTitle")
+    .textContent = "Dashboard";
+
+    if(window.innerWidth <= 768){
+
+        document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    }
+
+    updateStats();
+
+}
+
+
+function openForm(event,id){
+
+    if(event){
+        event.preventDefault();
+    }
+
+    document
+    .getElementById("dashboardPage")
+    .style.display = "none";
+
+    document
+    .querySelectorAll(".form-page,.list-page")
+    .forEach(page=>{
+        page.classList.remove("show");
+    });
+
+    const page =
+        document.getElementById(id);
+
+    if(page){
+
+        page.classList.add("show");
+
+        const title =
+            page.querySelector(".form-header h2");
+
+        document
+        .getElementById("pageTitle")
+        .textContent =
+            title ? title.textContent : "Application";
+
+    }
+
+    if(window.innerWidth <= 768){
+
+        document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    }
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 }
 
 
 /* =========================
-   SHOP ACT
+   APPLICATION STORAGE
 ========================= */
 
-function shopForm(){
+const storageKeys = {
 
- return formStart("Shop Act Licence")+
+    pan:"panApplications",
 
- select("reg","Type of Registration",["New","Renewal"])+
- text("fullName","Full Name (As Per Aadhaar)")+
- text("mobile","Mobile No")+
- email("email","Email",false)+
- text("aadhaar","Aadhaar ID")+
- date("dob","DOB")+
- select("gender","Gender",["Male","Female"])+
+    shop:"shopActApplications",
 
- text("resAddress","Residential Full Address",true,true)+
- statesField("resState","Residential State")+
- text("resDistrict","Residential District")+
- text("resTaluka","Residential Taluka")+
- text("resPin","Residential Pin Code")+
+    gaz:"gazettedApplications",
 
- text("shopAddress","Shop Full Address",true,true)+
- statesField("shopState","Shop State")+
- text("shopDistrict","Shop District")+
- text("shopTaluka","Shop Taluka")+
- text("shopPin","Shop Pin Code")+
+    food:"foodLicenseApplications",
 
- text("shopName","Shop Name")+
- text("shopNameMr","दुकानाचे नाव")+
- text("business","Type of Business",true,true)+
- select("enterprise","Type of Enterprise / Business",["Small","Medium","Large"])+
- select("ownership","Ownership of Premises",["Rented","Owned"])+
- date("startDate","Date of Start")+
- number("employees","Total Employees")+
- number("maleEmployees","No of Male Employees")+
- number("femaleEmployees","No of Female Employees")+
- text("remark","Remark",false,true)+
+    udyog:"udyogApplications"
 
- file("photo","Photo of Applicant",".jpg,.jpeg")+
- file("signature","Signature of Applicant",".jpg,.jpeg")+
- file("aadharFile","Aadhar Card Photo",".jpg,.jpeg")+
- file("panFile","Pan Card Photo",".jpg,.jpeg")+
- file("shopPhoto","Shop Photo",".jpg,.jpeg")+
+};
 
- formEnd();
+
+function getApplications(type){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(storageKeys[type]) || "[]"
+        );
+
+    }catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+function saveApplications(type,data){
+
+    localStorage.setItem(
+        storageKeys[type],
+        JSON.stringify(data)
+    );
+
+}
+
+
+function createApplicationNumber(prefix){
+
+    const now =
+        new Date();
+
+    const date =
+        now.getFullYear().toString() +
+        String(now.getMonth()+1).padStart(2,"0") +
+        String(now.getDate()).padStart(2,"0");
+
+    const time =
+        String(now.getHours()).padStart(2,"0") +
+        String(now.getMinutes()).padStart(2,"0") +
+        String(now.getSeconds()).padStart(2,"0");
+
+    const random =
+        Math.floor(100 + Math.random()*900);
+
+    return prefix + date + time + random;
+
 }
 
 
 /* =========================
-   GAZETTED
+   FILE INFORMATION
 ========================= */
 
-function gazForm(){
+function getFileInfo(id){
 
- return formStart("Gazetted Certificate")+
+    const input =
+        document.getElementById(id);
 
- select("caste","Caste",[
- "Open/OBC Category - Rs: 749",
- "Backward: (SBC/ST/VJ/SC/NT) - Rs: 499"
- ])+
+    if(!input || !input.files.length){
+        return null;
+    }
 
- select("minor","Minor / अर्जदार अल्पवयीन आहे का?",["Yes","No"])+
+    const file =
+        input.files[0];
 
- select("salutation","Salutation",["श्री","सौ","कुमारी"])+
- text("fullName","Full Name (As per Aadhaar Card)")+
- text("uid","UID / आधार क्रमांक")+
- text("marathiName","Full Name (Marathi)")+
- date("birth","Birthdate")+
- number("age","Age")+
- select("gender","Gender",["Male","Female"])+
- text("mobile","Mobile No")+
- email("email","Email",false)+
+    return {
 
- text("address","Full Address",true,true)+
- text("district","District")+
- text("taluka","Taluka")+
- text("village","Village")+
- text("pin","Pin Code")+
+        name:file.name,
 
- text("oldFirst","Old Name - First Name")+
- text("oldMiddle","Old Name - Middle Name")+
- text("oldLast","Old Name - Last Name")+
+        size:file.size,
 
- text("newFirst","New Name - First Name")+
- text("newMiddle","New Name - Middle Name")+
- text("newLast","New Name - Last Name")+
+        type:file.type
 
- text("reason","Reason for change of name",true,true)+
+    };
 
- file("photo","Applicant Photo (Under 20KB)",".jpg,.jpeg")+
- file("declaration","Declaration Document",".pdf")+
- file("photoProof","Photo Proof",".pdf")+
- select("photoProofType","Photo Proof Type",[
- "Aadhar Card","Pan Card","Passport","Driving Licence","Election Card"
- ])+
- file("addressProof","Address Proof",".pdf")+
- select("addressProofType","Address Proof Type",[
- "Aadhar Card","Electricity Bill"
- ])+
- file("legalProof","Legal Document Proof",".pdf")+
- select("legalProofType","Legal Document Type",[
- "Marriage Certificate","Affidavit"
- ])+
- file("casteProof","Caste Proof",".pdf",false)+
- file("other","Other Documents",".pdf",false)+
-
- formEnd();
 }
 
 
 /* =========================
-   FOOD LICENSE
+   FILE VALIDATION
 ========================= */
 
-function foodForm(){
+function validateFile(
+    inputId,
+    extensions,
+    maxKB,
+    minKB = 0
+){
 
- return formStart("Food Safety & Standards - Food License")+
+    const input =
+        document.getElementById(inputId);
 
- `<div class="full">
- <b>Food License Category:</b>
- Dudh Dairy, Kirana Shop, Retailer, Distributor, Wholesaler,
- Hawker, etc. — फक्त १ वर्षासाठी apply करावे.
- </div>`+
+    if(!input || !input.files.length){
+        return true;
+    }
 
- select("reg","Type of Registration",["New","Renewal"])+
- text("shopName","Shop Name")+
- select("designation","Designation",[
- "Individual","Partner","Proprietor","Co-operative Society","Other"
- ])+
- text("pan","PAN No")+
- text("panName","Name as per PAN")+
- date("panDob","DOB as per PAN")+
- text("aadhaar","Aadhaar No")+
- text("aadhaarName","Name as per Aadhaar")+
- text("businessKind","Kind of Business",true,true)+
- text("category","Business Category")+
- number("turnover","Business Turnover Yearly (In Lakh)")+
+    const file =
+        input.files[0];
 
- text("address","Full Address",true,true)+
- text("landmark","Nearest Landmark")+
- text("village","Village")+
- text("taluka","Taluka")+
- text("district","District")+
- text("pin","Pin Code")+
- statesField("state","State")+
+    const fileName =
+        file.name.toLowerCase();
 
- select("same","Correspondence Address same as Premises?",["Yes","No"])+
+    const validExtension =
+        extensions.some(ext =>
+            fileName.endsWith(ext)
+        );
 
- text("corrAddress","Correspondence Full Address",true,true)+
- text("corrVillage","Correspondence Village")+
- text("corrTaluka","Correspondence Taluka")+
- text("corrDistrict","Correspondence District")+
- text("corrPin","Correspondence Pin Code")+
- statesField("corrState","Correspondence State")+
+    if(!validExtension){
 
- text("mobile","Mobile No")+
- email("email","Email-ID",false)+
- text("owner","Shop Owner Name")+
- number("years","Years you want to apply for")+
+        alert(
+            "Invalid file format.\nAllowed: " +
+            extensions.join(", ")
+        );
 
- select("license","Type Of Licence",[
- "Annual Turnover upto Rs. 1.5Cr [Registration]",
- "Annual Turnover more than 1.5 Cr to 50 Cr [State License]"
- ])+
+        return false;
 
- file("photo","Passport Photo (20 KB)",".jpg,.jpeg")+
- file("aadharFile","Aadhar Card")+
- file("panFile","PAN Card")+
- file("shopAct","ShopAct / Udhyog Aadhaar")+
- file("light","Light Bill / Rent Agreement")+
- file("firmPhoto","Shop/Firm Photo")+
- file("other","Other Documents (Optional)","",false)+
+    }
 
- formEnd();
+    const sizeKB =
+        file.size / 1024;
+
+    if(sizeKB > maxKB){
+
+        alert(
+            "File size should be less than " +
+            maxKB + " KB."
+        );
+
+        return false;
+
+    }
+
+    if(sizeKB < minKB){
+
+        alert(
+            "File size should be at least " +
+            minKB + " KB."
+        );
+
+        return false;
+
+    }
+
+    return true;
+
 }
 
 
 /* =========================
-   UDYOG AADHAAR
+   PAN SUBMIT
 ========================= */
 
-function udyogForm(){
+document
+.getElementById("panApplicationForm")
+.addEventListener("submit",function(e){
 
- return formStart("Udyog Aadhaar")+
+    e.preventDefault();
 
- `<div class="full">
- <b>OTP सूचना:</b><br>
- Udyog Aadhaar नोंदणीसाठी ऑफिस नंबरवरून ग्राहकाला OTP साठी कॉल येईल.<br>
- ऑफिस नंबर: 8208827552 / 7276029094 / 8208608094
- </div>`+
+    const mobile =
+        document.getElementById("panMobile").value.trim();
 
- select("applicationType","Application Type",["New","Renewal"])+
- text("aadhaar","Aadhaar ID")+
- text("pan","PAN No")+
- text("aadhaarName","Aadhaar Name")+
- text("panName","PAN Name")+
- email("email","Email")+
- text("mobile","Mobile No")+
- date("dob","DOB")+
- select("gender","Gender",["Male","Female"])+
- select("caste","Cast",["OPEN","OBC","SC","ST","NT"])+
- select("handicap","Is Handicap",["Yes","No"])+
+    const aadhaar =
+        document.getElementById("panAadhaar").value.trim();
 
- text("shopName","Shop Name")+
- text("category","Category")+
- date("shopDate","Shop Start Date")+
- select("workType","Work Type",["Manufacturing","Service"])+
+    const panType =
+        document.getElementById("panType").value;
 
- text("shopNo","Shop No",false)+
- text("shopVillage","Village / Landmark")+
- text("shopPost","Post / Street")+
- text("shopTaluka","Taluka")+
- text("shopDistrict","District")+
- text("shopPin","Pin Code")+
+    if(!/^[0-9]{10}$/.test(mobile)){
 
- `<div class="full">
- <label><input type="checkbox" id="sameResidence"
- style="width:auto"> Residence same as shop address</label>
- </div>`+
+        alert("Enter valid 10 digit mobile number.");
 
- text("resVillage","Residence Village / Landmark")+
- text("resPost","Residence Post / Street")+
- text("resTaluka","Residence Taluka")+
- text("resDistrict","Residence District")+
- text("resPin","Residence Pin Code")+
+        return;
 
- text("bank","Bank Name")+
- text("account","Account No")+
- text("ifsc","IFSC Code")+
- select("itr","Is ITR Filled",["Yes","No"])+
- select("gst","Is GST Filled",["Yes","No"])+
+    }
 
- number("male","No. of Male")+
- number("female","No. of Female")+
+    if(!/^[0-9]{12}$/.test(aadhaar)){
 
- number("investment","Investment For Business (in Lakh)")+
- number("businessTurnover","Turnover (in Lakh)")+
+        alert("Enter valid 12 digit Aadhaar number.");
 
- file("aadhaarFile","Upload Aadhaar",".jpg,.jpeg")+
- file("panFile","Upload PAN",".jpg,.jpeg")+
+        return;
 
- formEnd();
+    }
+
+    if(
+        panType === "PAN Correction" &&
+        !document.getElementById("oldPan").value.trim()
+    ){
+
+        alert("Old PAN is required for PAN Correction.");
+
+        return;
+
+    }
+
+    const application = {
+
+        applicationNumber:
+            createApplicationNumber("PAN"),
+
+        userId:
+            localStorage.getItem("username") || "",
+
+        panType:
+            document.getElementById("panType").value,
+
+        oldPan:
+            document.getElementById("oldPan").value.trim(),
+
+        title:
+            document.getElementById("panTitle").value,
+
+        gender:
+            document.getElementById("panGender").value,
+
+        fullName:
+            document.getElementById("panFullName").value.trim(),
+
+        fatherName:
+            document.getElementById("panFatherName").value.trim(),
+
+        dob:
+            document.getElementById("panDob").value,
+
+        mobile:mobile,
+
+        email:
+            document.getElementById("panEmail").value.trim(),
+
+        aadhaar:aadhaar,
+
+        dobProof:
+            document.getElementById("panDobProof").value,
+
+        dispatchState:
+            document.getElementById("panState").value,
+
+        pinCode:
+            document.getElementById("panPin").value.trim(),
+
+        house:
+            document.getElementById("panHouse").value.trim(),
+
+        village:
+            document.getElementById("panVillage").value.trim(),
+
+        tehsil:
+            document.getElementById("panTehsil").value.trim(),
+
+        post:
+            document.getElementById("panPost").value.trim(),
+
+        district:
+            document.getElementById("panDistrict").value.trim(),
+
+        status:"Pending",
+
+        service:"Physical PAN",
+
+        submittedAt:
+            new Date().toISOString()
+
+    };
+
+    const applications =
+        getApplications("pan");
+
+    applications.push(application);
+
+    saveApplications(
+        "pan",
+        applications
+    );
+
+    localStorage.setItem(
+        "lastPanApplication",
+        JSON.stringify(application)
+    );
+
+    alert(
+        "PAN Application Submitted Successfully!\n\n" +
+        "Application No: " +
+        application.applicationNumber
+    );
+
+    this.reset();
+
+    updateStats();
+
+    openList(
+        null,
+        "pan",
+        "All"
+    );
+
+});
+
+
+/* =========================
+   SHOP ACT SUBMIT
+========================= */
+
+document
+.getElementById("shopApplicationForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const mobile =
+        document.getElementById("shopMobile").value.trim();
+
+    const aadhaar =
+        document.getElementById("shopAadhaar").value.trim();
+
+    if(!/^[0-9]{10}$/.test(mobile)){
+
+        alert("Enter valid 10 digit mobile number.");
+
+        return;
+
+    }
+
+    if(!/^[0-9]{12}$/.test(aadhaar)){
+
+        alert("Enter valid 12 digit Aadhaar number.");
+
+        return;
+
+    }
+
+    if(
+        !validateFile(
+            "shopPhoto",
+            [".jpg",".jpeg"],
+            20
+        )
+    ) return;
+
+    if(
+        !validateFile(
+            "shopSignature",
+            [".jpg",".jpeg"],
+            20
+        )
+    ) return;
+
+    const application = {
+
+        applicationNumber:
+            createApplicationNumber("SHOP"),
+
+        service:"Shop Act",
+
+        userId:
+            localStorage.getItem("username") || "",
+
+        registrationType:
+            document.getElementById("shopRegType").value,
+
+        fullName:
+            document.getElementById("shopFullName").value.trim(),
+
+        fullNameMarathi:
+            document.getElementById("shopFullNameMr").value.trim(),
+
+        mobile,
+
+        email:
+            document.getElementById("shopEmail").value.trim(),
+
+        aadhaar,
+
+        dob:
+            document.getElementById("shopDob").value,
+
+        gender:
+            document.getElementById("shopGender").value,
+
+        residentialAddress:{
+            address:
+                document.getElementById("resFullAddress").value.trim(),
+
+            state:
+                document.getElementById("resState").value,
+
+            district:
+                document.getElementById("resDistrict").value.trim(),
+
+            taluka:
+                document.getElementById("resTaluka").value.trim(),
+
+            pin:
+                document.getElementById("resPin").value.trim()
+        },
+
+        shopAddress:{
+            address:
+                document.getElementById("shopFullAddress").value.trim(),
+
+            state:
+                document.getElementById("shopState").value,
+
+            district:
+                document.getElementById("shopDistrict").value.trim(),
+
+            taluka:
+                document.getElementById("shopTaluka").value.trim(),
+
+            pin:
+                document.getElementById("shopPin").value.trim()
+        },
+
+        business:{
+            shopName:
+                document.getElementById("businessShopName").value.trim(),
+
+            shopNameMarathi:
+                document.getElementById("businessShopNameMr").value.trim(),
+
+            businessType:
+                document.getElementById("businessType").value.trim(),
+
+            enterpriseType:
+                document.getElementById("enterpriseType").value,
+
+            ownership:
+                document.getElementById("premisesOwnership").value,
+
+            startDate:
+                document.getElementById("businessStartDate").value,
+
+            totalEmployees:
+                document.getElementById("totalEmployees").value,
+
+            maleEmployees:
+                document.getElementById("maleEmployees").value,
+
+            femaleEmployees:
+                document.getElementById("femaleEmployees").value,
+
+            remark:
+                document.getElementById("shopRemark").value.trim()
+        },
+
+        documents:{
+            applicantPhoto:getFileInfo("shopPhoto"),
+            signature:getFileInfo("shopSignature"),
+            aadhaar:getFileInfo("shopAadharFile"),
+            pan:getFileInfo("shopPanFile"),
+            shopPhoto:getFileInfo("shopPhotoFile")
+        },
+
+        status:"Pending",
+
+        submittedAt:
+            new Date().toISOString()
+
+    };
+
+    const applications =
+        getApplications("shop");
+
+    applications.push(application);
+
+    saveApplications(
+        "shop",
+        applications
+    );
+
+    alert(
+        "Shop Act Application Submitted Successfully!\n\n" +
+        "Application No: " +
+        application.applicationNumber
+    );
+
+    this.reset();
+
+    updateStats();
+
+    openList(
+        null,
+        "shop",
+        "All"
+    );
+
+});
+
+
+/* =========================
+   GAZETTED SUBMIT
+========================= */
+
+document
+.getElementById("gazApplicationForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const mobile =
+        document.getElementById("gazMobile").value.trim();
+
+    const aadhaar =
+        document.getElementById("gazAadhaar").value.trim();
+
+    if(!/^[0-9]{10}$/.test(mobile)){
+
+        alert("Enter valid 10 digit mobile number.");
+
+        return;
+
+    }
+
+    if(!/^[0-9]{12}$/.test(aadhaar)){
+
+        alert("Enter valid 12 digit Aadhaar number.");
+
+        return;
+
+    }
+
+    if(
+        !validateFile(
+            "gazPhoto",
+            [".jpg",".jpeg"],
+            20
+        )
+    ) return;
+
+    const application = {
+
+        applicationNumber:
+            createApplicationNumber("GAZ"),
+
+        service:"Gazetted Certificate",
+
+        userId:
+            localStorage.getItem("username") || "",
+
+        caste:
+            document.getElementById("gazCaste").value,
+
+        minor:
+            document.getElementById("gazMinor").value,
+
+        salutation:
+            document.getElementById("gazSalutation").value,
+
+        fullName:
+            document.getElementById("gazFullName").value.trim(),
+
+        aadhaar,
+
+        marathiName:
+            document.getElementById("gazMarathiName").value.trim(),
+
+        birthdate:
+            document.getElementById("gazBirthdate").value,
+
+        age:
+            document.getElementById("gazAge").value,
+
+        gender:
+            document.getElementById("gazGender").value,
+
+        mobile,
+
+        email:
+            document.getElementById("gazEmail").value.trim(),
+
+        address:{
+            fullAddress:
+                document.getElementById("gazAddress").value.trim(),
+
+            district:
+                document.getElementById("gazDistrict").value.trim(),
+
+            taluka:
+                document.getElementById("gazTaluka").value.trim(),
+
+            village:
+                document.getElementById("gazVillage").value.trim(),
+
+            pin:
+                document.getElementById("gazPin").value.trim()
+        },
+
+        oldName:{
+            first:
+                document.getElementById("oldFirst").value.trim(),
+
+            middle:
+                document.getElementById("oldMiddle").value.trim(),
+
+            last:
+                document.getElementById("oldLast").value.trim()
+        },
+
+        newName:{
+            first:
+                document.getElementById("newFirst").value.trim(),
+
+            middle:
+                document.getElementById("newMiddle").value.trim(),
+
+            last:
+                document.getElementById("newLast").value.trim()
+        },
+
+        reason:
+            document.getElementById("gazReason").value.trim(),
+
+        declaration:
+            document.getElementById("gazDeclaration").value.trim(),
+
+        documents:{
+            applicantPhoto:getFileInfo("gazPhoto"),
+            declaration:getFileInfo("gazDeclarationFile"),
+            photoProof:getFileInfo("gazPhotoProof"),
+            photoProofType:
+                document.getElementById("gazPhotoProofType").value,
+            addressProof:getFileInfo("gazAddressProof"),
+            addressProofType:
+                document.getElementById("gazAddressProofType").value,
+            legalProof:getFileInfo("gazLegalProof"),
+            legalType:
+                document.getElementById("gazLegalType").value,
+            casteProof:getFileInfo("gazCasteProof"),
+            other:getFileInfo("gazOther")
+        },
+
+        status:"Pending",
+
+        submittedAt:
+            new Date().toISOString()
+
+    };
+
+    const applications =
+        getApplications("gaz");
+
+    applications.push(application);
+
+    saveApplications(
+        "gaz",
+        applications
+    );
+
+    alert(
+        "Gazetted Certificate Application Submitted Successfully!\n\n" +
+        "Application No: " +
+        application.applicationNumber
+    );
+
+    this.reset();
+
+    updateStats();
+
+    openList(
+        null,
+        "gaz",
+        "All"
+    );
+
+});
+
+
+/* =========================
+   FOOD LICENSE SUBMIT
+========================= */
+
+document
+.getElementById("foodApplicationForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const mobile =
+        document.getElementById("foodMobile").value.trim();
+
+    const aadhaar =
+        document.getElementById("foodAadhaar").value.trim();
+
+    if(!/^[0-9]{10}$/.test(mobile)){
+
+        alert("Enter valid 10 digit mobile number.");
+
+        return;
+
+    }
+
+    if(!/^[0-9]{12}$/.test(aadhaar)){
+
+        alert("Enter valid 12 digit Aadhaar number.");
+
+        return;
+
+    }
+
+    const application = {
+
+        applicationNumber:
+            createApplicationNumber("FOOD"),
+
+        service:"Food License",
+
+        userId:
+            localStorage.getItem("username") || "",
+
+        registrationType:
+            document.getElementById("foodRegType").value,
+
+        shopName:
+            document.getElementById("foodShopName").value.trim(),
+
+        designation:
+            document.getElementById("foodDesignation").value,
+
+        pan:
+            document.getElementById("foodPan").value.trim(),
+
+        panName:
+            document.getElementById("foodPanName").value.trim(),
+
+        panDob:
+            document.getElementById("foodPanDob").value,
+
+        aadhaar,
+
+        aadhaarName:
+            document.getElementById("foodAadhaarName").value.trim(),
+
+        businessKind:
+            document.getElementById("foodBusinessKind").value.trim(),
+
+        businessCategory:
+            document.getElementById("foodCategory").value.trim(),
+
+        yearlyTurnover:
+            document.getElementById("foodTurnover").value,
+
+        premises:{
+            address:
+                document.getElementById("foodAddress").value.trim(),
+
+            landmark:
+                document.getElementById("foodLandmark").value.trim(),
+
+            village:
+                document.getElementById("foodVillage").value.trim(),
+
+            taluka:
+                document.getElementById("foodTaluka").value.trim(),
+
+            district:
+                document.getElementById("foodDistrict").value.trim(),
+
+            pin:
+                document.getElementById("foodPin").value.trim(),
+
+            state:
+                document.getElementById("foodState").value
+        },
+
+        correspondence:{
+            same:
+                document.getElementById("foodSameAddress").value,
+
+            address:
+                document.getElementById("foodCorrAddress").value.trim(),
+
+            village:
+                document.getElementById("foodCorrVillage").value.trim(),
+
+            taluka:
+                document.getElementById("foodCorrTaluka").value.trim(),
+
+            district:
+                document.getElementById("foodCorrDistrict").value.trim(),
+
+            pin:
+                document.getElementById("foodCorrPin").value.trim(),
+
+            state:
+                document.getElementById("foodCorrState").value
+        },
+
+        contact:{
+            mobile,
+
+            email:
+                document.getElementById("foodEmail").value.trim(),
+
+            owner:
+                document.getElementById("foodOwner").value.trim(),
+
+            years:
+                document.getElementById("foodYears").value,
+
+            licenceType:
+                document.getElementById("foodLicenceType").value
+        },
+
+        documents:{
+            passportPhoto:getFileInfo("foodPhoto"),
+            aadhaar:getFileInfo("foodAadhar"),
+            pan:getFileInfo("foodPanFile"),
+            shopAct:getFileInfo("foodShopAct"),
+            lightBill:getFileInfo("foodLightBill"),
+            firmPhoto:getFileInfo("foodFirmPhoto"),
+            other:getFileInfo("foodOther")
+        },
+
+        status:"Pending",
+
+        submittedAt:
+            new Date().toISOString()
+
+    };
+
+    const applications =
+        getApplications("food");
+
+    applications.push(application);
+
+    saveApplications(
+        "food",
+        applications
+    );
+
+    alert(
+        "Food License Application Submitted Successfully!\n\n" +
+        "Application No: " +
+        application.applicationNumber
+    );
+
+    this.reset();
+
+    document.getElementById("foodYears").value = "1";
+
+    updateStats();
+
+    openList(
+        null,
+        "food",
+        "All"
+    );
+
+});
+
+
+/* =========================
+   UDYOG SUBMIT
+========================= */
+
+document
+.getElementById("udyogApplicationForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const mobile =
+        document.getElementById("udyogMobile").value.trim();
+
+    const aadhaar =
+        document.getElementById("udyogAadhaar").value.trim();
+
+    if(!/^[0-9]{10}$/.test(mobile)){
+
+        alert("Enter valid 10 digit mobile number.");
+
+        return;
+
+    }
+
+    if(!/^[0-9]{12}$/.test(aadhaar)){
+
+        alert("Enter valid 12 digit Aadhaar number.");
+
+        return;
+
+    }
+
+    const application = {
+
+        applicationNumber:
+            createApplicationNumber("UDYOG"),
+
+        service:"Udyog Aadhaar",
+
+        userId:
+            localStorage.getItem("username") || "",
+
+        applicationType:
+            document.getElementById("udyogType").value,
+
+        aadhaar,
+
+        pan:
+            document.getElementById("udyogPan").value.trim(),
+
+        aadhaarName:
+            document.getElementById("udyogAadhaarName").value.trim(),
+
+        panName:
+            document.getElementById("udyogPanName").value.trim(),
+
+        email:
+            document.getElementById("udyogEmail").value.trim(),
+
+        mobile,
+
+        dob:
+            document.getElementById("udyogDob").value,
+
+        gender:
+            document.getElementById("udyogGender").value,
+
+        caste:
+            document.getElementById("udyogCaste").value,
+
+        handicap:
+            document.getElementById("udyogHandicap").value,
+
+        shop:{
+            name:
+                document.getElementById("udyogShopName").value.trim(),
+
+            category:
+                document.getElementById("udyogCategory").value.trim(),
+
+            startDate:
+                document.getElementById("udyogStartDate").value,
+
+            workType:
+                document.getElementById("udyogWorkType").value
+        },
+
+        shopAddress:{
+            shopNo:
+                document.getElementById("udyogShopNo").value.trim(),
+
+            village:
+                document.getElementById("udyogShopVillage").value.trim(),
+
+            post:
+                document.getElementById("udyogShopPost").value.trim(),
+
+            taluka:
+                document.getElementById("udyogShopTaluka").value.trim(),
+
+            district:
+                document.getElementById("udyogShopDistrict").value.trim(),
+
+            pin:
+                document.getElementById("udyogShopPin").value.trim()
+        },
+
+        residenceAddress:{
+            sameAsShop:
+                document.getElementById("sameResidence").checked,
+
+            village:
+                document.getElementById("udyogResVillage").value.trim(),
+
+            post:
+                document.getElementById("udyogResPost").value.trim(),
+
+            taluka:
+                document.getElementById("udyogResTaluka").value.trim(),
+
+            district:
+                document.getElementById("udyogResDistrict").value.trim(),
+
+            pin:
+                document.getElementById("udyogResPin").value.trim()
+        },
+
+        bank:{
+            bankName:
+                document.getElementById("udyogBank").value.trim(),
+
+            account:
+                document.getElementById("udyogAccount").value.trim(),
+
+            ifsc:
+                document.getElementById("udyogIfsc").value.trim(),
+
+            itr:
+                document.getElementById("udyogItr").value,
+
+            gst:
+                document.getElementById("udyogGst").value
+        },
+
+        employees:{
+            male:
+                document.getElementById("udyogMale").value,
+
+            female:
+                document.getElementById("udyogFemale").value
+        },
+
+        finance:{
+            investment:
+                document.getElementById("udyogInvestment").value,
+
+            turnover:
+                document.getElementById("udyogTurnover").value
+        },
+
+        documents:{
+            aadhaar:getFileInfo("udyogAadhaarFile"),
+            pan:getFileInfo("udyogPanFile")
+        },
+
+        status:"Pending",
+
+        submittedAt:
+            new Date().toISOString()
+
+    };
+
+    const applications =
+        getApplications("udyog");
+
+    applications.push(application);
+
+    saveApplications(
+        "udyog",
+        applications
+    );
+
+    alert(
+        "Udyog Aadhaar Application Submitted Successfully!\n\n" +
+        "Application No: " +
+        application.applicationNumber
+    );
+
+    this.reset();
+
+    updateStats();
+
+    openList(
+        null,
+        "udyog",
+        "All"
+    );
+
+});
+
+
+/* =========================
+   RESIDENCE SAME ADDRESS
+========================= */
+
+document
+.getElementById("sameResidence")
+.addEventListener("change",function(){
+
+    if(!this.checked){
+        return;
+    }
+
+    document.getElementById("udyogResVillage").value =
+        document.getElementById("udyogShopVillage").value;
+
+    document.getElementById("udyogResPost").value =
+        document.getElementById("udyogShopPost").value;
+
+    document.getElementById("udyogResTaluka").value =
+        document.getElementById("udyogShopTaluka").value;
+
+    document.getElementById("udyogResDistrict").value =
+        document.getElementById("udyogShopDistrict").value;
+
+    document.getElementById("udyogResPin").value =
+        document.getElementById("udyogShopPin").value;
+
+});
+
+
+/* =========================
+   FOOD SAME ADDRESS
+========================= */
+
+document
+.getElementById("foodSameAddress")
+.addEventListener("change",function(){
+
+    if(this.value !== "Yes"){
+        return;
+    }
+
+    document.getElementById("foodCorrAddress").value =
+        document.getElementById("foodAddress").value;
+
+    document.getElementById("foodCorrVillage").value =
+        document.getElementById("foodVillage").value;
+
+    document.getElementById("foodCorrTaluka").value =
+        document.getElementById("foodTaluka").value;
+
+    document.getElementById("foodCorrDistrict").value =
+        document.getElementById("foodDistrict").value;
+
+    document.getElementById("foodCorrPin").value =
+        document.getElementById("foodPin").value;
+
+    document.getElementById("foodCorrState").value =
+        document.getElementById("foodState").value;
+
+});
+
+
+/* =========================
+   OPEN APPLICATION LIST
+========================= */
+
+function openList(event,type,status){
+
+    if(event){
+        event.preventDefault();
+    }
+
+    document
+    .getElementById("dashboardPage")
+    .style.display = "none";
+
+    document
+    .querySelectorAll(".form-page,.list-page")
+    .forEach(page=>{
+        page.classList.remove("show");
+    });
+
+    document
+    .getElementById("listPage")
+    .classList.add("show");
+
+    const names = {
+
+        pan:"Physical PAN",
+
+        shop:"Shop Act",
+
+        gaz:"Gazetted Certificate",
+
+        food:"Food License",
+
+        udyog:"Udyog Aadhaar"
+
+    };
+
+    document
+    .getElementById("listTitle")
+    .textContent =
+        names[type] +
+        " - " +
+        status +
+        " Applications";
+
+    document
+    .getElementById("listPage")
+    .dataset.type = type;
+
+    document
+    .getElementById("listPage")
+    .dataset.status = status;
+
+    document
+    .getElementById("searchApplication")
+    .value = "";
+
+    renderApplications(
+        type,
+        status
+    );
+
+    if(window.innerWidth <= 768){
+
+        document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    }
+
 }
 
 
 /* =========================
-   SAVE
+   RENDER APPLICATIONS
 ========================= */
 
-function saveForm(type){
+function renderApplications(type,status){
 
- const form=document.getElementById("serviceForm");
+    const applications =
+        getApplications(type);
 
- /* Basic file-size checks */
- const files=form.querySelectorAll("input[type=file]");
+    let filtered =
+        applications;
 
- for(const f of files){
+    if(status !== "All"){
 
-  if(!f.files.length) continue;
+        filtered =
+            applications.filter(app =>
+                String(app.status).toLowerCase() ===
+                String(status).toLowerCase()
+            );
 
-  const file=f.files[0];
-  const name=file.name.toLowerCase();
+    }
 
-  if(type==="gaz"){
-   if(f.id==="photo" &&
-      (!name.endsWith(".jpg")&&!name.endsWith(".jpeg")
-       ||file.size>20*1024)){
-    alert("Gazetted photo must be JPEG and under 20KB.");
-    return;
-   }
+    const container =
+        document.getElementById("applicationTable");
 
-   if(f.id!=="photo" && file.size>500*1024){
-    alert("Gazetted PDF must be under 500KB.");
-    return;
-   }
-  }
+    if(!filtered.length){
 
-  if(type==="shop"){
-   if((f.id==="photo"||f.id==="signature") &&
-      file.size>20*1024){
-    alert("Photo/Signature must be under 20KB.");
-    return;
-   }
-  }
+        container.innerHTML = `
+            <div style="
+                padding:30px;
+                text-align:center;
+                color:#777;
+                border:1px dashed #ccc;
+                border-radius:8px;
+            ">
+                No applications found.
+            </div>
+        `;
 
-  if(type==="udyog" && file.size>500*1024){
-   alert("Aadhaar/PAN file must be under 500KB.");
-   return;
-  }
+        return;
 
-  if(type==="food" && f.id==="photo" &&
-     file.size>20*1024){
-   alert("Passport photo must be under 20KB.");
-   return;
-  }
- }
+    }
 
- const data={};
+    let html = `
 
- form.querySelectorAll("input,select,textarea").forEach(x=>{
-  if(x.type==="file"){
-   data[x.id]=x.files[0]?x.files[0].name:"";
-  }else if(x.type==="checkbox"){
-   data[x.id]=x.checked;
-  }else{
-   data[x.id]=x.value;
-  }
- });
+    <table class="data-table">
 
- data.id=type.toUpperCase()+Date.now();
- data.service=type;
- data.status="Pending";
- data.createdAt=new Date().toISOString();
+    <thead>
 
- let arr=JSON.parse(
-  localStorage.getItem("serviceApplications")||"[]"
- );
+    <tr>
 
- arr.push(data);
+    <th>Application No</th>
 
- localStorage.setItem(
-  "serviceApplications",
-  JSON.stringify(arr)
- );
+    <th>Name</th>
 
- alert(
-  "Application Submitted Successfully!\n\n"+
-  "Application No: "+data.id
- );
+    <th>Mobile</th>
 
- updateStats();
- showList(type,"All");
+    <th>Status</th>
+
+    <th>Date</th>
+
+    <th>Action</th>
+
+    </tr>
+
+    </thead>
+
+    <tbody>
+    `;
+
+    filtered.forEach(app=>{
+
+        const name =
+            app.fullName ||
+            app.shopName ||
+            app.business?.shopName ||
+            app.aadhaarName ||
+            "-";
+
+        const mobile =
+            app.mobile ||
+            "-";
+
+        const date =
+            formatDate(app.submittedAt);
+
+        html += `
+
+        <tr>
+
+        <td>
+            <b>${escapeHTML(app.applicationNumber)}</b>
+        </td>
+
+        <td>
+            ${escapeHTML(name)}
+        </td>
+
+        <td>
+            ${escapeHTML(mobile)}
+        </td>
+
+        <td>
+            <span style="
+                padding:5px 9px;
+                border-radius:12px;
+                background:#eee;
+                font-size:11px;
+            ">
+            ${escapeHTML(app.status)}
+            </span>
+        </td>
+
+        <td>
+            ${date}
+        </td>
+
+        <td>
+
+        <button
+            class="action-btn"
+            onclick="viewApplication('${type}','${app.applicationNumber}')">
+            View
+        </button>
+
+        <button
+            class="action-btn"
+            onclick="printApplication('${type}','${app.applicationNumber}')">
+            Print
+        </button>
+
+        </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    html += `
+
+    </tbody>
+
+    </table>
+    `;
+
+    container.innerHTML = html;
+
 }
 
 
 /* =========================
-   LIST
+   SEARCH
 ========================= */
 
-function showList(type,status){
+function searchApplications(){
 
- closeSide();
+    const type =
+        document
+        .getElementById("listPage")
+        .dataset.type;
 
- document.getElementById("dashboard").classList.add("hidden");
- document.getElementById("formBox").classList.add("hidden");
+    const status =
+        document
+        .getElementById("listPage")
+        .dataset.status;
 
- const box=document.getElementById("listBox");
- box.classList.remove("hidden");
+    const query =
+        document
+        .getElementById("searchApplication")
+        .value
+        .toLowerCase()
+        .trim();
 
- document.getElementById("title").textContent=
- type==="pan"?"PAN Applications":
- type==="shop"?"Shop Act Applications":
- type==="gaz"?"Gazetted Applications":
- type==="food"?"Food License Applications":
- "Udyog Aadhaar Applications";
+    const applications =
+        getApplications(type);
 
- const all=JSON.parse(
-  localStorage.getItem("serviceApplications")||"[]"
- );
+    let filtered =
+        applications;
 
- let data=all.filter(x=>x.service===type);
+    if(status !== "All"){
 
- if(status!=="All"){
-  data=data.filter(x=>x.status===status);
- }
+        filtered =
+            filtered.filter(app =>
+                String(app.status).toLowerCase() ===
+                String(status).toLowerCase()
+            );
 
- let html=`<h2>${document.getElementById("title").textContent}</h2>`;
+    }
 
- if(!data.length){
-  html+=`<p>No applications found.</p>`;
- }else{
+    if(query){
 
-  html+=`
-  <table>
-  <tr>
-   <th>Application No</th>
-   <th>Name</th>
-   <th>Status</th>
-   <th>Date</th>
-   <th>Action</th>
-  </tr>`;
+        filtered =
+            filtered.filter(app => {
 
-  data.reverse().forEach(x=>{
+                const text =
+                    JSON.stringify(app)
+                    .toLowerCase();
 
-   html+=`
-   <tr>
-    <td>${safe(x.id)}</td>
-    <td>${safe(
-      x.fullName||x.aadhaarName||x.panName||
-      x.shopName||x.owner||"-"
-    )}</td>
-    <td><span class="badge">${safe(x.status)}</span></td>
-    <td>${new Date(x.createdAt).toLocaleDateString("en-IN")}</td>
-    <td>
-     <button class="btn" onclick="viewApp('${x.id}')">View</button>
-     <button class="btn gray" onclick="printApp('${x.id}')">Print</button>
-    </td>
-   </tr>`;
-  });
+                return text.includes(query);
 
-  html+=`</table>`;
- }
+            });
 
- box.innerHTML=html;
+    }
+
+    renderFilteredApplications(
+        filtered
+    );
+
+}
+
+
+function renderFilteredApplications(applications){
+
+    const container =
+        document.getElementById("applicationTable");
+
+    if(!applications.length){
+
+        container.innerHTML = `
+        <div style="
+            padding:30px;
+            text-align:center;
+            color:#777;
+        ">
+            No applications found.
+        </div>
+        `;
+
+        return;
+
+    }
+
+    let html = `
+
+    <table class="data-table">
+
+    <thead>
+
+    <tr>
+    <th>Application No</th>
+    <th>Name</th>
+    <th>Mobile</th>
+    <th>Status</th>
+    <th>Date</th>
+    <th>Action</th>
+    </tr>
+
+    </thead>
+
+    <tbody>
+    `;
+
+    const type =
+        document
+        .getElementById("listPage")
+        .dataset.type;
+
+    applications.forEach(app=>{
+
+        const name =
+            app.fullName ||
+            app.shopName ||
+            app.business?.shopName ||
+            app.aadhaarName ||
+            "-";
+
+        html += `
+
+        <tr>
+
+        <td>
+            <b>${escapeHTML(app.applicationNumber)}</b>
+        </td>
+
+        <td>
+            ${escapeHTML(name)}
+        </td>
+
+        <td>
+            ${escapeHTML(app.mobile || "-")}
+        </td>
+
+        <td>
+            ${escapeHTML(app.status)}
+        </td>
+
+        <td>
+            ${formatDate(app.submittedAt)}
+        </td>
+
+        <td>
+
+        <button
+        class="action-btn"
+        onclick="viewApplication('${type}','${app.applicationNumber}')">
+        View
+        </button>
+
+        <button
+        class="action-btn"
+        onclick="printApplication('${type}','${app.applicationNumber}')">
+        Print
+        </button>
+
+        </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    html += `
+    </tbody>
+    </table>
+    `;
+
+    container.innerHTML = html;
+
 }
 
 
 /* =========================
-   VIEW
+   VIEW APPLICATION
 ========================= */
 
-function viewApp(id){
+function viewApplication(type,id){
 
- const arr=JSON.parse(
-  localStorage.getItem("serviceApplications")||"[]"
- );
+    const applications =
+        getApplications(type);
 
- const x=arr.find(a=>a.id===id);
+    const app =
+        applications.find(
+            item =>
+            item.applicationNumber === id
+        );
 
- if(!x)return;
+    if(!app){
+        alert("Application not found.");
+        return;
+    }
 
- let html=`<h2>Application Details</h2>
- <table>`;
+    let text =
+        "Application No: " +
+        app.applicationNumber +
+        "\n\n";
 
- Object.keys(x).forEach(k=>{
+    text +=
+        "Service: " +
+        app.service +
+        "\n";
 
-  if(k==="id"||k==="service")return;
+    text +=
+        "Status: " +
+        app.status +
+        "\n";
 
-  html+=`
-  <tr>
-   <th>${safe(k)}</th>
-   <td>${safe(String(x[k]))}</td>
-  </tr>`;
- });
+    text +=
+        "Submitted: " +
+        formatDate(app.submittedAt) +
+        "\n\n";
 
- html+=`</table>
- <button class="btn" onclick="printApp('${x.id}')">Print</button>
- <button class="btn gray" onclick="home()">Back</button>`;
+    text +=
+        JSON.stringify(
+            app,
+            null,
+            2
+        );
 
- document.getElementById("formBox").classList.add("hidden");
- document.getElementById("listBox").classList.remove("hidden");
- document.getElementById("listBox").innerHTML=html;
+    alert(text);
+
 }
 
 
@@ -775,117 +4037,405 @@ function viewApp(id){
    PRINT
 ========================= */
 
-function printApp(id){
+function printApplication(type,id){
 
- const arr=JSON.parse(
-  localStorage.getItem("serviceApplications")||"[]"
- );
+    const applications =
+        getApplications(type);
 
- const x=arr.find(a=>a.id===id);
+    const app =
+        applications.find(
+            item =>
+            item.applicationNumber === id
+        );
 
- if(!x)return;
+    if(!app){
 
- let rows="";
+        alert("Application not found.");
 
- Object.keys(x).forEach(k=>{
-  if(k==="service")return;
-  rows+=`
-  <tr>
-   <td><b>${safe(k)}</b></td>
-   <td>${safe(String(x[k]))}</td>
-  </tr>`;
- });
+        return;
 
- const w=window.open("","_blank","width=900,height=700");
+    }
 
- w.document.write(`
- <!DOCTYPE html>
- <html>
- <head>
- <title>Application Receipt</title>
- <style>
- body{font-family:Arial;margin:30px}
- h1{text-align:center}
- table{width:100%;border-collapse:collapse}
- td{border:1px solid #999;padding:8px}
- td:first-child{width:35%;background:#eee}
- </style>
- </head>
- <body>
- <h1>Shree Multi Services</h1>
- <h3 style="text-align:center">
- Maha E-Seva Kendra
- </h3>
- <h2>Application Receipt</h2>
- <table>${rows}</table>
- <p style="text-align:center">
- Computer Generated Receipt
- </p>
- <script>
- window.onload=function(){window.print()}
- <\/script>
- </body>
- </html>`);
+    const name =
+        app.fullName ||
+        app.shopName ||
+        app.business?.shopName ||
+        app.aadhaarName ||
+        "-";
 
- w.document.close();
+    const printWindow =
+        window.open(
+            "",
+            "_blank",
+            "width=900,height=700"
+        );
+
+    if(!printWindow){
+
+        alert(
+            "Please allow popup to print."
+        );
+
+        return;
+
+    }
+
+    printWindow.document.write(`
+
+    <!DOCTYPE html>
+
+    <html>
+
+    <head>
+
+    <title>${escapeHTML(app.applicationNumber)}</title>
+
+    <style>
+
+    body{
+        font-family:Arial,sans-serif;
+        padding:35px;
+        color:#222;
+    }
+
+    .receipt{
+        border:1px solid #222;
+        padding:25px;
+    }
+
+    h1{
+        text-align:center;
+        margin:0;
+    }
+
+    h3{
+        text-align:center;
+        margin:6px 0 25px;
+        color:#555;
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+    }
+
+    td{
+        border:1px solid #ccc;
+        padding:9px;
+        font-size:13px;
+    }
+
+    td:first-child{
+        font-weight:bold;
+        width:35%;
+    }
+
+    .status{
+        font-weight:bold;
+    }
+
+    </style>
+
+    </head>
+
+    <body>
+
+    <div class="receipt">
+
+    <h1>Shree Multi Services</h1>
+
+    <h3>${escapeHTML(app.service)}</h3>
+
+    <table>
+
+    <tr>
+    <td>Application Number</td>
+    <td>${escapeHTML(app.applicationNumber)}</td>
+    </tr>
+
+    <tr>
+    <td>Name</td>
+    <td>${escapeHTML(name)}</td>
+    </tr>
+
+    <tr>
+    <td>Mobile</td>
+    <td>${escapeHTML(app.mobile || "-")}</td>
+    </tr>
+
+    <tr>
+    <td>Status</td>
+    <td class="status">${escapeHTML(app.status)}</td>
+    </tr>
+
+    <tr>
+    <td>Submitted Date</td>
+    <td>${formatDate(app.submittedAt)}</td>
+    </tr>
+
+    </table>
+
+    <br>
+
+    <p>
+    <b>Note:</b>
+    Application information recorded in the service dashboard.
+    </p>
+
+    </div>
+
+    <script>
+    window.onload=function(){
+        window.print();
+    };
+    <\/script>
+
+    </body>
+
+    </html>
+
+    `);
+
+    printWindow.document.close();
+
 }
 
 
 /* =========================
-   HOME
-========================= */
-
-function home(){
-
- document.getElementById("formBox").classList.add("hidden");
- document.getElementById("listBox").classList.add("hidden");
- document.getElementById("dashboard").classList.remove("hidden");
-
- document.getElementById("title").textContent="Dashboard";
-}
-
-
-/* =========================
-   STATS
+   DASHBOARD STATS
 ========================= */
 
 function updateStats(){
 
- const arr=JSON.parse(
-  localStorage.getItem("serviceApplications")||"[]"
- );
+    const all = [
 
- const pan=arr.filter(x=>x.service==="pan");
+        ...getApplications("pan"),
 
- document.getElementById("total").textContent=pan.length;
+        ...getApplications("shop"),
 
- document.getElementById("process").textContent=
- arr.filter(x=>x.status==="Pending"||x.status==="Processing").length;
+        ...getApplications("gaz"),
 
- document.getElementById("rejected").textContent=
- arr.filter(x=>x.status==="Rejected").length;
+        ...getApplications("food"),
 
- document.getElementById("accepted").textContent=
- arr.filter(x=>
-  x.status==="Accepted"||
-  x.status==="Approved"||
-  x.status==="Completed"
- ).length;
+        ...getApplications("udyog")
 
- document.getElementById("panCount").textContent=pan.length;
+    ];
+
+    const pending =
+        all.filter(
+            a =>
+            String(a.status).toLowerCase() ===
+            "pending"
+        ).length;
+
+    const rejected =
+        all.filter(
+            a =>
+            String(a.status).toLowerCase() ===
+            "rejected"
+        ).length;
+
+    const accepted =
+        all.filter(
+            a =>
+            ["accepted","approved","completed"]
+            .includes(
+                String(a.status).toLowerCase()
+            )
+        ).length;
+
+    document.getElementById("totalProcess").textContent =
+        pending;
+
+    document.getElementById("totalRejected").textContent =
+        rejected;
+
+    document.getElementById("totalAccepted").textContent =
+        accepted;
+
+    document.getElementById("totalPan").textContent =
+        getApplications("pan").length;
+
+    const panCount =
+        document.getElementById("panCount");
+
+    if(panCount){
+
+        panCount.textContent =
+            getApplications("pan").length;
+
+    }
+
 }
 
-function safe(v){
 
- return String(v??"")
- .replace(/&/g,"&amp;")
- .replace(/</g,"&lt;")
- .replace(/>/g,"&gt;")
- .replace(/"/g,"&quot;")
- .replace(/'/g,"&#039;");
+/* =========================
+   SERVICE ALERT
+========================= */
+
+function serviceAlert(event,name){
+
+    if(event){
+        event.preventDefault();
+    }
+
+    alert(
+        name +
+        "\n\nThis section is ready in the dashboard."
+    );
+
 }
 
-updateStats();
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(value){
+
+    if(value === null || value === undefined){
+        return "";
+    }
+
+    return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   DATE FORMAT
+========================= */
+
+function formatDate(value){
+
+    if(!value){
+        return "-";
+    }
+
+    const date =
+        new Date(value);
+
+    if(isNaN(date.getTime())){
+        return "-";
+    }
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"2-digit",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout(){
+
+    sessionStorage.removeItem(
+        "isLoggedIn"
+    );
+
+    sessionStorage.removeItem(
+        "loginUser"
+    );
+
+    localStorage.removeItem(
+        "username"
+    );
+
+    localStorage.removeItem(
+        "loginStatus"
+    );
+
+    window.location.replace(
+        "index.html"
+    );
+
+}
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+    loadStates();
+
+    updateStats();
+
+    showDashboard();
+
+});
+
+
+/* =========================
+   PAGE SHOW AUTH CHECK
+========================= */
+
+window.addEventListener(
+"pageshow",
+function(){
+
+    if(
+        sessionStorage.getItem("isLoggedIn") !==
+        "true"
+    ){
+
+        window.location.replace(
+            "index.html"
+        );
+
+    }
+
+});
+
+
+/* =========================
+   STORAGE UPDATE
+========================= */
+
+window.addEventListener(
+"storage",
+function(){
+
+    updateStats();
+
+    const listPage =
+        document.getElementById("listPage");
+
+    if(
+        listPage.classList.contains("show")
+    ){
+
+        const type =
+            listPage.dataset.type;
+
+        const status =
+            listPage.dataset.status;
+
+        renderApplications(
+            type,
+            status
+        );
+
+    }
+
+});
+
 </script>
 
 </body>
