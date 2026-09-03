@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PAN Application - Shree Multi Services</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f5f6f8;
+    color:#222;
+}
+
+.header{
+    background:#292929;
+    color:white;
+    padding:18px 25px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.header h2{
+    font-size:21px;
+}
+
+.back-btn{
+    background:#1976d2;
+    color:white;
+    text-decoration:none;
+    padding:9px 16px;
+    border-radius:5px;
+    font-size:14px;
+}
+
+.container{
+    max-width:1100px;
+    margin:25px auto;
+    padding:0 15px;
+}
+
+.form-card{
+    background:white;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    padding:25px;
+}
+
+.form-title{
+    font-size:23px;
+    font-weight:bold;
+    margin-bottom:25px;
+    color:#222;
+    border-bottom:2px solid #1976d2;
+    padding-bottom:12px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+}
+
+.field.full{
+    grid-column:1 / -1;
+}
+
+label{
+    font-size:14px;
+    font-weight:bold;
+    margin-bottom:7px;
+    color:#333;
+}
+
+.required{
+    color:red;
+}
+
+input,
+select{
+    width:100%;
+    height:43px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    padding:0 12px;
+    font-size:14px;
+    background:white;
+    outline:none;
+}
+
+input:focus,
+select:focus{
+    border-color:#1976d2;
+    box-shadow:0 0 0 2px rgba(25,118,210,.1);
+}
+
+#oldPanField{
+    display:none;
+}
+
+.date-box{
+    display:grid;
+    grid-template-columns:1fr 1.5fr 1.2fr;
+    gap:8px;
+}
+
+.section-title{
+    grid-column:1 / -1;
+    margin-top:8px;
+    padding:12px 0;
+    border-bottom:1px solid #ddd;
+    font-size:17px;
+    font-weight:bold;
+    color:#1976d2;
+}
+
+.buttons{
+    margin-top:30px;
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+}
+
+.btn{
+    border:none;
+    padding:12px 24px;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.reset{
+    background:#777;
+    color:white;
+}
+
+.submit{
+    background:#1976d2;
+    color:white;
+}
+
+.submit:hover{
+    background:#125ca8;
+}
+
+.reset:hover{
+    background:#555;
+}
+
+.message{
+    display:none;
+    margin-top:20px;
+    padding:14px;
+    border-radius:5px;
+    background:#e8f5e9;
+    color:#2e7d32;
+    border:1px solid #a5d6a7;
+}
+
+@media(max-width:700px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .form-card{
+        padding:18px;
+    }
+
+    .date-box{
+        grid-template-columns:1fr;
+    }
+
+    .header{
+        padding:15px;
+    }
+
+    .header h2{
+        font-size:17px;
+    }
+
+    .buttons{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <h2>Shree Multi Services</h2>
+
+    <a href="dashboard.html" class="back-btn">
+        ← Back to Dashboard
+    </a>
+
+</header>
+
+
+<!-- FORM -->
+
+<div class="container">
+
+<div class="form-card">
+
+<div class="form-title">
+    PAN Application (New / Correction)
+</div>
+
+
+<form id="panForm">
+
+<div class="form-grid">
+
+
+<!-- PAN TYPE -->
+
+<div class="field full">
+
+<label>
+    PAN Type <span class="required">*</span>
+</label>
+
+<select id="panType" name="panType" required>
+
+<option value="">
+    -- Please Select --
+</option>
+
+<option value="New PAN">
+    New PAN
+</option>
+
+<option value="PAN Correction">
+    PAN Correction
+</option>
+
+</select>
+
+</div>
+
+
+<!-- OLD PAN -->
+
+<div class="field full" id="oldPanField">
+
+<label>
+    Old PAN Number <span class="required">*</span>
+</label>
+
+<input
+    type="text"
+    id="oldPan"
+    name="oldPan"
+    maxlength="10"
+    placeholder="Enter Old PAN Number"
+    style="text-transform:uppercase;"
+>
+
+</div>
+
+
+<!-- TITLE -->
+
+<div class="field">
+
+<label>
+    Title <span class="required">*</span>
+</label>
+
+<select name="title" required>
+
+<option value="">
+    -- Please Select --
+</option>
+
+<option value="SHRI">
+    SHRI
+</option>
+
+<option value="SMT">
+    SMT
+</option>
+
+<option value="KUMARI">
+    KUMARI
+</option>
+
+</select>
+
+</div>
+
+
+<!-- GENDER -->
+
+<div class="field">
+
+<label>
+    Gender <span class="required">*</span>
+</label>
+
+<select name="gender" required>
+
+<option value="">
+    -- Please Select --
+</option>
+
+<option value="MALE">
+    MALE
+</option>
+
+<option value="FEMALE">
+    FEMALE
+</option>
+
+<option value="TRANSGENDER">
+    TRANSGENDER
+</option>
+
+</select>
+
+</div>
+
+
+<!-- FULL NAME -->
+
+<div class="field full">
+
+<label>
+    Full Name (As Per Aadhaar) <span class="required">*</span>
+</label>
+
+<input
+    type="text"
+    name="fullName"
+    placeholder="Enter Full Name As Per Aadhaar"
+    required
+>
+
+</div>
+
+
+<!-- FATHER NAME -->
+
+<div class="field full">
+
+<label>
+    Father Full Name <span class="required">*</span>
+</label>
+
+<input
+    type="text"
+    name="fatherName"
+    placeholder="Enter Father's Full Name"
+    required
+>
+
+</div>
+
+
+<!-- DOB -->
+
+<div class="field full">
+
+<label>
+    Date Of Birth <span class="required">*</span>
+</label>
+
+<div class="date-box">
+
+<select name="dobDay" required>
+
+<option value="">
+    DD
+</option>
+
+<script>
+for(let i=1;i<=31;i++){
+    document.write(
+        `<option value="${String(i).padStart(2,'0')}">
+        ${String(i).padStart(2,'0')}
+        </option>`
+    );
+}
+</script>
+
+</select>
+
+
+<select name="dobMonth" required>
+
+<option value="">
+    Month
+</option>
+
+<option value="01">January</option>
+<option value="02">February</option>
+<option value="03">March</option>
+<option value="04">April</option>
+<option value="05">May</option>
+<option value="06">June</option>
+<option value="07">July</option>
+<option value="08">August</option>
+<option value="09">September</option>
+<option value="10">October</option>
+<option value="11">November</option>
+<option value="12">December</option>
+
+</select>
+
+
+<select name="dobYear" required>
+
+<option value="">
+    YYYY
+</option>
+
+<script>
+const currentYear = new Date().getFullYear();
+
+for(let year=currentYear; year>=1900; year--){
+    document.write(
+        `<option value="${year}">
+        ${year}
+        </option>`
+    );
+}
+</script>
+
+</select>
+
+</div>
+
+</div>
+
+
+<!-- MOBILE -->
+
+<div class="field">
+
+<label>
+    Mobile Number <span class="required">*</span>
+</label>
+
+<input
+    type="tel"
+    name="mobile"
+    maxlength="10"
+    pattern="[0-9]{10}"
+    placeholder="10 Digit Mobile Number"
+    required
+>
+
+</div>
+
+
+<!-- EMAIL -->
+
+<div class="field">
+
+<label>
+    Email ID
+</label>
+
+<input
+    type="email"
+    name="email"
+    placeholder="Enter Email ID"
+>
+
+</div>
+
+
+<!-- AADHAAR -->
+
+<div class="field">
+
+<label>
+    Aadhaar Number <span class="required">*</span>
+</label>
+
+<input
+    type="text"
+    name="aadhaar"
+    maxlength="12"
+    pattern="[0-9]{12}"
+    placeholder="12 Digit Aadhaar Number"
+    required
+>
+
+</div>
+
+
+<!-- DOB PROOF -->
+
+<div class="field">
+
+<label>
+    Proof Of Date Of Birth <span class="required">*</span>
+</label>
+
+<select name="dobProof" required>
+
+<option value="">
+    -- Please Select --
+</option>
+
+<option>Birth Certificate</option>
+<option>Pension Payment Order</option>
+<option>Marriage Certificate</option>
+<option>Matriculation Certificate</option>
+<option>Passport</option>
+<option>Driving License</option>
+<option>Domicile Certificate</option>
+<option>Affidavit</option>
+<option>Matriculation Marksheet</option>
+<option>Elector's Photo ID Card</option>
+<option>AABHA CARD</option>
+<option>CGHS Card</option>
+<option>ECHS Photo Card</option>
+
+</select>
+
+</div>
+
+
+<!-- STATE -->
+
+<div class="field full">
+
+<label>
+    PAN Card Dispatch State <span class="required">*</span>
+</label>
+
+<select name="state" required>
+
+<option value="">
+    -- Please Select --
+</option>
+
+<option>ANDAMAN AND NICOBAR ISLANDS</option>
+<option>ANDHRA PRADESH</option>
+<option>ARUNACHAL PRADESH</option>
+<option>ASSAM</option>
+<option>BIHAR</option>
+<option>CHANDIGARH</option>
+<option>CHHATTISGARH</option>
+<option>DADRA & NAGAR HAVELI</option>
+<option>DAMAN & DIU</option>
+<option>DELHI</option>
+<option>GOA</option>
+<option>GUJARAT</option>
+<option>HARYANA</option>
+<option>HIMACHAL PRADESH</option>
+<option>JAMMU AND KASHMIR</option>
+<option>JHARKHAND</option>
+<option>KARNATAKA</option>
+<option>KERALA</option>
+<option>LADAKH</option>
+<option>LAKSHADWEEP</option>
+<option>MADHYA PRADESH</option>
+<option>MAHARASHTRA</option>
+<option>MANIPUR</option>
+<option>MEGHALAYA</option>
+<option>MIZORAM</option>
+<option>NAGALAND</option>
+<option>ODISHA</option>
+<option>OUTSIDE INDIA</option>
+<option>PONDICHERRY</option>
+<option>PUNJAB</option>
+<option>RAJASTHAN</option>
+<option>SIKKIM</option>
+<option>TAMIL NADU</option>
+<option>TELANGANA</option>
+<option>TRIPURA</option>
+<option>UTTAR PRADESH</option>
+<option>UTTARAKHAND</option>
+<option>WEST BENGAL</option>
+
+</select>
+
+</div>
+
+
+<!-- ADDRESS -->
+
+<div class="section-title">
+    Address Details
+</div>
+
+
+<!-- PIN -->
+
+<div class="field">
+
+<label>
+    Pin Code (As Per Aadhaar) <span class="required">*</span>
+</label>
+
+<input
+    type="text"
+    name="pinCode"
+    maxlength="6"
+    pattern="[0-9]{6}"
+    placeholder="6 Digit PIN Code"
+    required
+>
+
+</div>
+
+
+<!-- HOUSE -->
+
+<div class="field">
+
+<label>
+    House <span class="required">*</span>
+</label>
+
+<input
+    type="text"
+    name="house"
+    placeholder="House / Building"
+    required
+>
+
+</div>
+
+
+<!-- VILLAGE -->
+
+<div class="field">
+
+<label>
+    Village <span class="required">*</span>
+</label>
+
+<input
+    type="text"
+    name="village"
+    placeholder="Village"
+    required
+>
+
+</div>
+
+
+<!-- TEHSIL -->
+
+<div class="field">
+
+<label>
+    Tehsil <span class="required">*</span>
+</label>
+
+<input
+    type="text"
+    name="tehsil"
+    placeholder="Tehsil"
+    required
+>
+
+</div>
+
+
+<!-- POST -->
+
+<div class="field">
+
+<label>
+    Post <span class="required">*</span>
+</label>
+
+<input
+    type="text"
+    name="post"
+    placeholder="Post"
+    required
+>
+
+</div>
+
+
+<!-- DISTRICT -->
+
+<div class="field">
+
+<label>
+    District <span class="required">*</span>
+</label>
+
+<input
+    type="text"
+    name="district"
+    placeholder="District"
+    required
+>
+
+</div>
+
+
+</div>
+
+
+<!-- BUTTONS -->
+
+<div class="buttons">
+
+<button
+    type="reset"
+    class="btn reset">
+    Reset
+</button>
+
+<button
+    type="submit"
+    class="btn submit">
+    Submit Application
+</button>
+
+</div>
+
+
+<div
+    class="message"
+    id="successMessage">
+</div>
+
+
+</form>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   PAN TYPE
+========================= */
+
+const panType =
+    document.getElementById("panType");
+
+const oldPanField =
+    document.getElementById("oldPanField");
+
+const oldPan =
+    document.getElementById("oldPan");
+
+
+panType.addEventListener("change", function(){
+
+    if(this.value === "PAN Correction"){
+
+        oldPanField.style.display = "flex";
+
+        oldPan.required = true;
+
+    }else{
+
+        oldPanField.style.display = "none";
+
+        oldPan.required = false;
+
+        oldPan.value = "";
+
+    }
+
+});
+
+
+/* =========================
+   OLD PAN CAPITAL
+========================= */
+
+oldPan.addEventListener("input", function(){
+
+    this.value =
+        this.value.toUpperCase();
+
+});
+
+
+/* =========================
+   FORM SUBMIT
+========================= */
+
+document
+.getElementById("panForm")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+
+    const type =
+        document.getElementById("panType").value;
+
+
+    /* Application Number */
+
+    const applicationNumber =
+        "PAN" +
+        Date.now();
+
+
+    /* Save basic application locally */
+
+    const application = {
+
+        applicationNumber:
+            applicationNumber,
+
+        panType:
+            type,
+
+        submittedAt:
+            new Date().toLocaleString()
+
+    };
+
+
+    localStorage.setItem(
+        "lastPanApplication",
+        JSON.stringify(application)
+    );
+
+
+    const message =
+        document.getElementById("successMessage");
+
+
+    message.style.display = "block";
+
+
+    message.innerHTML =
+        "<strong>Application Submitted Successfully!</strong><br><br>" +
+        "Application Number: <strong>" +
+        applicationNumber +
+        "</strong><br><br>" +
+        "Please save your Application Number.";
+
+
+    window.scrollTo({
+        top:document.body.scrollHeight,
+        behavior:"smooth"
+    });
+
+});
+
+
+/* =========================
+   RESET MESSAGE
+========================= */
+
+document
+.getElementById("panForm")
+.addEventListener("reset", function(){
+
+    setTimeout(function(){
+
+        oldPanField.style.display = "none";
+
+        oldPan.required = false;
+
+        document
+        .getElementById("successMessage")
+        .style.display = "none";
+
+    },10);
+
+});
+
+</script>
+
+</body>
+</html>
