@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -345,60 +346,6 @@ body{
 }
 
 /* =========================
-   PAN FORM AREA
-========================= */
-
-.pan-form-container{
-    display:none;
-    padding:28px;
-    background:#f5f6f8;
-}
-
-.pan-form-container.show{
-    display:block;
-}
-
-.pan-form-header{
-    background:white;
-    padding:16px 20px;
-    border:1px solid #e3e3e3;
-    border-bottom:none;
-    border-radius:10px 10px 0 0;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.pan-form-header h2{
-    font-size:20px;
-    color:#222;
-}
-
-.close-pan-btn{
-    border:none;
-    background:#b71c1c;
-    color:white;
-    padding:8px 14px;
-    border-radius:5px;
-    cursor:pointer;
-    font-size:13px;
-}
-
-.close-pan-btn:hover{
-    background:#8e1515;
-}
-
-#panFormFrame{
-    width:100%;
-    height:calc(100vh - 180px);
-    min-height:800px;
-    border:none;
-    background:white;
-    border-radius:0 0 10px 10px;
-    display:block;
-}
-
-/* =========================
    ALL PAN RECEIPT AREA
 ========================= */
 
@@ -508,6 +455,10 @@ body{
     background:#f7f9fc;
 }
 
+/* =========================
+   STATUS
+========================= */
+
 .status{
     display:inline-block;
     padding:5px 9px;
@@ -536,6 +487,10 @@ body{
     color:#842029;
 }
 
+/* =========================
+   ACTION BUTTON
+========================= */
+
 .action-btn{
     border:none;
     padding:7px 9px;
@@ -558,6 +513,10 @@ body{
     opacity:0.85;
 }
 
+/* =========================
+   NO DATA
+========================= */
+
 .no-data{
     text-align:center;
     padding:50px 20px;
@@ -574,7 +533,7 @@ body{
 }
 
 /* =========================
-   RECEIPT MODAL
+   MODAL
 ========================= */
 
 .modal{
@@ -761,23 +720,6 @@ body{
         grid-template-columns:1fr;
     }
 
-    .pan-form-container{
-        padding:15px;
-    }
-
-    .pan-form-header{
-        padding:14px;
-    }
-
-    .pan-form-header h2{
-        font-size:17px;
-    }
-
-    #panFormFrame{
-        min-height:900px;
-        height:calc(100vh - 150px);
-    }
-
     .receipt-container{
         padding:15px;
     }
@@ -810,9 +752,11 @@ body{
 }
 
 </style>
+
 </head>
 
 <body>
+
 
 <!-- =========================
      SIDEBAR
@@ -821,290 +765,622 @@ body{
 <div class="sidebar" id="sidebar">
 
     <div class="logo">
+
         <h2>Shree Multi Services</h2>
+
         <p>Maha E-Seva Kendra</p>
+
     </div>
+
 
     <div class="menu">
 
-        <div class="menu-title">Dashboard</div>
 
-        <button class="menu-btn active"
-                id="dashboardMenuBtn"
-                onclick="showDashboard()">
+        <!-- DASHBOARD -->
+
+        <div class="menu-title">
+            Dashboard
+        </div>
+
+
+        <button
+            class="menu-btn active"
+            id="dashboardMenuBtn"
+            onclick="showDashboard()">
 
             <span class="menu-left">
+
                 <span>🏠</span>
+
                 <span>Dashboard</span>
+
             </span>
 
         </button>
+
+
+        <!-- SERVICES -->
+
+        <div class="menu-title">
+            Services
+        </div>
 
 
         <!-- =========================
-             SERVICES
+             PHYSICAL PAN
         ========================= -->
 
-        <div class="menu-title">Services</div>
-
-
-        <!-- PHYSICAL PAN -->
-
-        <button class="menu-btn"
-                onclick="toggleMenu('panMenu', this)">
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('panMenu',this)">
 
             <span class="menu-left">
+
                 <span>📄</span>
+
                 <span>Physical PAN</span>
+
             </span>
 
-            <span class="arrow">▼</span>
+            <span class="arrow">
+                ▼
+            </span>
 
         </button>
 
-        <div class="submenu" id="panMenu">
 
-            <a href="#"
-               onclick="openPanForm(event)">
+        <div
+            class="submenu"
+            id="panMenu">
 
-                <span>Apply New Pan</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Apply New Pan')">
+
+                <span>
+                    Apply New Pan
+                </span>
 
             </a>
 
-            <a href="#"
-               onclick="serviceAlert(event,'Ack Rejected List')">
 
-                <span>Ack Rejected List</span>
-                <span class="count">1</span>
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Ack Rejected List')">
+
+                <span>
+                    Ack Rejected List
+                </span>
+
+                <span class="count">
+                    1
+                </span>
 
             </a>
+
 
             <!-- ALL PAN RECEIPT -->
 
-            <a href="#"
-               onclick="openAllPanReceipt(event)">
+            <a
+                href="#"
+                onclick="openAllPanReceipt(event)">
 
-                <span>All PAN (Receipt)</span>
-                <span class="count" id="allPanCount">0</span>
+                <span>
+                    All PAN (Receipt)
+                </span>
 
-            </a>
-
-            <a href="#"
-               onclick="serviceAlert(event,'Upload PDF')">
-
-                <span>Upload PDF</span>
-                <span class="count">0</span>
-
-            </a>
-
-            <a href="#"
-               onclick="serviceAlert(event,'Reject PDF')">
-
-                <span>Reject PDF</span>
-                <span class="count">0</span>
+                <span
+                    class="count"
+                    id="allPanCount">
+                    0
+                </span>
 
             </a>
 
-            <a href="#"
-               onclick="serviceAlert(event,'Complete PAN')">
 
-                <span>Complete PAN</span>
-                <span class="count">6</span>
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Upload PDF')">
+
+                <span>
+                    Upload PDF
+                </span>
+
+                <span class="count">
+                    0
+                </span>
 
             </a>
 
-            <a href="#"
-               onclick="serviceAlert(event,'Reject by HO')">
 
-                <span>Reject by HO</span>
-                <span class="count">0</span>
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Reject PDF')">
+
+                <span>
+                    Reject PDF
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Complete PAN')">
+
+                <span>
+                    Complete PAN
+                </span>
+
+                <span class="count">
+                    6
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Reject by HO')">
+
+                <span>
+                    Reject by HO
+                </span>
+
+                <span class="count">
+                    0
+                </span>
 
             </a>
 
         </div>
 
 
-        <!-- SHOP ACT -->
+        <!-- =========================
+             SHOP ACT
+        ========================= -->
 
-        <button class="menu-btn"
-                onclick="toggleMenu('shopMenu', this)">
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('shopMenu',this)">
 
             <span class="menu-left">
+
                 <span>🏪</span>
+
                 <span>Shop Act</span>
+
             </span>
 
-            <span class="arrow">▼</span>
+            <span class="arrow">
+                ▼
+            </span>
 
         </button>
 
-        <div class="submenu" id="shopMenu">
 
-            <a href="#" onclick="serviceAlert(event,'New Shop Act Application')">
-                <span>New Application</span>
+        <div
+            class="submenu"
+            id="shopMenu">
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'New Shop Act Application')">
+
+                <span>
+                    New Application
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Pending ShopAct')">
-                <span>Pending ShopAct</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Pending ShopAct')">
+
+                <span>
+                    Pending ShopAct
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Rejected ShopAct')">
-                <span>Rejected ShopAct</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Rejected ShopAct')">
+
+                <span>
+                    Rejected ShopAct
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Accepted ShopAct')">
-                <span>Accepted ShopAct</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Accepted ShopAct')">
+
+                <span>
+                    Accepted ShopAct
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'All ShopAct')">
-                <span>All ShopAct</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'All ShopAct')">
+
+                <span>
+                    All ShopAct
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
         </div>
 
 
-        <!-- GAZETTED -->
+        <!-- =========================
+             GAZETTED
+        ========================= -->
 
-        <button class="menu-btn"
-                onclick="toggleMenu('gazetteMenu', this)">
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('gazetteMenu',this)">
 
             <span class="menu-left">
+
                 <span>📜</span>
+
                 <span>Gazetted Certificate</span>
+
             </span>
 
-            <span class="arrow">▼</span>
+            <span class="arrow">
+                ▼
+            </span>
 
         </button>
 
-        <div class="submenu" id="gazetteMenu">
 
-            <a href="#" onclick="serviceAlert(event,'New Certificate Application')">
-                <span>New Application</span>
+        <div
+            class="submenu"
+            id="gazetteMenu">
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'New Certificate Application')">
+
+                <span>
+                    New Application
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Pending Certificate')">
-                <span>Pending Certificate</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Pending Certificate')">
+
+                <span>
+                    Pending Certificate
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Rejected Certificate')">
-                <span>Rejected Certificate</span>
-                <span class="count">1</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Rejected Certificate')">
+
+                <span>
+                    Rejected Certificate
+                </span>
+
+                <span class="count">
+                    1
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Approved Certificate')">
-                <span>Approved Certificate</span>
-                <span class="count">1</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Approved Certificate')">
+
+                <span>
+                    Approved Certificate
+                </span>
+
+                <span class="count">
+                    1
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Accepted Certificate')">
-                <span>Accepted Certificate</span>
-                <span class="count">1</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Accepted Certificate')">
+
+                <span>
+                    Accepted Certificate
+                </span>
+
+                <span class="count">
+                    1
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'All Certificate')">
-                <span>All Certificate</span>
-                <span class="count">2</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'All Certificate')">
+
+                <span>
+                    All Certificate
+                </span>
+
+                <span class="count">
+                    2
+                </span>
+
             </a>
 
         </div>
 
 
-        <!-- FOOD LICENSE -->
+        <!-- =========================
+             FOOD LICENSE
+        ========================= -->
 
-        <button class="menu-btn"
-                onclick="toggleMenu('foodMenu', this)">
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('foodMenu',this)">
 
             <span class="menu-left">
+
                 <span>🍴</span>
+
                 <span>Food License</span>
+
             </span>
 
-            <span class="arrow">▼</span>
+            <span class="arrow">
+                ▼
+            </span>
 
         </button>
 
-        <div class="submenu" id="foodMenu">
 
-            <a href="#" onclick="serviceAlert(event,'New Food License Application')">
-                <span>New Application</span>
+        <div
+            class="submenu"
+            id="foodMenu">
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'New Food License Application')">
+
+                <span>
+                    New Application
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Pending License')">
-                <span>Pending License</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Pending License')">
+
+                <span>
+                    Pending License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Rejected License')">
-                <span>Rejected License</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Rejected License')">
+
+                <span>
+                    Rejected License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Approved License')">
-                <span>Approved License</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Approved License')">
+
+                <span>
+                    Approved License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Reverted License')">
-                <span>Reverted License</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Reverted License')">
+
+                <span>
+                    Reverted License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Accepted License')">
-                <span>Accepted License</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Accepted License')">
+
+                <span>
+                    Accepted License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'All License')">
-                <span>All License</span>
-                <span class="count">2</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'All License')">
+
+                <span>
+                    All License
+                </span>
+
+                <span class="count">
+                    2
+                </span>
+
             </a>
 
         </div>
 
 
-        <!-- UDYOG AADHAAR -->
+        <!-- =========================
+             UDYOG AADHAAR
+        ========================= -->
 
-        <button class="menu-btn"
-                onclick="toggleMenu('udyogMenu', this)">
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('udyogMenu',this)">
 
             <span class="menu-left">
+
                 <span>🏭</span>
+
                 <span>Udyog Aadhaar</span>
+
             </span>
 
-            <span class="arrow">▼</span>
+            <span class="arrow">
+                ▼
+            </span>
 
         </button>
 
-        <div class="submenu" id="udyogMenu">
 
-            <a href="#" onclick="serviceAlert(event,'New Udyog Application')">
-                <span>New Application</span>
+        <div
+            class="submenu"
+            id="udyogMenu">
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'New Udyog Application')">
+
+                <span>
+                    New Application
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Pending Udyog')">
-                <span>Pending Udyog</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Pending Udyog')">
+
+                <span>
+                    Pending Udyog
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Rejected Udyog')">
-                <span>Rejected Udyog</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Rejected Udyog')">
+
+                <span>
+                    Rejected Udyog
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'Accepted Udyog')">
-                <span>Accepted Udyog</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Accepted Udyog')">
+
+                <span>
+                    Accepted Udyog
+                </span>
+
             </a>
 
-            <a href="#" onclick="serviceAlert(event,'All Udyog')">
-                <span>All Udyog</span>
-                <span class="count">0</span>
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'All Udyog')">
+
+                <span>
+                    All Udyog
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
             </a>
 
         </div>
@@ -1114,8 +1390,9 @@ body{
 
     <!-- LOGOUT -->
 
-    <button class="logout-btn"
-            onclick="logout()">
+    <button
+        class="logout-btn"
+        onclick="logout()">
 
         🚪 Logout
 
@@ -1126,9 +1403,10 @@ body{
 
 <!-- MOBILE OVERLAY -->
 
-<div class="overlay"
-     id="overlay"
-     onclick="closeSidebar()">
+<div
+    class="overlay"
+    id="overlay"
+    onclick="closeSidebar()">
 </div>
 
 
@@ -1138,16 +1416,21 @@ body{
 
 <div class="main">
 
+
+    <!-- HEADER -->
+
     <header class="header">
 
         <div class="header-left">
 
-            <button class="mobile-menu"
-                    onclick="openSidebar()">
+            <button
+                class="mobile-menu"
+                onclick="openSidebar()">
 
                 ☰
 
             </button>
+
 
             <h2 id="pageTitle">
                 Dashboard
@@ -1161,6 +1444,7 @@ body{
             <div class="user-icon">
                 👤
             </div>
+
 
             <div class="user-info">
 
@@ -1183,8 +1467,10 @@ body{
          DASHBOARD CONTENT
     ========================= -->
 
-    <main class="content"
-          id="dashboardContent">
+    <main
+        class="content"
+        id="dashboardContent">
+
 
         <div class="welcome">
 
@@ -1203,13 +1489,19 @@ body{
 
         <div class="stats">
 
+
             <div class="stat-card">
 
-                <h4>Total Process</h4>
+                <h4>
+                    Total Process
+                </h4>
 
-                <div class="number"
-                     id="totalProcess">
+                <div
+                    class="number"
+                    id="totalProcess">
+
                     0
+
                 </div>
 
             </div>
@@ -1217,11 +1509,16 @@ body{
 
             <div class="stat-card">
 
-                <h4>Total Rejected</h4>
+                <h4>
+                    Total Rejected
+                </h4>
 
-                <div class="number"
-                     id="totalRejected">
+                <div
+                    class="number"
+                    id="totalRejected">
+
                     0
+
                 </div>
 
             </div>
@@ -1229,11 +1526,16 @@ body{
 
             <div class="stat-card">
 
-                <h4>Total Accepted</h4>
+                <h4>
+                    Total Accepted
+                </h4>
 
-                <div class="number"
-                     id="totalAccepted">
+                <div
+                    class="number"
+                    id="totalAccepted">
+
                     0
+
                 </div>
 
             </div>
@@ -1241,11 +1543,16 @@ body{
 
             <div class="stat-card">
 
-                <h4>Total PAN</h4>
+                <h4>
+                    Total PAN
+                </h4>
 
-                <div class="number"
-                     id="totalPan">
+                <div
+                    class="number"
+                    id="totalPan">
+
                     0
+
                 </div>
 
             </div>
@@ -1275,8 +1582,11 @@ body{
                     New PAN application and PAN related services.
                 </p>
 
-                <button onclick="openPanForm()">
+                <button
+                    onclick="serviceAlert(null,'Physical PAN')">
+
                     Open Service
+
                 </button>
 
             </div>
@@ -1294,8 +1604,11 @@ body{
                     Shop Act application and status management.
                 </p>
 
-                <button onclick="serviceAlert(null,'Shop Act')">
+                <button
+                    onclick="serviceAlert(null,'Shop Act')">
+
                     Open Service
+
                 </button>
 
             </div>
@@ -1313,8 +1626,11 @@ body{
                     Gazetted certificate application and status.
                 </p>
 
-                <button onclick="serviceAlert(null,'Gazetted Certificate')">
+                <button
+                    onclick="serviceAlert(null,'Gazetted Certificate')">
+
                     Open Service
+
                 </button>
 
             </div>
@@ -1332,8 +1648,11 @@ body{
                     Food license application and management.
                 </p>
 
-                <button onclick="serviceAlert(null,'Food License')">
+                <button
+                    onclick="serviceAlert(null,'Food License')">
+
                     Open Service
+
                 </button>
 
             </div>
@@ -1351,12 +1670,14 @@ body{
                     Udyog Aadhaar application and status.
                 </p>
 
-                <button onclick="serviceAlert(null,'Udyog Aadhaar')">
+                <button
+                    onclick="serviceAlert(null,'Udyog Aadhaar')">
+
                     Open Service
+
                 </button>
 
             </div>
-
 
         </div>
 
@@ -1364,43 +1685,13 @@ body{
 
 
     <!-- =========================
-         PAN FORM
-    ========================= -->
-
-    <div class="pan-form-container"
-         id="panFormContainer">
-
-        <div class="pan-form-header">
-
-            <h2>
-                📄 PAN Application
-            </h2>
-
-            <button class="close-pan-btn"
-                    onclick="closePanForm()">
-
-                ✕ Close
-
-            </button>
-
-        </div>
-
-
-        <iframe
-            id="panFormFrame"
-            src="pan-form.html"
-            title="PAN Application Form">
-        </iframe>
-
-    </div>
-
-
-    <!-- =========================
          ALL PAN RECEIPT
     ========================= -->
 
-    <div class="receipt-container"
-         id="receiptContainer">
+    <div
+        class="receipt-container"
+        id="receiptContainer">
+
 
         <div class="receipt-header">
 
@@ -1416,8 +1707,10 @@ body{
 
             </div>
 
-            <button class="receipt-back-btn"
-                    onclick="showDashboard()">
+
+            <button
+                class="receipt-back-btn"
+                onclick="showDashboard()">
 
                 ← Back to Dashboard
 
@@ -1428,16 +1721,19 @@ body{
 
         <div class="receipt-body">
 
+
             <div class="receipt-top">
 
                 <div class="receipt-count">
 
                     Total Applications:
+
                     <strong id="receiptTotal">
                         0
                     </strong>
 
                 </div>
+
 
                 <input
                     type="text"
@@ -1450,7 +1746,9 @@ body{
 
 
             <div id="receiptTableArea">
+
                 <!-- Table will load here -->
+
             </div>
 
         </div>
@@ -1464,10 +1762,13 @@ body{
      VIEW DETAILS MODAL
 ========================= -->
 
-<div class="modal"
-     id="detailsModal">
+<div
+    class="modal"
+    id="detailsModal">
+
 
     <div class="modal-box">
+
 
         <div class="modal-header">
 
@@ -1475,8 +1776,10 @@ body{
                 📄 PAN Application Details
             </h2>
 
-            <button class="modal-close"
-                    onclick="closeDetails()">
+
+            <button
+                class="modal-close"
+                onclick="closeDetails()">
 
                 ✕
 
@@ -1485,16 +1788,18 @@ body{
         </div>
 
 
-        <div class="details-grid"
-             id="detailsGrid">
+        <div
+            class="details-grid"
+            id="detailsGrid">
 
         </div>
 
 
         <div class="modal-footer">
 
-            <button class="modal-print"
-                    onclick="printSelectedReceipt()">
+            <button
+                class="modal-print"
+                onclick="printSelectedReceipt()">
 
                 🖨️ Print Receipt
 
@@ -1554,7 +1859,7 @@ function getPanApplications(){
 
 
 /* =========================
-   PAN COUNT
+   UPDATE PAN COUNT
 ========================= */
 
 function updatePanCount(){
@@ -1562,9 +1867,11 @@ function updatePanCount(){
     const applications =
     getPanApplications();
 
+
     document.getElementById("totalPan")
     .innerText =
     applications.length;
+
 
     document.getElementById("allPanCount")
     .innerText =
@@ -1582,15 +1889,19 @@ function updateDashboardStats(){
     const applications =
     getPanApplications();
 
+
     let process = 0;
     let rejected = 0;
     let accepted = 0;
 
+
     applications.forEach(function(app){
 
         const status =
-        String(app.status || "Pending")
-        .toLowerCase();
+        String(
+            app.status || "Pending"
+        ).toLowerCase();
+
 
         if(status === "rejected"){
 
@@ -1614,20 +1925,26 @@ function updateDashboardStats(){
 
     });
 
+
     document.getElementById("totalProcess")
-    .innerText = process;
+    .innerText =
+    process;
+
 
     document.getElementById("totalRejected")
-    .innerText = rejected;
+    .innerText =
+    rejected;
+
 
     document.getElementById("totalAccepted")
-    .innerText = accepted;
+    .innerText =
+    accepted;
 
 }
 
 
 /* =========================
-   UPDATE EVERYTHING
+   UPDATE DASHBOARD
 ========================= */
 
 function updateDashboard(){
@@ -1655,6 +1972,7 @@ function toggleMenu(menuId,button){
     const menu =
     document.getElementById(menuId);
 
+
     menu.classList.toggle("show");
 
     button.classList.toggle("open");
@@ -1670,112 +1988,37 @@ function showDashboard(){
 
     document
     .getElementById("dashboardContent")
-    .style.display = "block";
+    .style.display =
+    "block";
 
-    document
-    .getElementById("panFormContainer")
-    .classList.remove("show");
 
     document
     .getElementById("receiptContainer")
     .classList.remove("show");
+
 
     document
     .getElementById("pageTitle")
     .innerText =
     "Dashboard";
 
-    document
-    .getElementById("dashboardMenuBtn")
-    .classList.add("active");
-
-    closeSidebar();
-
-    updateDashboard();
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-
-/* =========================
-   OPEN PAN FORM
-========================= */
-
-function openPanForm(event){
-
-    if(event){
-
-        event.preventDefault();
-
-    }
-
-    document
-    .getElementById("dashboardContent")
-    .style.display = "none";
-
-    document
-    .getElementById("receiptContainer")
-    .classList.remove("show");
-
-    document
-    .getElementById("panFormContainer")
-    .classList.add("show");
-
-    document
-    .getElementById("pageTitle")
-    .innerText =
-    "PAN Application";
-
-    document
-    .getElementById("dashboardMenuBtn")
-    .classList.remove("active");
-
-    closeSidebar();
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-
-/* =========================
-   CLOSE PAN FORM
-========================= */
-
-function closePanForm(){
-
-    document
-    .getElementById("panFormContainer")
-    .classList.remove("show");
-
-    document
-    .getElementById("dashboardContent")
-    .style.display = "block";
-
-    document
-    .getElementById("receiptContainer")
-    .classList.remove("show");
-
-    document
-    .getElementById("pageTitle")
-    .innerText =
-    "Dashboard";
 
     document
     .getElementById("dashboardMenuBtn")
     .classList.add("active");
 
+
+    closeSidebar();
+
     updateDashboard();
 
+
     window.scrollTo({
+
         top:0,
+
         behavior:"smooth"
+
     });
 
 }
@@ -1793,38 +2036,47 @@ function openAllPanReceipt(event){
 
     }
 
-    document
-    .getElementById("dashboardContent")
-    .style.display = "none";
 
     document
-    .getElementById("panFormContainer")
-    .classList.remove("show");
+    .getElementById("dashboardContent")
+    .style.display =
+    "none";
+
 
     document
     .getElementById("receiptContainer")
     .classList.add("show");
+
 
     document
     .getElementById("pageTitle")
     .innerText =
     "All PAN (Receipt)";
 
+
     document
     .getElementById("dashboardMenuBtn")
     .classList.remove("active");
 
+
     closeSidebar();
+
 
     document
     .getElementById("receiptSearch")
-    .value = "";
+    .value =
+    "";
+
 
     loadPanReceipts();
 
+
     window.scrollTo({
+
         top:0,
+
         behavior:"smooth"
+
     });
 
 }
@@ -1839,10 +2091,12 @@ function loadPanReceipts(){
     const applications =
     getPanApplications();
 
+
     document
     .getElementById("receiptTotal")
     .innerText =
     applications.length;
+
 
     const area =
     document.getElementById("receiptTableArea");
@@ -1910,40 +2164,9 @@ function loadPanReceipts(){
         const status =
         app.status || "Pending";
 
-        let statusClass =
-        "status-pending";
 
-        const lowerStatus =
-        String(status).toLowerCase();
-
-        if(lowerStatus === "processing"){
-
-            statusClass =
-            "status-processing";
-
-        }
-        else if(
-            lowerStatus === "completed" ||
-            lowerStatus === "accepted" ||
-            lowerStatus === "approved"
-        ){
-
-            statusClass =
-            "status-completed";
-
-        }
-        else if(lowerStatus === "rejected"){
-
-            statusClass =
-            "status-rejected";
-
-        }
-
-
-        const date =
-        formatDate(
-            app.submittedAt
-        );
+        const statusClass =
+        getStatusClass(status);
 
 
         html += `
@@ -1955,11 +2178,13 @@ function loadPanReceipts(){
                 </td>
 
                 <td>
+
                     <strong>
                         ${escapeHtml(
                             app.applicationNumber || "-"
                         )}
                     </strong>
+
                 </td>
 
                 <td>
@@ -1981,13 +2206,18 @@ function loadPanReceipts(){
                 </td>
 
                 <td>
-                    ${date}
+                    ${formatDate(
+                        app.submittedAt
+                    )}
                 </td>
 
                 <td>
 
-                    <span class="status ${statusClass}">
+                    <span
+                        class="status ${statusClass}">
+
                         ${escapeHtml(status)}
+
                     </span>
 
                 </td>
@@ -2001,6 +2231,7 @@ function loadPanReceipts(){
                         View
 
                     </button>
+
 
                     <button
                         class="action-btn print-btn"
@@ -2028,7 +2259,8 @@ function loadPanReceipts(){
     `;
 
 
-    area.innerHTML = html;
+    area.innerHTML =
+    html;
 
 }
 
@@ -2046,8 +2278,10 @@ function filterReceipts(){
     .toLowerCase()
     .trim();
 
+
     const applications =
     getPanApplications();
+
 
     const filtered =
     applications.filter(function(app){
@@ -2057,20 +2291,27 @@ function filterReceipts(){
             app.applicationNumber || ""
         ).toLowerCase();
 
+
         const fullName =
         String(
             app.fullName || ""
         ).toLowerCase();
+
 
         const mobile =
         String(
             app.mobile || ""
         ).toLowerCase();
 
+
         return (
+
             applicationNumber.includes(search) ||
+
             fullName.includes(search) ||
+
             mobile.includes(search)
+
         );
 
     });
@@ -2118,12 +2359,19 @@ function filterReceipts(){
                 <tr>
 
                     <th>Sr.</th>
+
                     <th>Application No.</th>
+
                     <th>Applicant Name</th>
+
                     <th>PAN Type</th>
+
                     <th>Mobile</th>
+
                     <th>Date</th>
+
                     <th>Status</th>
+
                     <th>Action</th>
 
                 </tr>
@@ -2140,37 +2388,13 @@ function filterReceipts(){
         const originalIndex =
         applications.indexOf(app);
 
+
         const status =
         app.status || "Pending";
 
-        let statusClass =
-        "status-pending";
 
-        const lowerStatus =
-        String(status).toLowerCase();
-
-        if(lowerStatus === "processing"){
-
-            statusClass =
-            "status-processing";
-
-        }
-        else if(
-            lowerStatus === "completed" ||
-            lowerStatus === "accepted" ||
-            lowerStatus === "approved"
-        ){
-
-            statusClass =
-            "status-completed";
-
-        }
-        else if(lowerStatus === "rejected"){
-
-            statusClass =
-            "status-rejected";
-
-        }
+        const statusClass =
+        getStatusClass(status);
 
 
         html += `
@@ -2182,11 +2406,13 @@ function filterReceipts(){
                 </td>
 
                 <td>
+
                     <strong>
                         ${escapeHtml(
                             app.applicationNumber || "-"
                         )}
                     </strong>
+
                 </td>
 
                 <td>
@@ -2215,8 +2441,11 @@ function filterReceipts(){
 
                 <td>
 
-                    <span class="status ${statusClass}">
+                    <span
+                        class="status ${statusClass}">
+
                         ${escapeHtml(status)}
+
                     </span>
 
                 </td>
@@ -2230,6 +2459,7 @@ function filterReceipts(){
                         View
 
                     </button>
+
 
                     <button
                         class="action-btn print-btn"
@@ -2257,7 +2487,49 @@ function filterReceipts(){
     `;
 
 
-    area.innerHTML = html;
+    area.innerHTML =
+    html;
+
+}
+
+
+/* =========================
+   STATUS CLASS
+========================= */
+
+function getStatusClass(status){
+
+    const lowerStatus =
+    String(status || "Pending")
+    .toLowerCase();
+
+
+    if(lowerStatus === "processing"){
+
+        return "status-processing";
+
+    }
+
+
+    if(
+        lowerStatus === "completed" ||
+        lowerStatus === "accepted" ||
+        lowerStatus === "approved"
+    ){
+
+        return "status-completed";
+
+    }
+
+
+    if(lowerStatus === "rejected"){
+
+        return "status-rejected";
+
+    }
+
+
+    return "status-pending";
 
 }
 
@@ -2266,7 +2538,8 @@ function filterReceipts(){
    VIEW PAN APPLICATION
 ========================= */
 
-let selectedApplicationIndex = null;
+let selectedApplicationIndex =
+null;
 
 
 function viewPanApplication(index){
@@ -2274,8 +2547,10 @@ function viewPanApplication(index){
     const applications =
     getPanApplications();
 
+
     const app =
     applications[index];
+
 
     if(!app){
 
@@ -2294,28 +2569,49 @@ function viewPanApplication(index){
 
     const fields = [
 
-        ["Application No.", app.applicationNumber],
-        ["Service", app.service],
-        ["PAN Type", app.panType],
-        ["Old PAN", app.oldPan],
-        ["Title", app.title],
-        ["Gender", app.gender],
-        ["Full Name", app.fullName],
-        ["Father Name", app.fatherName],
-        ["Date of Birth", app.dob],
-        ["Mobile Number", app.mobile],
-        ["Email ID", app.email],
-        ["Aadhaar Number", app.aadhaar],
-        ["DOB Proof", app.dobProof],
-        ["Dispatch State", app.dispatchState],
-        ["Pin Code", app.pinCode],
-        ["House", app.house],
-        ["Village", app.village],
-        ["Tehsil", app.tehsil],
-        ["Post", app.post],
-        ["District", app.district],
-        ["Status", app.status],
-        ["Submitted At", app.submittedAt]
+        ["Application No.",app.applicationNumber],
+
+        ["Service",app.service],
+
+        ["PAN Type",app.panType],
+
+        ["Old PAN",app.oldPan],
+
+        ["Title",app.title],
+
+        ["Gender",app.gender],
+
+        ["Full Name",app.fullName],
+
+        ["Father Name",app.fatherName],
+
+        ["Date of Birth",app.dob],
+
+        ["Mobile Number",app.mobile],
+
+        ["Email ID",app.email],
+
+        ["Aadhaar Number",app.aadhaar],
+
+        ["DOB Proof",app.dobProof],
+
+        ["Dispatch State",app.dispatchState],
+
+        ["Pin Code",app.pinCode],
+
+        ["House",app.house],
+
+        ["Village",app.village],
+
+        ["Tehsil",app.tehsil],
+
+        ["Post",app.post],
+
+        ["District",app.district],
+
+        ["Status",app.status],
+
+        ["Submitted At",app.submittedAt]
 
     ];
 
@@ -2326,9 +2622,13 @@ function viewPanApplication(index){
     fields.forEach(function(item){
 
         if(
+
             item[1] !== undefined &&
+
             item[1] !== null &&
+
             item[1] !== ""
+
         ){
 
             html += `
@@ -2356,7 +2656,8 @@ function viewPanApplication(index){
 
     document
     .getElementById("detailsGrid")
-    .innerHTML = html;
+    .innerHTML =
+    html;
 
 
     document
@@ -2376,7 +2677,9 @@ function closeDetails(){
     .getElementById("detailsModal")
     .classList.remove("show");
 
-    selectedApplicationIndex = null;
+
+    selectedApplicationIndex =
+    null;
 
 }
 
@@ -2395,6 +2698,7 @@ function printSelectedReceipt(){
 
     }
 
+
     printPanReceipt(
         selectedApplicationIndex
     );
@@ -2411,8 +2715,10 @@ function printPanReceipt(index){
     const applications =
     getPanApplications();
 
+
     const app =
     applications[index];
+
 
     if(!app){
 
@@ -2444,302 +2750,452 @@ function printPanReceipt(index){
     }
 
 
+    const address = [
+
+        app.house,
+
+        app.village,
+
+        app.tehsil,
+
+        app.post,
+
+        app.district
+
+    ]
+    .filter(Boolean)
+    .join(", ");
+
+
     printWindow.document.write(`
 
-        <!DOCTYPE html>
+<!DOCTYPE html>
 
-        <html>
+<html>
 
-        <head>
+<head>
 
-            <title>
-                PAN Receipt -
-                ${escapeHtml(
-                    app.applicationNumber || ""
-                )}
-            </title>
-
-            <style>
-
-                body{
-                    font-family:Arial, sans-serif;
-                    padding:30px;
-                    color:#222;
-                }
-
-                .receipt{
-                    max-width:800px;
-                    margin:auto;
-                    border:1px solid #222;
-                    padding:25px;
-                }
-
-                .header{
-                    text-align:center;
-                    border-bottom:2px solid #222;
-                    padding-bottom:15px;
-                    margin-bottom:20px;
-                }
-
-                .header h1{
-                    margin:0;
-                    font-size:24px;
-                }
-
-                .header p{
-                    margin:6px 0 0;
-                    font-size:13px;
-                }
-
-                .receipt-title{
-                    text-align:center;
-                    font-size:18px;
-                    font-weight:bold;
-                    margin-bottom:20px;
-                }
-
-                table{
-                    width:100%;
-                    border-collapse:collapse;
-                }
-
-                td{
-                    border:1px solid #ccc;
-                    padding:9px;
-                    font-size:13px;
-                }
-
-                td:first-child{
-                    width:35%;
-                    font-weight:bold;
-                    background:#f5f5f5;
-                }
-
-                .status{
-                    font-weight:bold;
-                }
-
-                .footer{
-                    margin-top:30px;
-                    display:flex;
-                    justify-content:space-between;
-                    font-size:12px;
-                }
-
-                @media print{
-
-                    body{
-                        padding:0;
-                    }
-
-                    .receipt{
-                        border:1px solid #222;
-                    }
-
-                }
-
-            </style>
-
-        </head>
-
-        <body>
-
-            <div class="receipt">
-
-                <div class="header">
-
-                    <h1>
-                        Shree Multi Services
-                    </h1>
-
-                    <p>
-                        Maha E-Seva Kendra
-                    </p>
-
-                </div>
+<title>
+PAN Receipt -
+${escapeHtml(
+    app.applicationNumber || ""
+)}
+</title>
 
 
-                <div class="receipt-title">
-                    PAN APPLICATION RECEIPT
-                </div>
+<style>
+
+body{
+
+    font-family:Arial,sans-serif;
+
+    padding:30px;
+
+    color:#222;
+
+}
+
+.receipt{
+
+    max-width:800px;
+
+    margin:auto;
+
+    border:1px solid #222;
+
+    padding:25px;
+
+}
+
+.header{
+
+    text-align:center;
+
+    border-bottom:2px solid #222;
+
+    padding-bottom:15px;
+
+    margin-bottom:20px;
+
+}
+
+.header h1{
+
+    margin:0;
+
+    font-size:24px;
+
+}
+
+.header p{
+
+    margin:6px 0 0;
+
+    font-size:13px;
+
+}
+
+.receipt-title{
+
+    text-align:center;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    margin-bottom:20px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+td{
+
+    border:1px solid #ccc;
+
+    padding:9px;
+
+    font-size:13px;
+
+}
+
+td:first-child{
+
+    width:35%;
+
+    font-weight:bold;
+
+    background:#f5f5f5;
+
+}
+
+.status{
+
+    font-weight:bold;
+
+}
+
+.footer{
+
+    margin-top:30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:12px;
+
+}
+
+@media print{
+
+    body{
+
+        padding:0;
+
+    }
+
+    .receipt{
+
+        border:1px solid #222;
+
+    }
+
+}
+
+</style>
+
+</head>
 
 
-                <table>
-
-                    <tr>
-                        <td>Application No.</td>
-                        <td>
-                            ${escapeHtml(
-                                app.applicationNumber || "-"
-                            )}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Applicant Name</td>
-                        <td>
-                            ${escapeHtml(
-                                app.fullName || "-"
-                            )}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>PAN Type</td>
-                        <td>
-                            ${escapeHtml(
-                                app.panType || "-"
-                            )}
-                        </td>
-                    </tr>
-
-                    ${
-                        app.oldPan
-                        ?
-                        `
-                        <tr>
-                            <td>Old PAN Number</td>
-                            <td>
-                                ${escapeHtml(
-                                    app.oldPan
-                                )}
-                            </td>
-                        </tr>
-                        `
-                        :
-                        ""
-                    }
-
-                    <tr>
-                        <td>Father Name</td>
-                        <td>
-                            ${escapeHtml(
-                                app.fatherName || "-"
-                            )}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Date of Birth</td>
-                        <td>
-                            ${escapeHtml(
-                                app.dob || "-"
-                            )}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Mobile Number</td>
-                        <td>
-                            ${escapeHtml(
-                                app.mobile || "-"
-                            )}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Email ID</td>
-                        <td>
-                            ${escapeHtml(
-                                app.email || "-"
-                            )}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Aadhaar Number</td>
-                        <td>
-                            ${escapeHtml(
-                                app.aadhaar || "-"
-                            )}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Dispatch State</td>
-                        <td>
-                            ${escapeHtml(
-                                app.dispatchState || "-"
-                            )}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Pin Code</td>
-                        <td>
-                            ${escapeHtml(
-                                app.pinCode || "-"
-                            )}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Address</td>
-                        <td>
-                            ${escapeHtml(
-                                [
-                                    app.house,
-                                    app.village,
-                                    app.tehsil,
-                                    app.post,
-                                    app.district
-                                ]
-                                .filter(Boolean)
-                                .join(", ")
-                                || "-"
-                            )}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Status</td>
-                        <td class="status">
-                            ${escapeHtml(
-                                app.status || "Pending"
-                            )}
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Submitted At</td>
-                        <td>
-                            ${escapeHtml(
-                                app.submittedAt || "-"
-                            )}
-                        </td>
-                    </tr>
-
-                </table>
+<body>
 
 
-                <div class="footer">
-
-                    <span>
-                        Shree Multi Services
-                    </span>
-
-                    <span>
-                        Applicant Receipt
-                    </span>
-
-                </div>
-
-            </div>
+<div class="receipt">
 
 
-            <script>
+<div class="header">
 
-                window.onload = function(){
+<h1>
+Shree Multi Services
+</h1>
 
-                    window.print();
+<p>
+Maha E-Seva Kendra
+</p>
 
-                };
+</div>
 
-            <\/script>
 
-        </body>
+<div class="receipt-title">
+PAN APPLICATION RECEIPT
+</div>
 
-        </html>
+
+<table>
+
+
+<tr>
+
+<td>
+Application No.
+</td>
+
+<td>
+${escapeHtml(
+    app.applicationNumber || "-"
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Applicant Name
+</td>
+
+<td>
+${escapeHtml(
+    app.fullName || "-"
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+PAN Type
+</td>
+
+<td>
+${escapeHtml(
+    app.panType || "-"
+)}
+</td>
+
+</tr>
+
+
+${
+app.oldPan
+?
+`
+<tr>
+
+<td>
+Old PAN Number
+</td>
+
+<td>
+${escapeHtml(
+    app.oldPan
+)}
+</td>
+
+</tr>
+`
+:
+""
+}
+
+
+<tr>
+
+<td>
+Father Name
+</td>
+
+<td>
+${escapeHtml(
+    app.fatherName || "-"
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Date of Birth
+</td>
+
+<td>
+${escapeHtml(
+    app.dob || "-"
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Mobile Number
+</td>
+
+<td>
+${escapeHtml(
+    app.mobile || "-"
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Email ID
+</td>
+
+<td>
+${escapeHtml(
+    app.email || "-"
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Aadhaar Number
+</td>
+
+<td>
+${escapeHtml(
+    app.aadhaar || "-"
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Dispatch State
+</td>
+
+<td>
+${escapeHtml(
+    app.dispatchState || "-"
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Pin Code
+</td>
+
+<td>
+${escapeHtml(
+    app.pinCode || "-"
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Address
+</td>
+
+<td>
+${escapeHtml(
+    address || "-"
+)}
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Status
+</td>
+
+<td class="status">
+
+${escapeHtml(
+    app.status || "Pending"
+)}
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Submitted At
+</td>
+
+<td>
+
+${escapeHtml(
+    app.submittedAt || "-"
+)}
+
+</td>
+
+</tr>
+
+
+</table>
+
+
+<div class="footer">
+
+<span>
+Shree Multi Services
+</span>
+
+<span>
+Applicant Receipt
+</span>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+window.onload=function(){
+
+    window.print();
+
+};
+
+<\/script>
+
+
+</body>
+
+</html>
 
     `);
 
@@ -2794,10 +3250,15 @@ function formatDate(value){
 function escapeHtml(value){
 
     return String(value)
+
         .replace(/&/g,"&amp;")
+
         .replace(/</g,"&lt;")
+
         .replace(/>/g,"&gt;")
+
         .replace(/"/g,"&quot;")
+
         .replace(/'/g,"&#039;");
 
 }
@@ -2815,9 +3276,13 @@ function serviceAlert(event,service){
 
     }
 
+
     alert(
+
         service +
+
         "\n\nService page will be connected here."
+
     );
 
 }
@@ -2833,6 +3298,7 @@ function openSidebar(){
     .getElementById("sidebar")
     .classList.add("open");
 
+
     document
     .getElementById("overlay")
     .classList.add("show");
@@ -2845,6 +3311,7 @@ function closeSidebar(){
     document
     .getElementById("sidebar")
     .classList.remove("open");
+
 
     document
     .getElementById("overlay")
@@ -2860,6 +3327,7 @@ function closeSidebar(){
 function logout(){
 
     localStorage.removeItem("username");
+
 
     window.location.href =
     "index.html";
@@ -2878,8 +3346,7 @@ document
     function(event){
 
         if(
-            event.target ===
-            this
+            event.target === this
         ){
 
             closeDetails();
@@ -2900,11 +3367,14 @@ window.addEventListener(
 
         updateDashboard();
 
+
         if(
+
             document
             .getElementById("receiptContainer")
             .classList
             .contains("show")
+
         ){
 
             loadPanReceipts();
