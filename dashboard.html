@@ -60,38 +60,6 @@
             margin-bottom: 8px;
         }
 
-        .wallet {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
-        }
-
-        .wallet h4 {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        #walletBalance {
-            font-size: 35px;
-            font-weight: bold;
-            color: #198754;
-            margin-bottom: 18px;
-        }
-
-        .add-money {
-            background: #198754;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 7px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
         .services {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -113,75 +81,6 @@
             border: none;
             padding: 9px 15px;
             border-radius: 6px;
-            cursor: pointer;
-        }
-
-        /* Modal */
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.55);
-        }
-
-        .modal-box {
-            background: white;
-            width: 90%;
-            max-width: 450px;
-            margin: 80px auto;
-            padding: 25px;
-            border-radius: 12px;
-        }
-
-        .modal-box h3 {
-            margin-bottom: 20px;
-        }
-
-        .amount-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .amount-grid button {
-            padding: 13px;
-            border: none;
-            background: #0d6efd;
-            color: white;
-            border-radius: 7px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .custom-input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 15px;
-            border: 1px solid #ccc;
-            border-radius: 7px;
-            font-size: 16px;
-        }
-
-        .custom-pay {
-            width: 100%;
-            margin-top: 10px;
-            padding: 12px;
-            background: #198754;
-            color: white;
-            border: none;
-            border-radius: 7px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .close {
-            float: right;
-            font-size: 25px;
             cursor: pointer;
         }
 
@@ -208,9 +107,7 @@
 
 <body>
 
-<!-- =========================
-     HEADER
-========================= -->
+<!-- HEADER -->
 
 <div class="header">
 
@@ -223,9 +120,7 @@
 </div>
 
 
-<!-- =========================
-     MAIN
-========================= -->
+<!-- MAIN -->
 
 <div class="container">
 
@@ -243,32 +138,7 @@
     </div>
 
 
-    <!-- =========================
-         WALLET
-    ========================= -->
-
-    <div class="wallet">
-
-        <h4>💰 Wallet Balance</h4>
-
-        <div id="walletBalance">
-            ₹50.00
-        </div>
-
-        <button
-            class="add-money"
-            onclick="showAddMoney()">
-
-            ➕ Add Money
-
-        </button>
-
-    </div>
-
-
-    <!-- =========================
-         SERVICES
-    ========================= -->
+    <!-- SERVICES -->
 
     <div class="services">
 
@@ -323,94 +193,12 @@
 
         </div>
 
-
     </div>
 
 </div>
 
-
-<!-- =========================
-     ADD MONEY MODAL
-========================= -->
-
-<div
-    id="addMoneyModal"
-    class="modal">
-
-    <div class="modal-box">
-
-        <span
-            class="close"
-            onclick="closeAddMoney()">
-
-            &times;
-
-        </span>
-
-        <h3>
-            💰 Add Money
-        </h3>
-
-
-        <div class="amount-grid">
-
-            <button onclick="openAddMoney(50)">
-                ₹50
-            </button>
-
-            <button onclick="openAddMoney(100)">
-                ₹100
-            </button>
-
-            <button onclick="openAddMoney(200)">
-                ₹200
-            </button>
-
-            <button onclick="openAddMoney(500)">
-                ₹500
-            </button>
-
-            <button onclick="openAddMoney(1000)">
-                ₹1000
-            </button>
-
-        </div>
-
-
-        <input
-            type="number"
-            id="customAmount"
-            class="custom-input"
-            placeholder="Custom Amount">
-
-
-        <button
-            class="custom-pay"
-            onclick="payCustomAmount()">
-
-            Pay Custom Amount
-
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- =========================
-     RAZORPAY
-========================= -->
-
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-
-const RAZORPAY_KEY_ID =
-    "rzp_test_TXW0Vxl6C3gHrq";
-
-const BACKEND_URL =
-    "https://shree-multi-services-backend.onrender.com";
-
 
 /* =========================
    USERNAME
@@ -427,314 +215,6 @@ function loadUsername() {
     if (element && username) {
 
         element.innerText = username;
-
-    }
-
-}
-
-
-/* =========================
-   ADD MONEY MODAL
-========================= */
-
-function showAddMoney() {
-
-    document.getElementById(
-        "addMoneyModal"
-    ).style.display = "block";
-
-}
-
-
-function closeAddMoney() {
-
-    document.getElementById(
-        "addMoneyModal"
-    ).style.display = "none";
-
-}
-
-
-/* =========================
-   CUSTOM AMOUNT
-========================= */
-
-function payCustomAmount() {
-
-    const amount =
-        Number(
-            document.getElementById(
-                "customAmount"
-            ).value
-        );
-
-    if (!amount || amount < 10) {
-
-        alert(
-            "किमान ₹10 रक्कम टाका."
-        );
-
-        return;
-
-    }
-
-    closeAddMoney();
-
-    openAddMoney(amount);
-
-}
-
-
-/* =========================
-   ADD MONEY
-========================= */
-
-async function openAddMoney(amount) {
-
-    if (!amount || amount < 10) {
-
-        alert(
-            "किमान ₹10 रक्कम निवडा."
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-        const response =
-            await fetch(
-                BACKEND_URL +
-                "/create-order",
-                {
-
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        amount: amount
-                    })
-
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if (!data.success) {
-
-            alert(
-                data.message ||
-                "Order तयार झाला नाही."
-            );
-
-            return;
-
-        }
-
-
-        const options = {
-
-            key:
-                RAZORPAY_KEY_ID,
-
-            amount:
-                data.order.amount,
-
-            currency:
-                "INR",
-
-            name:
-                "Shree Multi Services",
-
-            description:
-                "Wallet Recharge",
-
-            order_id:
-                data.order.id,
-
-
-            handler:
-                async function(payment) {
-
-                    try {
-
-                        const verifyResponse =
-                            await fetch(
-                                BACKEND_URL +
-                                "/verify-payment",
-                                {
-
-                                    method:
-                                        "POST",
-
-                                    headers: {
-                                        "Content-Type":
-                                            "application/json"
-                                    },
-
-                                    body:
-                                        JSON.stringify({
-
-                                            razorpay_order_id:
-                                                payment.razorpay_order_id,
-
-                                            razorpay_payment_id:
-                                                payment.razorpay_payment_id,
-
-                                            razorpay_signature:
-                                                payment.razorpay_signature
-
-                                        })
-
-                                }
-                            );
-
-
-                        const verifyData =
-                            await verifyResponse.json();
-
-
-                        if (
-                            verifyData.success
-                        ) {
-
-                            let wallet =
-                                Number(
-                                    localStorage.getItem(
-                                        "walletBalance"
-                                    ) || 50
-                                );
-
-
-                            wallet +=
-                                Number(amount);
-
-
-                            localStorage.setItem(
-                                "walletBalance",
-                                wallet
-                            );
-
-
-                            updateWallet();
-
-
-                            alert(
-                                "✅ Payment Successful!\n\n" +
-                                "₹" +
-                                amount +
-                                " Wallet मध्ये जमा झाले."
-                            );
-
-                        }
-
-                        else {
-
-                            alert(
-                                "❌ Payment verification failed."
-                            );
-
-                        }
-
-                    }
-
-                    catch(error) {
-
-                        console.error(error);
-
-                        alert(
-                            "Payment verify करताना error आला."
-                        );
-
-                    }
-
-                },
-
-
-            theme: {
-
-                color:
-                    "#0d6efd"
-
-            }
-
-        };
-
-
-        const rzp =
-            new Razorpay(options);
-
-
-        rzp.on(
-            "payment.failed",
-            function(response) {
-
-                console.error(
-                    response.error
-                );
-
-                alert(
-                    "❌ Payment Failed\n\n" +
-                    response.error.description
-                );
-
-            }
-        );
-
-
-        rzp.open();
-
-    }
-
-
-    catch(error) {
-
-        console.error(error);
-
-        alert(
-            "❌ Server connection error.\n\n" +
-            "कृपया थोड्या वेळाने पुन्हा प्रयत्न करा."
-        );
-
-    }
-
-}
-
-
-/* =========================
-   WALLET
-========================= */
-
-function updateWallet() {
-
-    let wallet =
-        Number(
-            localStorage.getItem(
-                "walletBalance"
-            ) || 50
-        );
-
-
-    const walletElement =
-        document.getElementById(
-            "walletBalance"
-        );
-
-
-    if (walletElement) {
-
-        walletElement.innerText =
-            "₹" +
-            wallet.toFixed(2);
 
     }
 
@@ -777,49 +257,10 @@ document.addEventListener(
     "DOMContentLoaded",
     function() {
 
-        if (
-            !localStorage.getItem(
-                "walletBalance"
-            )
-        ) {
-
-            localStorage.setItem(
-                "walletBalance",
-                "50"
-            );
-
-        }
-
-
         loadUsername();
-
-        updateWallet();
 
     }
 );
-
-
-/* =========================
-   MODAL OUTSIDE CLICK
-========================= */
-
-window.onclick =
-    function(event) {
-
-        const modal =
-            document.getElementById(
-                "addMoneyModal"
-            );
-
-        if (
-            event.target === modal
-        ) {
-
-            closeAddMoney();
-
-        }
-
-    };
 
 </script>
 
