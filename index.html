@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shree Multi Services - Login</title>
+  <title>Login - Shree Multi Services</title>
 
   <style>
     * {
@@ -19,6 +19,7 @@
       justify-content: center;
       align-items: center;
       background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      padding: 20px;
     }
 
     .login-box {
@@ -54,7 +55,7 @@
     .subtitle {
       text-align: center;
       color: #666;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
       font-size: 14px;
     }
 
@@ -108,6 +109,13 @@
       text-decoration: none;
     }
 
+    .message {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
     .footer {
       text-align: center;
       margin-top: 25px;
@@ -117,7 +125,7 @@
 
     @media (max-width: 480px) {
       .login-box {
-        margin: 20px;
+        margin: 10px;
         padding: 28px 22px;
       }
     }
@@ -136,24 +144,30 @@
     <form id="loginForm">
 
       <label for="username">Username</label>
+
       <input
         type="text"
         id="username"
-        placeholder="Enter Username (SM00001)"
+        placeholder="Enter Username"
+        autocomplete="username"
         required
       >
 
       <label for="password">Password</label>
+
       <input
         type="password"
         id="password"
         placeholder="Enter Password"
+        autocomplete="current-password"
         required
       >
 
       <button type="submit" class="login-btn">
         Login
       </button>
+
+      <div id="message" class="message"></div>
 
     </form>
 
@@ -169,19 +183,59 @@
   </div>
 
   <script>
+
     document.getElementById("loginForm").addEventListener("submit", function(e) {
+
       e.preventDefault();
 
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+      const username =
+        document.getElementById("username").value.trim();
 
-      if (username === "" || password === "") {
-        alert("Please enter Username and Password");
+      const password =
+        document.getElementById("password").value;
+
+      const message =
+        document.getElementById("message");
+
+      const registeredUsername =
+        localStorage.getItem("registeredUsername");
+
+      const registeredPassword =
+        localStorage.getItem("registeredPassword");
+
+      if (!registeredUsername || !registeredPassword) {
+
+        message.style.color = "red";
+        message.textContent =
+          "Account not found. Please Register first.";
+
         return;
       }
 
-      alert("Login system will be connected after Register Page is completed.");
+      if (
+        username === registeredUsername &&
+        password === registeredPassword
+      ) {
+
+        localStorage.setItem("loginStatus", "true");
+
+        message.style.color = "green";
+        message.textContent = "Login Successful!";
+
+        setTimeout(function() {
+          window.location.href = "dashboard.html";
+        }, 700);
+
+      } else {
+
+        message.style.color = "red";
+        message.textContent =
+          "Invalid Username or Password.";
+
+      }
+
     });
+
   </script>
 
 </body>
