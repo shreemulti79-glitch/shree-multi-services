@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Shree Multi Services</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      padding: 20px;
+    }
+
+    .register-box {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      padding: 32px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    }
+
+    .logo {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      background: #1e3a8a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 23px;
+      font-weight: bold;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1e3a8a;
+      font-size: 23px;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 17px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #1e3a8a;
+    }
+
+    input[readonly] {
+      background: #f1f5f9;
+      color: #1e3a8a;
+      font-weight: bold;
+    }
+
+    .register-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #1e3a8a;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .register-btn:hover {
+      background: #172554;
+    }
+
+    .login {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .login a {
+      color: #1e3a8a;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #888;
+    }
+
+    @media (max-width: 480px) {
+      .register-box {
+        padding: 25px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="register-box">
+
+    <div class="logo">SM</div>
+
+    <h1>Shree Multi Services</h1>
+    <p class="subtitle">Create Your Account</p>
+
+    <form id="registerForm">
+
+      <label for="fullname">Full Name</label>
+      <input
+        type="text"
+        id="fullname"
+        placeholder="Enter Full Name"
+        required
+      >
+
+      <label for="mobile">Mobile Number</label>
+      <input
+        type="tel"
+        id="mobile"
+        placeholder="Enter 10 Digit Mobile Number"
+        maxlength="10"
+        required
+      >
+
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        value="SM00001"
+        readonly
+      >
+
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Create Password"
+        required
+      >
+
+      <label for="confirmPassword">Confirm Password</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm Password"
+        required
+      >
+
+      <button type="submit" class="register-btn">
+        Create Account
+      </button>
+
+    </form>
+
+    <div class="login">
+      Already have an account?
+      <a href="index.html">Login</a>
+    </div>
+
+    <div class="footer">
+      © 2026 Shree Multi Services
+    </div>
+
+  </div>
+
+  <script>
+
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+
+      e.preventDefault();
+
+      const fullname = document.getElementById("fullname").value.trim();
+      const mobile = document.getElementById("mobile").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      const username = document.getElementById("username").value;
+
+      if (mobile.length !== 10 || isNaN(mobile)) {
+        alert("Please enter a valid 10 digit mobile number.");
+        return;
+      }
+
+      if (password.length < 6) {
+        alert("Password must be at least 6 characters.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert("Password and Confirm Password do not match.");
+        return;
+      }
+
+      localStorage.setItem("registeredName", fullname);
+      localStorage.setItem("registeredMobile", mobile);
+      localStorage.setItem("registeredUsername", username);
+      localStorage.setItem("registeredPassword", password);
+
+      alert(
+        "Registration Successful!\n\n" +
+        "Your Username: " + username
+      );
+
+      window.location.href = "index.html";
+
+    });
+
+  </script>
+
+</body>
+</html>
