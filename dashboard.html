@@ -1,710 +1,949 @@
 <!DOCTYPE html>
-<html lang="mr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Shree Multi Services - Dashboard</title>
-
-    <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: #050505;
-            color: #fff;
-        }
-
-
-        /* =========================
-           SIDEBAR
-        ========================= */
-
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 260px;
-            height: 100vh;
-            background: #111;
-            border-right: 1px solid #292929;
-            overflow-y: auto;
-            z-index: 1000;
-        }
-
-
-        /* PROFILE */
-
-        .profile {
-            padding: 25px 15px;
-            text-align: center;
-            border-bottom: 1px solid #292929;
-        }
-
-        .profile-icon {
-            width: 70px;
-            height: 70px;
-            margin: auto;
-            border-radius: 50%;
-            background: #222;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            border: 2px solid #0d6efd;
-        }
-
-        .profile h3 {
-            margin-top: 12px;
-            font-size: 16px;
-            color: #fff;
-        }
-
-        .profile p {
-            margin-top: 5px;
-            color: #888;
-            font-size: 12px;
-        }
-
-
-        /* SIDEBAR MENU */
-
-        .menu-title {
-            padding: 20px 18px 10px;
-            color: #777;
-            font-size: 12px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .menu a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 13px 18px;
-            color: #ccc;
-            text-decoration: none;
-            font-size: 14px;
-            transition: 0.2s;
-            border-left: 3px solid transparent;
-        }
-
-        .menu a:hover {
-            background: #1d1d1d;
-            color: #fff;
-            border-left: 3px solid #0d6efd;
-        }
-
-        .menu a.active {
-            background: #1d1d1d;
-            color: #fff;
-            border-left: 3px solid #0d6efd;
-        }
-
-        .icon {
-            width: 22px;
-            text-align: center;
-            font-size: 17px;
-        }
-
-
-        /* LOGOUT */
-
-        .logout {
-            margin: 20px 15px;
-            width: calc(100% - 30px);
-            padding: 12px;
-            background: #1b1b1b;
-            color: #ff5c5c;
-            border: 1px solid #333;
-            border-radius: 7px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .logout:hover {
-            background: #2a1515;
-        }
-
-
-        /* =========================
-           MAIN
-        ========================= */
-
-        .main {
-            margin-left: 260px;
-            min-height: 100vh;
-            background: #050505;
-        }
-
-
-        /* TOP BAR */
-
-        .topbar {
-            height: 65px;
-            background: #0b0b0b;
-            border-bottom: 1px solid #292929;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 25px;
-        }
-
-        .topbar h2 {
-            font-size: 19px;
-        }
-
-        .top-user {
-            color: #aaa;
-            font-size: 14px;
-        }
-
-
-        /* CONTENT */
-
-        .content {
-            padding: 25px;
-        }
-
-
-        /* WELCOME */
-
-        .welcome {
-            background: #111;
-            border: 1px solid #292929;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 25px;
-        }
-
-        .welcome h2 {
-            font-size: 22px;
-            margin-bottom: 8px;
-        }
-
-        .welcome p {
-            color: #888;
-            font-size: 14px;
-        }
-
-
-        /* =========================
-           DASHBOARD CARDS
-        ========================= */
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: #111;
-            border: 1px solid #292929;
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-        .stat-card h4 {
-            color: #888;
-            font-size: 13px;
-            margin-bottom: 10px;
-        }
-
-        .stat-card strong {
-            font-size: 27px;
-        }
-
-
-        /* =========================
-           SERVICES
-        ========================= */
-
-        .section-title {
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-
-        .services {
-            display: grid;
-            grid-template-columns:
-                repeat(auto-fit, minmax(210px, 1fr));
-            gap: 15px;
-        }
-
-        .service {
-            background: #111;
-            border: 1px solid #292929;
-            border-radius: 10px;
-            padding: 22px;
-            transition: 0.2s;
-        }
-
-        .service:hover {
-            border-color: #0d6efd;
-            transform: translateY(-2px);
-        }
-
-        .service-icon {
-            font-size: 30px;
-            margin-bottom: 12px;
-        }
-
-        .service h3 {
-            font-size: 16px;
-            margin-bottom: 7px;
-        }
-
-        .service p {
-            color: #888;
-            font-size: 13px;
-            min-height: 32px;
-        }
-
-        .service button {
-            width: 100%;
-            margin-top: 15px;
-            padding: 10px;
-            background: #0d6efd;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .service button:hover {
-            background: #0b5ed7;
-        }
-
-
-        /* =========================
-           MOBILE BUTTON
-        ========================= */
-
-        .mobile-menu {
-            display: none;
-            background: #111;
-            color: #fff;
-            border: 1px solid #333;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 20px;
-        }
-
-
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media(max-width: 800px) {
-
-            .sidebar {
-                left: -260px;
-                transition: 0.3s;
-            }
-
-            .sidebar.show {
-                left: 0;
-            }
-
-            .main {
-                margin-left: 0;
-            }
-
-            .mobile-menu {
-                display: block;
-            }
-
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-        }
-
-
-        @media(max-width: 500px) {
-
-            .topbar {
-                padding: 0 15px;
-            }
-
-            .content {
-                padding: 15px;
-            }
-
-            .stats {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-
-            .stat-card {
-                padding: 15px;
-            }
-
-            .stat-card strong {
-                font-size: 22px;
-            }
-
-            .services {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Shree Multi Services - Dashboard</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#ffffff;
+    color:#222;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:270px;
+    height:100vh;
+    background:#292929;
+    color:white;
+    overflow-y:auto;
+    z-index:1000;
+    transition:0.3s;
+}
+
+.logo{
+    padding:22px 18px;
+    text-align:center;
+    border-bottom:1px solid #444;
+}
+
+.logo h2{
+    font-size:21px;
+    color:white;
+}
+
+.logo p{
+    font-size:12px;
+    margin-top:5px;
+    color:#cccccc;
+}
+
+/* Menu */
+
+.menu{
+    padding:12px 10px;
+}
+
+.menu-title{
+    font-size:11px;
+    color:#999;
+    padding:12px 12px 7px;
+    text-transform:uppercase;
+}
+
+.menu-btn{
+    width:100%;
+    border:none;
+    background:none;
+    color:white;
+    padding:13px 12px;
+    text-align:left;
+    cursor:pointer;
+    font-size:14px;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:3px;
+}
+
+.menu-btn:hover{
+    background:#3b3b3b;
+}
+
+.menu-btn.active{
+    background:#1976d2;
+}
+
+.menu-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.arrow{
+    font-size:12px;
+    transition:0.3s;
+}
+
+.menu-btn.open .arrow{
+    transform:rotate(180deg);
+}
+
+/* Submenu */
+
+.submenu{
+    display:none;
+    background:#353535;
+    border-radius:5px;
+    margin:2px 0 5px;
+    overflow:hidden;
+}
+
+.submenu.show{
+    display:block;
+}
+
+.submenu a{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:white;
+    text-decoration:none;
+    padding:11px 13px 11px 38px;
+    font-size:13px;
+    border-bottom:1px solid #444;
+}
+
+.submenu a:last-child{
+    border-bottom:none;
+}
+
+.submenu a:hover{
+    background:#444;
+}
+
+/* Count */
+
+.count{
+    min-width:22px;
+    padding:3px 6px;
+    text-align:center;
+    border-radius:12px;
+    background:#555;
+    color:white;
+    font-size:11px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    margin-left:270px;
+    min-height:100vh;
+    background:#ffffff;
+    transition:0.3s;
+}
+
+/* Header */
+
+.header{
+    height:70px;
+    border-bottom:1px solid #e5e5e5;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    background:white;
+    position:sticky;
+    top:0;
+    z-index:500;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.header h2{
+    font-size:21px;
+    color:#222;
+}
+
+.user-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.user-icon{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#1976d2;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+}
+
+.user-info{
+    line-height:18px;
+}
+
+.user-info strong{
+    display:block;
+    font-size:13px;
+}
+
+.user-info span{
+    font-size:11px;
+    color:#777;
+}
+
+/* Mobile Button */
+
+.mobile-menu{
+    display:none;
+    border:none;
+    background:#1976d2;
+    color:white;
+    width:40px;
+    height:40px;
+    border-radius:5px;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* Content */
+
+.content{
+    padding:28px;
+}
+
+.welcome{
+    margin-bottom:25px;
+}
+
+.welcome h1{
+    font-size:26px;
+    color:#222;
+    margin-bottom:6px;
+}
+
+.welcome p{
+    color:#777;
+    font-size:14px;
+}
+
+/* =========================
+   DASHBOARD CARDS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:30px;
+}
+
+.stat-card{
+    background:#fff;
+    border:1px solid #e4e4e4;
+    border-radius:10px;
+    padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.06);
+}
+
+.stat-card h4{
+    font-size:13px;
+    color:#777;
+    margin-bottom:10px;
+}
+
+.stat-card .number{
+    font-size:28px;
+    font-weight:bold;
+    color:#222;
+}
+
+/* =========================
+   SERVICE AREA
+========================= */
+
+.section-title{
+    font-size:20px;
+    margin-bottom:18px;
+    color:#222;
+}
+
+.services{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.service-card{
+    background:white;
+    border:1px solid #e3e3e3;
+    border-radius:10px;
+    padding:22px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+.service-card h3{
+    font-size:17px;
+    margin-bottom:8px;
+    color:#222;
+}
+
+.service-card p{
+    font-size:13px;
+    color:#777;
+    margin-bottom:18px;
+}
+
+.service-card button{
+    border:none;
+    background:#1976d2;
+    color:white;
+    padding:9px 16px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.service-card button:hover{
+    background:#125ca8;
+}
+
+/* =========================
+   LOGOUT
+========================= */
+
+.logout-btn{
+    margin:15px 10px 25px;
+    width:calc(100% - 20px);
+    padding:12px;
+    border:none;
+    background:#b71c1c;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.logout-btn:hover{
+    background:#8e1515;
+}
+
+/* =========================
+   OVERLAY
+========================= */
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+    z-index:900;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1000px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .services{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:768px){
+
+    .sidebar{
+        left:-270px;
+    }
+
+    .sidebar.open{
+        left:0;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .overlay.show{
+        display:block;
+    }
+
+    .header{
+        padding:0 15px;
+    }
+
+    .header h2{
+        font-size:17px;
+    }
+
+    .user-info{
+        display:none;
+    }
+
+    .content{
+        padding:20px 15px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:12px;
+    }
+
+    .services{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:480px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .welcome h1{
+        font-size:22px;
+    }
+
+}
+
+</style>
 </head>
 
-
 <body>
-
 
 <!-- =========================
      SIDEBAR
 ========================= -->
 
-<aside class="sidebar" id="sidebar">
+<div class="sidebar" id="sidebar">
 
-    <div class="profile">
-
-        <div class="profile-icon">
-            👤
-        </div>
-
-        <h3 id="sidebarUsername">
-            SOHAM VIJAY SALVE
-        </h3>
-
-        <p>Shree Multi Services</p>
-
+    <div class="logo">
+        <h2>Shree Multi Services</h2>
+        <p>Maha E-Seva Kendra</p>
     </div>
-
 
     <div class="menu">
 
-        <div class="menu-title">
-            Menu
-        </div>
+        <div class="menu-title">Dashboard</div>
 
-        <a href="#" class="active">
+        <button class="menu-btn active"
+                onclick="showDashboard()">
 
-            <span class="icon">🏠</span>
+            <span class="menu-left">
+                <span>🏠</span>
+                <span>Dashboard</span>
+            </span>
 
-            Dashboard
-
-        </a>
-
-
-        <div class="menu-title">
-            Services
-        </div>
-
-
-        <a href="#services">
-            <span class="icon">🪪</span>
-            PAN Card
-        </a>
-
-
-        <a href="#services">
-            <span class="icon">📄</span>
-            PAN Ack Receipt
-        </a>
-
-
-        <a href="#services">
-            <span class="icon">🔍</span>
-            Missing PAN
-        </a>
-
-
-        <a href="#services">
-            <span class="icon">📋</span>
-            Other Category PAN
-        </a>
-
-
-        <a href="#services">
-            <span class="icon">🏪</span>
-            Shop Act
-        </a>
-
-
-        <a href="#services">
-            <span class="icon">🏢</span>
-            Udyog Aadhaar
-        </a>
-
-
-        <a href="#services">
-            <span class="icon">📜</span>
-            Gazetted Certificate
-        </a>
-
-
-        <a href="#services">
-            <span class="icon">🍴</span>
-            Food License
-        </a>
-
-
-        <button class="logout" onclick="logout()">
-            🚪 Logout
         </button>
+
+
+        <!-- =========================
+             PHYSICAL PAN
+        ========================= -->
+
+        <div class="menu-title">Services</div>
+
+        <button class="menu-btn"
+                onclick="toggleMenu('panMenu', this)">
+
+            <span class="menu-left">
+                <span>📄</span>
+                <span>Physical PAN</span>
+            </span>
+
+            <span class="arrow">▼</span>
+
+        </button>
+
+        <div class="submenu" id="panMenu">
+
+            <a href="#" onclick="serviceAlert('Apply New Pan')">
+                <span>Apply New Pan</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Ack Rejected List')">
+                <span>Ack Rejected List</span>
+                <span class="count">1</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('All PAN Receipt')">
+                <span>All PAN (Receipt)</span>
+                <span class="count">6</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Upload PDF')">
+                <span>Upload PDF</span>
+                <span class="count">0</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Reject PDF')">
+                <span>Reject PDF</span>
+                <span class="count">0</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Complete PAN')">
+                <span>Complete PAN</span>
+                <span class="count">6</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Reject by HO')">
+                <span>Reject by HO</span>
+                <span class="count">0</span>
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             SHOP ACT
+        ========================= -->
+
+        <button class="menu-btn"
+                onclick="toggleMenu('shopMenu', this)">
+
+            <span class="menu-left">
+                <span>🏪</span>
+                <span>Shop Act</span>
+            </span>
+
+            <span class="arrow">▼</span>
+
+        </button>
+
+        <div class="submenu" id="shopMenu">
+
+            <a href="#" onclick="serviceAlert('New Shop Act Application')">
+                <span>New Application</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Pending ShopAct')">
+                <span>Pending ShopAct</span>
+                <span class="count">0</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Rejected ShopAct')">
+                <span>Rejected ShopAct</span>
+                <span class="count">0</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Accepted ShopAct')">
+                <span>Accepted ShopAct</span>
+                <span class="count">0</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('All ShopAct')">
+                <span>All ShopAct</span>
+                <span class="count">0</span>
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             GAZETTED CERTIFICATE
+        ========================= -->
+
+        <button class="menu-btn"
+                onclick="toggleMenu('gazetteMenu', this)">
+
+            <span class="menu-left">
+                <span>📜</span>
+                <span>Gazetted Certificate</span>
+            </span>
+
+            <span class="arrow">▼</span>
+
+        </button>
+
+        <div class="submenu" id="gazetteMenu">
+
+            <a href="#" onclick="serviceAlert('New Certificate Application')">
+                <span>New Application</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Pending Certificate')">
+                <span>Pending Certificate</span>
+                <span class="count">0</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Rejected Certificate')">
+                <span>Rejected Certificate</span>
+                <span class="count">1</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Approved Certificate')">
+                <span>Approved Certificate</span>
+                <span class="count">1</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Accepted Certificate')">
+                <span>Accepted Certificate</span>
+                <span class="count">1</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('All Certificate')">
+                <span>All Certificate</span>
+                <span class="count">2</span>
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             FOOD LICENSE
+        ========================= -->
+
+        <button class="menu-btn"
+                onclick="toggleMenu('foodMenu', this)">
+
+            <span class="menu-left">
+                <span>🍴</span>
+                <span>Food License</span>
+            </span>
+
+            <span class="arrow">▼</span>
+
+        </button>
+
+        <div class="submenu" id="foodMenu">
+
+            <a href="#" onclick="serviceAlert('New Food License Application')">
+                <span>New Application</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Pending License')">
+                <span>Pending License</span>
+                <span class="count">0</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Rejected License')">
+                <span>Rejected License</span>
+                <span class="count">0</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Approved License')">
+                <span>Approved License</span>
+                <span class="count">0</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Reverted License')">
+                <span>Reverted License</span>
+                <span class="count">0</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Accepted License')">
+                <span>Accepted License</span>
+                <span class="count">0</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('All License')">
+                <span>All License</span>
+                <span class="count">2</span>
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             UDYOG AADHAAR
+        ========================= -->
+
+        <button class="menu-btn"
+                onclick="toggleMenu('udyogMenu', this)">
+
+            <span class="menu-left">
+                <span>🏭</span>
+                <span>Udyog Aadhaar</span>
+            </span>
+
+            <span class="arrow">▼</span>
+
+        </button>
+
+        <div class="submenu" id="udyogMenu">
+
+            <a href="#" onclick="serviceAlert('New Udyog Application')">
+                <span>New Application</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Pending Udyog')">
+                <span>Pending Udyog</span>
+                <span class="count">0</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Rejected Udyog')">
+                <span>Rejected Udyog</span>
+                <span class="count">0</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('Accepted Udyog')">
+                <span>Accepted Udyog</span>
+            </a>
+
+            <a href="#" onclick="serviceAlert('All Udyog')">
+                <span>All Udyog</span>
+                <span class="count">0</span>
+            </a>
+
+        </div>
 
     </div>
 
-</aside>
 
+    <!-- LOGOUT -->
+
+    <button class="logout-btn" onclick="logout()">
+        🚪 Logout
+    </button>
+
+</div>
+
+
+<!-- MOBILE OVERLAY -->
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
 
 <!-- =========================
-     MAIN
+     MAIN AREA
 ========================= -->
 
-<main class="main">
+<div class="main">
 
+    <header class="header">
 
-    <!-- TOPBAR -->
+        <div class="header-left">
 
-    <div class="topbar">
-
-        <div style="display:flex;align-items:center;gap:15px;">
-
-            <button
-                class="mobile-menu"
-                onclick="toggleSidebar()">
-
+            <button class="mobile-menu"
+                    onclick="openSidebar()">
                 ☰
-
             </button>
 
-            <h2>
-                Dashboard
-            </h2>
+            <h2>Dashboard</h2>
 
         </div>
 
 
-        <div class="top-user">
+        <div class="user-box">
 
-            <span id="topUsername">
-                SOHAM VIJAY SALVE
-            </span>
+            <div class="user-icon">
+                👤
+            </div>
+
+            <div class="user-info">
+
+                <strong id="username">
+                    User
+                </strong>
+
+                <span>
+                    Shree Multi Services
+                </span>
+
+            </div>
 
         </div>
 
-    </div>
+    </header>
 
 
-
-    <!-- CONTENT -->
-
-    <div class="content">
-
-
-        <!-- WELCOME -->
+    <main class="content">
 
         <div class="welcome">
 
-            <h2>
-                Hello,
-                <span id="username">
-                    SOHAM VIJAY SALVE
-                </span> 👋
-            </h2>
+            <h1>
+                Welcome to Shree Multi Services
+            </h1>
 
             <p>
-                Welcome to Shree Multi Services Dashboard
+                Manage your online services from one place.
             </p>
 
         </div>
 
 
-
-        <!-- STATS -->
+        <!-- =========================
+             STATS
+        ========================= -->
 
         <div class="stats">
 
             <div class="stat-card">
 
-                <h4>
-                    Total Process
-                </h4>
+                <h4>Total Process</h4>
 
-                <strong>
+                <div class="number">
                     0
-                </strong>
+                </div>
 
             </div>
 
 
             <div class="stat-card">
 
-                <h4>
-                    Total Rejected
-                </h4>
+                <h4>Total Rejected</h4>
 
-                <strong>
+                <div class="number">
                     0
-                </strong>
+                </div>
 
             </div>
 
 
             <div class="stat-card">
 
-                <h4>
-                    Total Accepted
-                </h4>
+                <h4>Total Accepted</h4>
 
-                <strong>
+                <div class="number">
                     0
-                </strong>
+                </div>
 
             </div>
 
 
             <div class="stat-card">
 
-                <h4>
-                    Total PAN
-                </h4>
+                <h4>Total PAN</h4>
 
-                <strong>
+                <div class="number">
                     0
-                </strong>
+                </div>
 
             </div>
 
         </div>
 
 
+        <!-- =========================
+             SERVICE CARDS
+        ========================= -->
 
-        <!-- SERVICES -->
-
-        <h2
-            class="section-title"
-            id="services">
-
-            Services
-
+        <h2 class="section-title">
+            Available Services
         </h2>
 
 
         <div class="services">
 
 
-            <!-- PAN CARD -->
-
-            <div class="service">
-
-                <div class="service-icon">
-                    🪪
-                </div>
+            <div class="service-card">
 
                 <h3>
-                    PAN Card
+                    📄 Physical PAN
                 </h3>
 
                 <p>
-                    PAN Card Service
+                    New PAN application and PAN related services.
                 </p>
 
-                <button
-                    onclick="serviceAlert('PAN Card')">
-
-                    Apply
-
+                <button onclick="serviceAlert('Physical PAN')">
+                    Open Service
                 </button>
 
             </div>
 
 
-
-            <!-- SHOP ACT -->
-
-            <div class="service">
-
-                <div class="service-icon">
-                    🏪
-                </div>
+            <div class="service-card">
 
                 <h3>
-                    Shop Act
+                    🏪 Shop Act
                 </h3>
 
                 <p>
-                    Shop Act Licence
+                    Shop Act application and status management.
                 </p>
 
-                <button
-                    onclick="serviceAlert('Shop Act')">
-
-                    Apply
-
+                <button onclick="serviceAlert('Shop Act')">
+                    Open Service
                 </button>
 
             </div>
 
 
-
-            <!-- INCOME -->
-
-            <div class="service">
-
-                <div class="service-icon">
-                    📄
-                </div>
+            <div class="service-card">
 
                 <h3>
-                    Income Certificate
+                    📜 Gazetted Certificate
                 </h3>
 
                 <p>
-                    Income Certificate
+                    Gazetted certificate application and status.
                 </p>
 
-                <button
-                    onclick="serviceAlert('Income Certificate')">
-
-                    Apply
-
+                <button onclick="serviceAlert('Gazetted Certificate')">
+                    Open Service
                 </button>
 
             </div>
 
 
-
-            <!-- CASTE -->
-
-            <div class="service">
-
-                <div class="service-icon">
-                    📄
-                </div>
+            <div class="service-card">
 
                 <h3>
-                    Caste Certificate
+                    🍴 Food License
                 </h3>
 
                 <p>
-                    Caste Certificate
+                    Food license application and management.
                 </p>
 
-                <button
-                    onclick="serviceAlert('Caste Certificate')">
+                <button onclick="serviceAlert('Food License')">
+                    Open Service
+                </button>
 
-                    Apply
+            </div>
 
+
+            <div class="service-card">
+
+                <h3>
+                    🏭 Udyog Aadhaar
+                </h3>
+
+                <p>
+                    Udyog Aadhaar application and status.
+                </p>
+
+                <button onclick="serviceAlert('Udyog Aadhaar')">
+                    Open Service
                 </button>
 
             </div>
@@ -712,78 +951,109 @@
 
         </div>
 
+    </main>
 
-    </div>
-
-</main>
-
+</div>
 
 
 <script>
-
 
 /* =========================
    USERNAME
 ========================= */
 
-function loadUsername() {
+const usernameElement =
+    document.getElementById("username");
 
-    const username =
-        localStorage.getItem("username");
+const savedUsername =
+    localStorage.getItem("username");
 
-    if (!username) {
-        return;
-    }
+if(savedUsername){
 
-    const usernameElement =
-        document.getElementById("username");
-
-    const sidebarElement =
-        document.getElementById("sidebarUsername");
-
-    const topElement =
-        document.getElementById("topUsername");
-
-
-    if (usernameElement) {
-        usernameElement.innerText =
-            username;
-    }
-
-    if (sidebarElement) {
-        sidebarElement.innerText =
-            username;
-    }
-
-    if (topElement) {
-        topElement.innerText =
-            username;
-    }
+    usernameElement.innerText =
+        savedUsername;
 
 }
 
 
-
 /* =========================
-   SERVICE
+   TOGGLE SUBMENU
 ========================= */
 
-function serviceAlert(service) {
+function toggleMenu(menuId, button){
+
+    const menu =
+        document.getElementById(menuId);
+
+    menu.classList.toggle("show");
+
+    button.classList.toggle("open");
+
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+function showDashboard(){
+
+    closeSidebar();
+
+}
+
+
+/* =========================
+   SERVICE ALERT
+========================= */
+
+function serviceAlert(service){
+
+    event.preventDefault();
 
     alert(
         service +
-        " service लवकरच उपलब्ध होईल."
+        "\n\nService page will be connected here."
     );
 
 }
 
+
+/* =========================
+   MOBILE SIDEBAR
+========================= */
+
+function openSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.add("open");
+
+    document
+        .getElementById("overlay")
+        .classList.add("show");
+
+}
+
+
+function closeSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+}
 
 
 /* =========================
    LOGOUT
 ========================= */
 
-function logout() {
+function logout(){
 
     localStorage.removeItem("username");
 
@@ -792,38 +1062,7 @@ function logout() {
 
 }
 
-
-
-/* =========================
-   MOBILE SIDEBAR
-========================= */
-
-function toggleSidebar() {
-
-    const sidebar =
-        document.getElementById("sidebar");
-
-    sidebar.classList.toggle("show");
-
-}
-
-
-
-/* =========================
-   PAGE LOAD
-========================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-        loadUsername();
-
-    }
-);
-
 </script>
-
 
 </body>
 </html>
