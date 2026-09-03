@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,8 +55,6 @@ body{
     color:#cccccc;
 }
 
-/* Menu */
-
 .menu{
     padding:12px 10px;
 }
@@ -106,7 +105,9 @@ body{
     transform:rotate(180deg);
 }
 
-/* Submenu */
+/* =========================
+   SUBMENU
+========================= */
 
 .submenu{
     display:none;
@@ -139,7 +140,9 @@ body{
     background:#444;
 }
 
-/* Count */
+/* =========================
+   COUNT
+========================= */
 
 .count{
     min-width:22px;
@@ -162,7 +165,9 @@ body{
     transition:0.3s;
 }
 
-/* Header */
+/* =========================
+   HEADER
+========================= */
 
 .header{
     height:70px;
@@ -220,7 +225,9 @@ body{
     color:#777;
 }
 
-/* Mobile Button */
+/* =========================
+   MOBILE BUTTON
+========================= */
 
 .mobile-menu{
     display:none;
@@ -234,7 +241,9 @@ body{
     cursor:pointer;
 }
 
-/* Content */
+/* =========================
+   CONTENT
+========================= */
 
 .content{
     padding:28px;
@@ -495,7 +504,9 @@ body{
 
         <div class="submenu" id="panMenu">
 
-            <a href="#" onclick="serviceAlert('Apply New Pan')">
+            <!-- CHANGED: PAN FORM LINK -->
+
+            <a href="pan-form.html">
                 <span>Apply New Pan</span>
             </a>
 
@@ -739,7 +750,10 @@ body{
 
 <!-- MOBILE OVERLAY -->
 
-<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="overlay"
+     id="overlay"
+     onclick="closeSidebar()">
+</div>
 
 
 <!-- =========================
@@ -864,6 +878,8 @@ body{
         <div class="services">
 
 
+            <!-- PHYSICAL PAN -->
+
             <div class="service-card">
 
                 <h3>
@@ -874,12 +890,16 @@ body{
                     New PAN application and PAN related services.
                 </p>
 
-                <button onclick="serviceAlert('Physical PAN')">
+                <!-- CHANGED: DIRECT PAN FORM -->
+
+                <button onclick="openPanForm()">
                     Open Service
                 </button>
 
             </div>
 
+
+            <!-- SHOP ACT -->
 
             <div class="service-card">
 
@@ -898,6 +918,8 @@ body{
             </div>
 
 
+            <!-- GAZETTED -->
+
             <div class="service-card">
 
                 <h3>
@@ -915,6 +937,8 @@ body{
             </div>
 
 
+            <!-- FOOD -->
+
             <div class="service-card">
 
                 <h3>
@@ -931,6 +955,8 @@ body{
 
             </div>
 
+
+            <!-- UDYOG -->
 
             <div class="service-card">
 
@@ -1004,12 +1030,26 @@ function showDashboard(){
 
 
 /* =========================
-   SERVICE ALERT
+   OPEN PAN FORM
+========================= */
+
+function openPanForm(){
+
+    window.location.href =
+        "pan-form.html";
+
+}
+
+
+/* =========================
+   OTHER SERVICE ALERT
 ========================= */
 
 function serviceAlert(service){
 
-    event.preventDefault();
+    if(event){
+        event.preventDefault();
+    }
 
     alert(
         service +
@@ -1066,3 +1106,4 @@ function logout(){
 
 </body>
 </html>
+```
