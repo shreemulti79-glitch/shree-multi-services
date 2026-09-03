@@ -7,10 +7,11 @@
 <title>PAN Application - Shree Multi Services</title>
 
 <style>
+
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
     font-family:Arial, Helvetica, sans-serif;
 }
 
@@ -19,13 +20,16 @@ body{
     color:#222;
 }
 
+/* HEADER */
+
 .header{
+    height:70px;
     background:#292929;
     color:white;
-    padding:18px 25px;
     display:flex;
     align-items:center;
     justify-content:space-between;
+    padding:0 28px;
 }
 
 .header h2{
@@ -33,40 +37,47 @@ body{
 }
 
 .back-btn{
-    background:#1976d2;
-    color:white;
     text-decoration:none;
-    padding:9px 16px;
+    color:white;
+    background:#1976d2;
+    padding:10px 16px;
     border-radius:5px;
-    font-size:14px;
+    font-size:13px;
 }
+
+.back-btn:hover{
+    background:#125ca8;
+}
+
+/* CONTAINER */
 
 .container{
     max-width:1100px;
-    margin:25px auto;
+    margin:30px auto;
     padding:0 15px;
 }
 
 .form-card{
     background:white;
     border-radius:10px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
-    padding:25px;
+    padding:28px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
 }
 
 .form-title{
-    font-size:23px;
+    font-size:22px;
     font-weight:bold;
     margin-bottom:25px;
-    color:#222;
-    border-bottom:2px solid #1976d2;
-    padding-bottom:12px;
+    padding-bottom:15px;
+    border-bottom:1px solid #ddd;
 }
+
+/* FORM */
 
 .form-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:20px;
+    gap:18px;
 }
 
 .field{
@@ -79,98 +90,115 @@ body{
 }
 
 label{
-    font-size:14px;
+    font-size:13px;
     font-weight:bold;
     margin-bottom:7px;
     color:#333;
 }
 
-.required{
+label span{
     color:red;
 }
 
 input,
 select{
     width:100%;
-    height:43px;
+    padding:11px 12px;
     border:1px solid #ccc;
     border-radius:5px;
-    padding:0 12px;
+    outline:none;
     font-size:14px;
     background:white;
-    outline:none;
 }
 
 input:focus,
 select:focus{
     border-color:#1976d2;
-    box-shadow:0 0 0 2px rgba(25,118,210,.1);
 }
+
+/* OLD PAN */
 
 #oldPanField{
     display:none;
 }
 
+/* DATE */
+
 .date-box{
     display:grid;
-    grid-template-columns:1fr 1.5fr 1.2fr;
+    grid-template-columns:1fr 1fr 1fr;
     gap:8px;
 }
 
-.section-title{
-    grid-column:1 / -1;
-    margin-top:8px;
-    padding:12px 0;
-    border-bottom:1px solid #ddd;
-    font-size:17px;
-    font-weight:bold;
-    color:#1976d2;
-}
+/* BUTTONS */
 
 .buttons{
-    margin-top:30px;
     display:flex;
     justify-content:flex-end;
-    gap:12px;
+    gap:10px;
+    margin-top:28px;
 }
 
-.btn{
+.reset-btn,
+.submit-btn{
     border:none;
-    padding:12px 24px;
+    padding:11px 20px;
     border-radius:5px;
     cursor:pointer;
     font-size:14px;
 }
 
-.reset{
+.reset-btn{
     background:#777;
     color:white;
 }
 
-.submit{
+.reset-btn:hover{
+    background:#555;
+}
+
+.submit-btn{
     background:#1976d2;
     color:white;
 }
 
-.submit:hover{
+.submit-btn:hover{
     background:#125ca8;
 }
 
-.reset:hover{
-    background:#555;
-}
+/* MESSAGE */
 
 .message{
     display:none;
     margin-top:20px;
-    padding:14px;
-    border-radius:5px;
+    padding:18px;
+    border-radius:7px;
     background:#e8f5e9;
-    color:#2e7d32;
-    border:1px solid #a5d6a7;
+    border:1px solid #81c784;
+    color:#1b5e20;
+    font-size:14px;
 }
 
+/* MOBILE */
+
 @media(max-width:700px){
+
+    .header{
+        padding:0 15px;
+    }
+
+    .header h2{
+        font-size:17px;
+    }
+
+    .back-btn{
+        padding:8px 10px;
+        font-size:12px;
+    }
+
+    .form-card{
+        padding:20px 15px;
+    }
 
     .form-grid{
         grid-template-columns:1fr;
@@ -180,30 +208,17 @@ select:focus{
         grid-column:auto;
     }
 
-    .form-card{
-        padding:18px;
-    }
-
-    .date-box{
-        grid-template-columns:1fr;
-    }
-
-    .header{
-        padding:15px;
-    }
-
-    .header h2{
-        font-size:17px;
-    }
-
     .buttons{
         flex-direction:column;
     }
 
-    .btn{
+    .reset-btn,
+    .submit-btn{
         width:100%;
     }
+
 }
+
 </style>
 </head>
 
@@ -221,8 +236,6 @@ select:focus{
 
 </header>
 
-
-<!-- FORM -->
 
 <div class="container">
 
@@ -243,21 +256,21 @@ select:focus{
 <div class="field full">
 
 <label>
-    PAN Type <span class="required">*</span>
+PAN Type <span>*</span>
 </label>
 
-<select id="panType" name="panType" required>
+<select id="panType" required>
 
 <option value="">
-    -- Please Select --
+-- Please Select --
 </option>
 
 <option value="New PAN">
-    New PAN
+New PAN
 </option>
 
 <option value="PAN Correction">
-    PAN Correction
+PAN Correction
 </option>
 
 </select>
@@ -270,16 +283,14 @@ select:focus{
 <div class="field full" id="oldPanField">
 
 <label>
-    Old PAN Number <span class="required">*</span>
+Old PAN Number <span>*</span>
 </label>
 
 <input
-    type="text"
-    id="oldPan"
-    name="oldPan"
-    maxlength="10"
-    placeholder="Enter Old PAN Number"
-    style="text-transform:uppercase;"
+type="text"
+id="oldPan"
+maxlength="10"
+placeholder="Enter Old PAN Number"
 >
 
 </div>
@@ -290,25 +301,25 @@ select:focus{
 <div class="field">
 
 <label>
-    Title <span class="required">*</span>
+Title <span>*</span>
 </label>
 
-<select name="title" required>
+<select id="title" required>
 
 <option value="">
-    -- Please Select --
+-- Select Title --
 </option>
 
 <option value="SHRI">
-    SHRI
+SHRI
 </option>
 
 <option value="SMT">
-    SMT
+SMT
 </option>
 
 <option value="KUMARI">
-    KUMARI
+KUMARI
 </option>
 
 </select>
@@ -321,25 +332,25 @@ select:focus{
 <div class="field">
 
 <label>
-    Gender <span class="required">*</span>
+Gender <span>*</span>
 </label>
 
-<select name="gender" required>
+<select id="gender" required>
 
 <option value="">
-    -- Please Select --
+-- Select Gender --
 </option>
 
 <option value="MALE">
-    MALE
+MALE
 </option>
 
 <option value="FEMALE">
-    FEMALE
+FEMALE
 </option>
 
 <option value="TRANSGENDER">
-    TRANSGENDER
+TRANSGENDER
 </option>
 
 </select>
@@ -352,32 +363,32 @@ select:focus{
 <div class="field full">
 
 <label>
-    Full Name (As Per Aadhaar) <span class="required">*</span>
+Full Name (As Per Aadhaar) <span>*</span>
 </label>
 
 <input
-    type="text"
-    name="fullName"
-    placeholder="Enter Full Name As Per Aadhaar"
-    required
+type="text"
+id="fullName"
+placeholder="Enter Full Name"
+required
 >
 
 </div>
 
 
-<!-- FATHER NAME -->
+<!-- FATHER -->
 
 <div class="field full">
 
 <label>
-    Father Full Name <span class="required">*</span>
+Father Full Name <span>*</span>
 </label>
 
 <input
-    type="text"
-    name="fatherName"
-    placeholder="Enter Father's Full Name"
-    required
+type="text"
+id="fatherName"
+placeholder="Enter Father's Full Name"
+required
 >
 
 </div>
@@ -388,70 +399,21 @@ select:focus{
 <div class="field full">
 
 <label>
-    Date Of Birth <span class="required">*</span>
+Date Of Birth <span>*</span>
 </label>
 
 <div class="date-box">
 
-<select name="dobDay" required>
-
-<option value="">
-    DD
-</option>
-
-<script>
-for(let i=1;i<=31;i++){
-    document.write(
-        `<option value="${String(i).padStart(2,'0')}">
-        ${String(i).padStart(2,'0')}
-        </option>`
-    );
-}
-</script>
-
+<select id="dobDay" required>
+<option value="">DD</option>
 </select>
 
-
-<select name="dobMonth" required>
-
-<option value="">
-    Month
-</option>
-
-<option value="01">January</option>
-<option value="02">February</option>
-<option value="03">March</option>
-<option value="04">April</option>
-<option value="05">May</option>
-<option value="06">June</option>
-<option value="07">July</option>
-<option value="08">August</option>
-<option value="09">September</option>
-<option value="10">October</option>
-<option value="11">November</option>
-<option value="12">December</option>
-
+<select id="dobMonth" required>
+<option value="">Month</option>
 </select>
 
-
-<select name="dobYear" required>
-
-<option value="">
-    YYYY
-</option>
-
-<script>
-const currentYear = new Date().getFullYear();
-
-for(let year=currentYear; year>=1900; year--){
-    document.write(
-        `<option value="${year}">
-        ${year}
-        </option>`
-    );
-}
-</script>
-
+<select id="dobYear" required>
+<option value="">YYYY</option>
 </select>
 
 </div>
@@ -464,16 +426,16 @@ for(let year=currentYear; year>=1900; year--){
 <div class="field">
 
 <label>
-    Mobile Number <span class="required">*</span>
+Mobile Number <span>*</span>
 </label>
 
 <input
-    type="tel"
-    name="mobile"
-    maxlength="10"
-    pattern="[0-9]{10}"
-    placeholder="10 Digit Mobile Number"
-    required
+type="tel"
+id="mobile"
+maxlength="10"
+pattern="[0-9]{10}"
+placeholder="10 Digit Mobile Number"
+required
 >
 
 </div>
@@ -484,13 +446,13 @@ for(let year=currentYear; year>=1900; year--){
 <div class="field">
 
 <label>
-    Email ID
+Email ID
 </label>
 
 <input
-    type="email"
-    name="email"
-    placeholder="Enter Email ID"
+type="email"
+id="email"
+placeholder="Enter Email ID"
 >
 
 </div>
@@ -501,16 +463,16 @@ for(let year=currentYear; year>=1900; year--){
 <div class="field">
 
 <label>
-    Aadhaar Number <span class="required">*</span>
+Aadhaar Number <span>*</span>
 </label>
 
 <input
-    type="text"
-    name="aadhaar"
-    maxlength="12"
-    pattern="[0-9]{12}"
-    placeholder="12 Digit Aadhaar Number"
-    required
+type="text"
+id="aadhaar"
+maxlength="12"
+pattern="[0-9]{12}"
+placeholder="12 Digit Aadhaar Number"
+required
 >
 
 </div>
@@ -521,13 +483,13 @@ for(let year=currentYear; year>=1900; year--){
 <div class="field">
 
 <label>
-    Proof Of Date Of Birth <span class="required">*</span>
+Proof Of Date Of Birth <span>*</span>
 </label>
 
-<select name="dobProof" required>
+<select id="dobProof" required>
 
 <option value="">
-    -- Please Select --
+-- Select Proof --
 </option>
 
 <option>Birth Certificate</option>
@@ -554,13 +516,13 @@ for(let year=currentYear; year>=1900; year--){
 <div class="field full">
 
 <label>
-    PAN Card Dispatch State <span class="required">*</span>
+PAN Card Dispatch State <span>*</span>
 </label>
 
-<select name="state" required>
+<select id="dispatchState" required>
 
 <option value="">
-    -- Please Select --
+-- Select State --
 </option>
 
 <option>ANDAMAN AND NICOBAR ISLANDS</option>
@@ -607,28 +569,21 @@ for(let year=currentYear; year>=1900; year--){
 </div>
 
 
-<!-- ADDRESS -->
-
-<div class="section-title">
-    Address Details
-</div>
-
-
 <!-- PIN -->
 
 <div class="field">
 
 <label>
-    Pin Code (As Per Aadhaar) <span class="required">*</span>
+Pin Code (As Per Aadhaar) <span>*</span>
 </label>
 
 <input
-    type="text"
-    name="pinCode"
-    maxlength="6"
-    pattern="[0-9]{6}"
-    placeholder="6 Digit PIN Code"
-    required
+type="text"
+id="pinCode"
+maxlength="6"
+pattern="[0-9]{6}"
+placeholder="6 Digit PIN Code"
+required
 >
 
 </div>
@@ -639,14 +594,14 @@ for(let year=currentYear; year>=1900; year--){
 <div class="field">
 
 <label>
-    House <span class="required">*</span>
+House <span>*</span>
 </label>
 
 <input
-    type="text"
-    name="house"
-    placeholder="House / Building"
-    required
+type="text"
+id="house"
+placeholder="House / Building"
+required
 >
 
 </div>
@@ -657,14 +612,14 @@ for(let year=currentYear; year>=1900; year--){
 <div class="field">
 
 <label>
-    Village <span class="required">*</span>
+Village <span>*</span>
 </label>
 
 <input
-    type="text"
-    name="village"
-    placeholder="Village"
-    required
+type="text"
+id="village"
+placeholder="Village"
+required
 >
 
 </div>
@@ -675,14 +630,14 @@ for(let year=currentYear; year>=1900; year--){
 <div class="field">
 
 <label>
-    Tehsil <span class="required">*</span>
+Tehsil <span>*</span>
 </label>
 
 <input
-    type="text"
-    name="tehsil"
-    placeholder="Tehsil"
-    required
+type="text"
+id="tehsil"
+placeholder="Tehsil"
+required
 >
 
 </div>
@@ -693,14 +648,14 @@ for(let year=currentYear; year>=1900; year--){
 <div class="field">
 
 <label>
-    Post <span class="required">*</span>
+Post <span>*</span>
 </label>
 
 <input
-    type="text"
-    name="post"
-    placeholder="Post"
-    required
+type="text"
+id="post"
+placeholder="Post"
+required
 >
 
 </div>
@@ -711,14 +666,14 @@ for(let year=currentYear; year>=1900; year--){
 <div class="field">
 
 <label>
-    District <span class="required">*</span>
+District <span>*</span>
 </label>
 
 <input
-    type="text"
-    name="district"
-    placeholder="District"
-    required
+type="text"
+id="district"
+placeholder="District"
+required
 >
 
 </div>
@@ -732,23 +687,29 @@ for(let year=currentYear; year>=1900; year--){
 <div class="buttons">
 
 <button
-    type="reset"
-    class="btn reset">
-    Reset
+type="reset"
+class="reset-btn">
+
+Reset
+
 </button>
 
 <button
-    type="submit"
-    class="btn submit">
-    Submit Application
+type="submit"
+class="submit-btn">
+
+Submit Application
+
 </button>
 
 </div>
 
 
+<!-- SUCCESS -->
+
 <div
-    class="message"
-    id="successMessage">
+class="message"
+id="successMessage">
 </div>
 
 
@@ -762,30 +723,110 @@ for(let year=currentYear; year>=1900; year--){
 <script>
 
 /* =========================
+   DATE
+========================= */
+
+const dobDay =
+document.getElementById("dobDay");
+
+const dobMonth =
+document.getElementById("dobMonth");
+
+const dobYear =
+document.getElementById("dobYear");
+
+
+for(let i = 1; i <= 31; i++){
+
+    const option =
+    document.createElement("option");
+
+    option.value = i;
+    option.textContent =
+    String(i).padStart(2,"0");
+
+    dobDay.appendChild(option);
+
+}
+
+
+const months = [
+
+"January",
+"February",
+"March",
+"April",
+"May",
+"June",
+"July",
+"August",
+"September",
+"October",
+"November",
+"December"
+
+];
+
+
+months.forEach((month,index)=>{
+
+    const option =
+    document.createElement("option");
+
+    option.value =
+    index + 1;
+
+    option.textContent =
+    month;
+
+    dobMonth.appendChild(option);
+
+});
+
+
+const currentYear =
+new Date().getFullYear();
+
+for(let year = currentYear; year >= 1900; year--){
+
+    const option =
+    document.createElement("option");
+
+    option.value = year;
+    option.textContent = year;
+
+    dobYear.appendChild(option);
+
+}
+
+
+/* =========================
    PAN TYPE
 ========================= */
 
 const panType =
-    document.getElementById("panType");
+document.getElementById("panType");
 
 const oldPanField =
-    document.getElementById("oldPanField");
+document.getElementById("oldPanField");
 
 const oldPan =
-    document.getElementById("oldPan");
+document.getElementById("oldPan");
 
 
-panType.addEventListener("change", function(){
+panType.addEventListener("change",function(){
 
     if(this.value === "PAN Correction"){
 
-        oldPanField.style.display = "flex";
+        oldPanField.style.display =
+        "flex";
 
         oldPan.required = true;
 
     }else{
 
-        oldPanField.style.display = "none";
+        oldPanField.style.display =
+        "none";
 
         oldPan.required = false;
 
@@ -797,54 +838,171 @@ panType.addEventListener("change", function(){
 
 
 /* =========================
-   OLD PAN CAPITAL
+   CAPITAL PAN
 ========================= */
 
-oldPan.addEventListener("input", function(){
+oldPan.addEventListener("input",function(){
 
     this.value =
-        this.value.toUpperCase();
+    this.value.toUpperCase();
 
 });
 
 
 /* =========================
-   FORM SUBMIT
+   NUMBER ONLY
 ========================= */
 
-document
-.getElementById("panForm")
-.addEventListener("submit", function(e){
+document.getElementById("mobile")
+.addEventListener("input",function(){
+
+    this.value =
+    this.value.replace(/\D/g,"");
+
+});
+
+
+document.getElementById("aadhaar")
+.addEventListener("input",function(){
+
+    this.value =
+    this.value.replace(/\D/g,"");
+
+});
+
+
+document.getElementById("pinCode")
+.addEventListener("input",function(){
+
+    this.value =
+    this.value.replace(/\D/g,"");
+
+});
+
+
+/* =========================
+   SUBMIT
+========================= */
+
+document.getElementById("panForm")
+.addEventListener("submit",function(e){
 
     e.preventDefault();
 
 
-    const type =
-        document.getElementById("panType").value;
+    const username =
+    localStorage.getItem("username") || "Guest";
 
-
-    /* Application Number */
 
     const applicationNumber =
-        "PAN" +
-        Date.now();
+    "PAN" +
+    Date.now();
 
 
-    /* Save basic application locally */
+    const dob =
+    document.getElementById("dobYear").value +
+    "-" +
+    document.getElementById("dobMonth").value +
+    "-" +
+    document.getElementById("dobDay").value;
+
 
     const application = {
 
         applicationNumber:
-            applicationNumber,
+        applicationNumber,
+
+        userId:
+        username,
 
         panType:
-            type,
+        document.getElementById("panType").value,
+
+        oldPan:
+        document.getElementById("oldPan").value,
+
+        title:
+        document.getElementById("title").value,
+
+        gender:
+        document.getElementById("gender").value,
+
+        fullName:
+        document.getElementById("fullName").value,
+
+        fatherName:
+        document.getElementById("fatherName").value,
+
+        dob:
+        dob,
+
+        mobile:
+        document.getElementById("mobile").value,
+
+        email:
+        document.getElementById("email").value,
+
+        aadhaar:
+        document.getElementById("aadhaar").value,
+
+        dobProof:
+        document.getElementById("dobProof").value,
+
+        dispatchState:
+        document.getElementById("dispatchState").value,
+
+        pinCode:
+        document.getElementById("pinCode").value,
+
+        house:
+        document.getElementById("house").value,
+
+        village:
+        document.getElementById("village").value,
+
+        tehsil:
+        document.getElementById("tehsil").value,
+
+        post:
+        document.getElementById("post").value,
+
+        district:
+        document.getElementById("district").value,
+
+        status:
+        "Pending",
+
+        service:
+        "Physical PAN",
 
         submittedAt:
-            new Date().toLocaleString()
+        new Date().toLocaleString("en-IN")
 
     };
 
+
+    /* =========================
+       SAVE APPLICATION
+    ========================= */
+
+    let applications =
+    JSON.parse(
+        localStorage.getItem("panApplications") || "[]"
+    );
+
+
+    applications.push(application);
+
+
+    localStorage.setItem(
+        "panApplications",
+        JSON.stringify(applications)
+    );
+
+
+    /* =========================
+       LAST APPLICATION
+    ========================= */
 
     localStorage.setItem(
         "lastPanApplication",
@@ -852,46 +1010,101 @@ document
     );
 
 
+    /* =========================
+       SUCCESS MESSAGE
+    ========================= */
+
     const message =
-        document.getElementById("successMessage");
+    document.getElementById("successMessage");
 
 
-    message.style.display = "block";
+    message.style.display =
+    "block";
 
 
-    message.innerHTML =
-        "<strong>Application Submitted Successfully!</strong><br><br>" +
-        "Application Number: <strong>" +
-        applicationNumber +
-        "</strong><br><br>" +
-        "Please save your Application Number.";
+    message.innerHTML = `
+
+        <strong>
+        Application Submitted Successfully!
+        </strong>
+
+        <br><br>
+
+        Application Number:
+        <strong>${applicationNumber}</strong>
+
+        <br><br>
+
+        Status:
+        <strong>Pending</strong>
+
+        <br><br>
+
+        Please save your Application Number.
+
+        <br><br>
+
+        <button
+        type="button"
+        onclick="goDashboard()"
+        style="
+        border:none;
+        background:#1976d2;
+        color:white;
+        padding:9px 16px;
+        border-radius:5px;
+        cursor:pointer;
+        ">
+
+        Go To Dashboard
+
+        </button>
+
+    `;
 
 
     window.scrollTo({
-        top:document.body.scrollHeight,
-        behavior:"smooth"
+
+        top:
+        document.body.scrollHeight,
+
+        behavior:
+        "smooth"
+
     });
 
 });
 
 
 /* =========================
-   RESET MESSAGE
+   DASHBOARD
 ========================= */
 
-document
-.getElementById("panForm")
-.addEventListener("reset", function(){
+function goDashboard(){
+
+    window.location.href =
+    "dashboard.html";
+
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+document.getElementById("panForm")
+.addEventListener("reset",function(){
 
     setTimeout(function(){
 
-        oldPanField.style.display = "none";
+        oldPanField.style.display =
+        "none";
 
         oldPan.required = false;
 
-        document
-        .getElementById("successMessage")
-        .style.display = "none";
+        document.getElementById(
+            "successMessage"
+        ).style.display = "none";
 
     },10);
 
