@@ -358,3 +358,2436 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Shree Multi Services - Dashboard</title>
+
+
+<!-- ==================================================
+     LOGIN PROTECTION
+     ================================================== -->
+
+<script>
+
+(function(){
+
+    /*
+    Login केलेले नसेल तर Dashboard उघडू देऊ नका.
+    */
+
+    if(
+        sessionStorage.getItem("isLoggedIn") !== "true"
+    ){
+
+        window.location.replace("index.html");
+
+    }
+    else{
+
+        document.documentElement.classList.add(
+            "auth-ok"
+        );
+
+    }
+
+})();
+
+</script>
+
+
+<style>
+
+/* Login check होईपर्यंत page hide */
+
+html:not(.auth-ok) body{
+
+    visibility:hidden;
+
+}
+
+
+/* ==================================================
+   BASIC
+   ================================================== */
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+    font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+}
+
+
+body{
+
+    background:#fff;
+
+    color:#222;
+
+}
+
+
+/* ==================================================
+   SIDEBAR
+   ================================================== */
+
+.sidebar{
+
+    position:fixed;
+
+    left:0;
+    top:0;
+
+    width:270px;
+
+    height:100vh;
+
+    background:#292929;
+
+    color:#fff;
+
+    overflow-y:auto;
+
+    z-index:1000;
+
+    transition:.3s;
+
+}
+
+
+.logo{
+
+    padding:22px 18px;
+
+    text-align:center;
+
+    border-bottom:
+    1px solid #444;
+
+}
+
+
+.logo h2{
+
+    font-size:21px;
+
+    color:#fff;
+
+}
+
+
+.logo p{
+
+    font-size:12px;
+
+    margin-top:5px;
+
+    color:#ccc;
+
+}
+
+
+.menu{
+
+    padding:12px 10px;
+
+}
+
+
+.menu-title{
+
+    font-size:11px;
+
+    color:#999;
+
+    padding:
+    12px 12px 7px;
+
+    text-transform:uppercase;
+
+}
+
+
+.menu-btn{
+
+    width:100%;
+
+    border:none;
+
+    background:none;
+
+    color:#fff;
+
+    padding:13px 12px;
+
+    text-align:left;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    border-radius:6px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:3px;
+
+}
+
+
+.menu-btn:hover{
+
+    background:#3b3b3b;
+
+}
+
+
+.menu-btn.active{
+
+    background:#1976d2;
+
+}
+
+
+.menu-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+
+.arrow{
+
+    font-size:12px;
+
+    transition:.3s;
+
+}
+
+
+.menu-btn.open .arrow{
+
+    transform:
+    rotate(180deg);
+
+}
+
+
+/* ==================================================
+   SUBMENU
+   ================================================== */
+
+.submenu{
+
+    display:none;
+
+    background:#353535;
+
+    border-radius:5px;
+
+    margin:2px 0 5px;
+
+    overflow:hidden;
+
+}
+
+
+.submenu.show{
+
+    display:block;
+
+}
+
+
+.submenu a{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    color:#fff;
+
+    text-decoration:none;
+
+    padding:
+    11px 13px 11px 38px;
+
+    font-size:13px;
+
+    border-bottom:
+    1px solid #444;
+
+    cursor:pointer;
+
+}
+
+
+.submenu a:last-child{
+
+    border-bottom:none;
+
+}
+
+
+.submenu a:hover{
+
+    background:#444;
+
+}
+
+
+.count{
+
+    min-width:22px;
+
+    padding:3px 6px;
+
+    text-align:center;
+
+    border-radius:12px;
+
+    background:#555;
+
+    color:#fff;
+
+    font-size:11px;
+
+}
+
+
+/* ==================================================
+   MAIN
+   ================================================== */
+
+.main{
+
+    margin-left:270px;
+
+    min-height:100vh;
+
+    background:#fff;
+
+}
+
+
+/* ==================================================
+   HEADER
+   ================================================== */
+
+.header{
+
+    height:70px;
+
+    border-bottom:
+    1px solid #e5e5e5;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 28px;
+
+    background:#fff;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:500;
+
+}
+
+
+.header-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+
+.header h2{
+
+    font-size:21px;
+
+    color:#222;
+
+}
+
+
+.user-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+
+.user-icon{
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:50%;
+
+    background:#1976d2;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:18px;
+
+}
+
+
+.user-info{
+
+    line-height:18px;
+
+}
+
+
+.user-info strong{
+
+    display:block;
+
+    font-size:13px;
+
+}
+
+
+.user-info span{
+
+    font-size:11px;
+
+    color:#777;
+
+}
+
+
+.mobile-menu{
+
+    display:none;
+
+    border:none;
+
+    background:#1976d2;
+
+    color:#fff;
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:5px;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+}
+
+
+/* ==================================================
+   CONTENT
+   ================================================== */
+
+.content{
+
+    padding:28px;
+
+}
+
+
+.welcome{
+
+    margin-bottom:25px;
+
+}
+
+
+.welcome h1{
+
+    font-size:26px;
+
+    color:#222;
+
+    margin-bottom:6px;
+
+}
+
+
+.welcome p{
+
+    color:#777;
+
+    font-size:14px;
+
+}
+
+
+/* ==================================================
+   STATS
+   ================================================== */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:18px;
+
+    margin-bottom:30px;
+
+}
+
+
+.stat-card{
+
+    background:#fff;
+
+    border:
+    1px solid #e4e4e4;
+
+    border-radius:10px;
+
+    padding:20px;
+
+    box-shadow:
+    0 2px 8px
+    rgba(0,0,0,.06);
+
+}
+
+
+.stat-card h4{
+
+    font-size:13px;
+
+    color:#777;
+
+    margin-bottom:10px;
+
+}
+
+
+.stat-card .number{
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    color:#222;
+
+}
+
+
+/* ==================================================
+   SERVICES
+   ================================================== */
+
+.section-title{
+
+    font-size:20px;
+
+    margin-bottom:18px;
+
+    color:#222;
+
+}
+
+
+.services{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:20px;
+
+}
+
+
+.service-card{
+
+    background:#fff;
+
+    border:
+    1px solid #e3e3e3;
+
+    border-radius:10px;
+
+    padding:22px;
+
+    box-shadow:
+    0 2px 8px
+    rgba(0,0,0,.05);
+
+}
+
+
+.service-card h3{
+
+    font-size:17px;
+
+    margin-bottom:8px;
+
+    color:#222;
+
+}
+
+
+.service-card p{
+
+    font-size:13px;
+
+    color:#777;
+
+    margin-bottom:18px;
+
+}
+
+
+.service-card button{
+
+    border:none;
+
+    background:#1976d2;
+
+    color:#fff;
+
+    padding:9px 16px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+
+.service-card button:hover{
+
+    background:#125ca8;
+
+}
+
+
+/* ==================================================
+   PAN FORM
+   ================================================== */
+
+.pan-form-container{
+
+    display:none;
+
+    padding:
+    20px 28px 35px;
+
+    background:#f5f6f8;
+
+    min-height:
+    calc(100vh - 70px);
+
+}
+
+
+.pan-form-container.show{
+
+    display:block;
+
+}
+
+
+.pan-form-header{
+
+    background:#fff;
+
+    padding:16px 20px;
+
+    border:
+    1px solid #e3e3e3;
+
+    border-radius:
+    10px 10px 0 0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+}
+
+
+.pan-form-header h2{
+
+    font-size:20px;
+
+    color:#222;
+
+}
+
+
+.close-pan-btn{
+
+    border:none;
+
+    background:#b71c1c;
+
+    color:#fff;
+
+    padding:8px 14px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+
+.close-pan-btn:hover{
+
+    background:#8e1515;
+
+}
+
+
+.pan-form-box{
+
+    background:#fff;
+
+    border:
+    1px solid #e3e3e3;
+
+    border-top:none;
+
+    padding:25px;
+
+    border-radius:
+    0 0 10px 10px;
+
+}
+
+
+.pan-form-title{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    margin-bottom:20px;
+
+    color:#222;
+
+}
+
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:18px;
+
+}
+
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+.form-group.full{
+
+    grid-column:1/-1;
+
+}
+
+
+.form-group label{
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    margin-bottom:7px;
+
+    color:#333;
+
+}
+
+
+.form-group label span{
+
+    color:#d00;
+
+}
+
+
+.form-group input,
+.form-group select{
+
+    width:100%;
+
+    padding:11px 12px;
+
+    border:
+    1px solid #ccc;
+
+    border-radius:6px;
+
+    outline:none;
+
+    background:#fff;
+
+    font-size:13px;
+
+}
+
+
+.form-group input:focus,
+.form-group select:focus{
+
+    border-color:#1976d2;
+
+}
+
+
+.dob-row{
+
+    display:grid;
+
+    grid-template-columns:
+    1fr 1.5fr 1fr;
+
+    gap:8px;
+
+}
+
+
+.form-buttons{
+
+    margin-top:25px;
+
+    display:flex;
+
+    gap:10px;
+
+    justify-content:flex-end;
+
+}
+
+
+.reset-btn{
+
+    border:none;
+
+    background:#666;
+
+    color:#fff;
+
+    padding:11px 20px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+
+.submit-btn{
+
+    border:none;
+
+    background:#1976d2;
+
+    color:#fff;
+
+    padding:11px 25px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+
+.submit-btn:hover{
+
+    background:#125ca8;
+
+}
+
+
+.success-box{
+
+    display:none;
+
+    margin-top:20px;
+
+    padding:18px;
+
+    background:#d1e7dd;
+
+    color:#0f5132;
+
+    border:
+    1px solid #badbcc;
+
+    border-radius:7px;
+
+}
+
+
+.success-box.show{
+
+    display:block;
+
+}
+
+
+.success-box h3{
+
+    margin-bottom:8px;
+
+}
+
+
+.success-box button{
+
+    margin-top:12px;
+
+    border:none;
+
+    background:#1976d2;
+
+    color:#fff;
+
+    padding:9px 16px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+
+/* ==================================================
+   RECEIPT
+   ================================================== */
+
+.receipt-container{
+
+    display:none;
+
+    padding:28px;
+
+    background:#f5f6f8;
+
+    min-height:
+    calc(100vh - 70px);
+
+}
+
+
+.receipt-container.show{
+
+    display:block;
+
+}
+
+
+.receipt-header{
+
+    background:#fff;
+
+    border:
+    1px solid #e3e3e3;
+
+    border-radius:
+    10px 10px 0 0;
+
+    padding:18px 20px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+
+.receipt-header h2{
+
+    font-size:21px;
+
+}
+
+
+.receipt-header p{
+
+    color:#777;
+
+    font-size:12px;
+
+    margin-top:5px;
+
+}
+
+
+.receipt-back-btn{
+
+    border:none;
+
+    background:#1976d2;
+
+    color:#fff;
+
+    padding:9px 15px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+
+.receipt-body{
+
+    background:#fff;
+
+    border:
+    1px solid #e3e3e3;
+
+    border-top:none;
+
+    padding:20px;
+
+    border-radius:
+    0 0 10px 10px;
+
+    overflow-x:auto;
+
+}
+
+
+.receipt-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:18px;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+
+
+.receipt-count{
+
+    font-size:14px;
+
+    color:#555;
+
+}
+
+
+.search-box{
+
+    padding:9px 12px;
+
+    border:
+    1px solid #ccc;
+
+    border-radius:5px;
+
+    width:260px;
+
+    outline:none;
+
+}
+
+
+.receipt-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:850px;
+
+}
+
+
+.receipt-table th{
+
+    background:#292929;
+
+    color:#fff;
+
+    padding:12px 10px;
+
+    font-size:12px;
+
+    text-align:left;
+
+}
+
+
+.receipt-table td{
+
+    padding:12px 10px;
+
+    border-bottom:
+    1px solid #e5e5e5;
+
+    font-size:12px;
+
+    color:#333;
+
+}
+
+
+.status{
+
+    display:inline-block;
+
+    padding:5px 9px;
+
+    border-radius:12px;
+
+    font-size:11px;
+
+    font-weight:bold;
+
+}
+
+
+.status-pending{
+
+    background:#fff3cd;
+
+    color:#856404;
+
+}
+
+
+.status-processing{
+
+    background:#cfe2ff;
+
+    color:#084298;
+
+}
+
+
+.status-completed{
+
+    background:#d1e7dd;
+
+    color:#0f5132;
+
+}
+
+
+.status-rejected{
+
+    background:#f8d7da;
+
+    color:#842029;
+
+}
+
+
+.action-btn{
+
+    border:none;
+
+    padding:7px 9px;
+
+    border-radius:4px;
+
+    cursor:pointer;
+
+    color:#fff;
+
+    font-size:11px;
+
+    margin-right:4px;
+
+}
+
+
+.view-btn{
+
+    background:#1976d2;
+
+}
+
+
+.print-btn{
+
+    background:#333;
+
+}
+
+
+.no-data{
+
+    text-align:center;
+
+    padding:50px 20px;
+
+    color:#777;
+
+}
+
+
+.no-data h3{
+
+    color:#444;
+
+    margin-bottom:8px;
+
+}
+
+
+/* ==================================================
+   MODAL
+   ================================================== */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+    rgba(0,0,0,.55);
+
+    z-index:3000;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+}
+
+
+.modal.show{
+
+    display:flex;
+
+}
+
+
+.modal-box{
+
+    width:100%;
+
+    max-width:800px;
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    background:#fff;
+
+    border-radius:10px;
+
+    padding:25px;
+
+}
+
+
+.modal-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:
+    1px solid #ddd;
+
+    padding-bottom:15px;
+
+    margin-bottom:20px;
+
+}
+
+
+.modal-close{
+
+    border:none;
+
+    background:#b71c1c;
+
+    color:#fff;
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+
+.details-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:12px;
+
+}
+
+
+.detail-item{
+
+    border:
+    1px solid #e5e5e5;
+
+    padding:12px;
+
+    border-radius:6px;
+
+}
+
+
+.detail-item strong{
+
+    display:block;
+
+    font-size:11px;
+
+    color:#777;
+
+    margin-bottom:5px;
+
+}
+
+
+.detail-item span{
+
+    font-size:13px;
+
+    color:#222;
+
+    word-break:break-word;
+
+}
+
+
+.modal-footer{
+
+    margin-top:20px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+}
+
+
+.modal-print{
+
+    border:none;
+
+    background:#1976d2;
+
+    color:#fff;
+
+    padding:10px 18px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+
+/* ==================================================
+   LOGOUT
+   ================================================== */
+
+.logout-btn{
+
+    margin:
+    15px 10px 25px;
+
+    width:
+    calc(100% - 20px);
+
+    padding:12px;
+
+    border:none;
+
+    background:#b71c1c;
+
+    color:#fff;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+}
+
+
+/* ==================================================
+   OVERLAY
+   ================================================== */
+
+.overlay{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+    rgba(0,0,0,.45);
+
+    z-index:900;
+
+}
+
+
+/* ==================================================
+   RESPONSIVE
+   ================================================== */
+
+@media(max-width:1000px){
+
+    .stats{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+
+    .services{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+}
+
+
+@media(max-width:768px){
+
+    .sidebar{
+
+        left:-270px;
+
+    }
+
+
+    .sidebar.open{
+
+        left:0;
+
+    }
+
+
+    .main{
+
+        margin-left:0;
+
+    }
+
+
+    .mobile-menu{
+
+        display:block;
+
+    }
+
+
+    .overlay.show{
+
+        display:block;
+
+    }
+
+
+    .header{
+
+        padding:0 15px;
+
+    }
+
+
+    .header h2{
+
+        font-size:17px;
+
+    }
+
+
+    .user-info{
+
+        display:none;
+
+    }
+
+
+    .content{
+
+        padding:20px 15px;
+
+    }
+
+
+    .stats{
+
+        grid-template-columns:
+        1fr 1fr;
+
+        gap:12px;
+
+    }
+
+
+    .services{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .pan-form-container{
+
+        padding:15px;
+
+    }
+
+
+    .pan-form-box{
+
+        padding:18px;
+
+    }
+
+
+    .form-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .form-group.full{
+
+        grid-column:auto;
+
+    }
+
+
+    .receipt-container{
+
+        padding:15px;
+
+    }
+
+
+    .receipt-header{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+
+    .search-box{
+
+        width:100%;
+
+    }
+
+
+    .details-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+
+@media(max-width:480px){
+
+    .stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .welcome h1{
+
+        font-size:22px;
+
+    }
+
+
+    .dob-row{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     SIDEBAR
+     ================================================== -->
+
+<div class="sidebar" id="sidebar">
+
+
+    <div class="logo">
+
+        <h2>
+            Shree Multi Services
+        </h2>
+
+        <p>
+            Maha E-Seva Kendra
+        </p>
+
+    </div>
+
+
+    <div class="menu">
+
+
+        <div class="menu-title">
+            Dashboard
+        </div>
+
+
+        <button
+            class="menu-btn active"
+            id="dashboardMenuBtn"
+            onclick="showDashboard()"
+        >
+
+            <span class="menu-left">
+
+                <span>🏠</span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </span>
+
+        </button>
+
+
+        <div class="menu-title">
+            Services
+        </div>
+
+
+        <!-- ==================================================
+             PHYSICAL PAN
+             ================================================== -->
+
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('panMenu',this)"
+        >
+
+            <span class="menu-left">
+
+                <span>📄</span>
+
+                <span>
+                    Physical PAN
+                </span>
+
+            </span>
+
+            <span class="arrow">
+                ▼
+            </span>
+
+        </button>
+
+
+        <div
+            class="submenu"
+            id="panMenu"
+        >
+
+
+            <a
+                href="#"
+                onclick="openPanForm(event)"
+            >
+
+                <span>
+                    Apply New Pan
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Ack Rejected List')"
+            >
+
+                <span>
+                    Ack Rejected List
+                </span>
+
+                <span class="count">
+                    1
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="openAllPanReceipt(event)"
+            >
+
+                <span>
+                    All PAN (Receipt)
+                </span>
+
+                <span
+                    class="count"
+                    id="allPanCount"
+                >
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Upload PDF')"
+            >
+
+                <span>
+                    Upload PDF
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Reject PDF')"
+            >
+
+                <span>
+                    Reject PDF
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Complete PAN')"
+            >
+
+                <span>
+                    Complete PAN
+                </span>
+
+                <span class="count">
+                    6
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Reject by HO')"
+            >
+
+                <span>
+                    Reject by HO
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+        </div>
+
+
+        <!-- ==================================================
+             SHOP ACT
+             ================================================== -->
+
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('shopMenu',this)"
+        >
+
+            <span class="menu-left">
+
+                <span>🏪</span>
+
+                <span>
+                    Shop Act
+                </span>
+
+            </span>
+
+            <span class="arrow">
+                ▼
+            </span>
+
+        </button>
+
+
+        <div
+            class="submenu"
+            id="shopMenu"
+        >
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'New Shop Act Application')"
+            >
+
+                <span>
+                    New Application
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Pending ShopAct')"
+            >
+
+                <span>
+                    Pending ShopAct
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Rejected ShopAct')"
+            >
+
+                <span>
+                    Rejected ShopAct
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Accepted ShopAct')"
+            >
+
+                <span>
+                    Accepted ShopAct
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'All ShopAct')"
+            >
+
+                <span>
+                    All ShopAct
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+        </div>
+
+
+        <!-- ==================================================
+             GAZETTED CERTIFICATE
+             ================================================== -->
+
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('gazetteMenu',this)"
+        >
+
+            <span class="menu-left">
+
+                <span>📜</span>
+
+                <span>
+                    Gazetted Certificate
+                </span>
+
+            </span>
+
+            <span class="arrow">
+                ▼
+            </span>
+
+        </button>
+
+
+        <div
+            class="submenu"
+            id="gazetteMenu"
+        >
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'New Certificate Application')"
+            >
+
+                <span>
+                    New Application
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Pending Certificate')"
+            >
+
+                <span>
+                    Pending Certificate
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Rejected Certificate')"
+            >
+
+                <span>
+                    Rejected Certificate
+                </span>
+
+                <span class="count">
+                    1
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Approved Certificate')"
+            >
+
+                <span>
+                    Approved Certificate
+                </span>
+
+                <span class="count">
+                    1
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Accepted Certificate')"
+            >
+
+                <span>
+                    Accepted Certificate
+                </span>
+
+                <span class="count">
+                    1
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'All Certificate')"
+            >
+
+                <span>
+                    All Certificate
+                </span>
+
+                <span class="count">
+                    2
+                </span>
+
+            </a>
+
+
+        </div>
+
+
+        <!-- ==================================================
+             FOOD LICENSE
+             ================================================== -->
+
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('foodMenu',this)"
+        >
+
+            <span class="menu-left">
+
+                <span>🍴</span>
+
+                <span>
+                    Food License
+                </span>
+
+            </span>
+
+            <span class="arrow">
+                ▼
+            </span>
+
+        </button>
+
+
+        <div
+            class="submenu"
+            id="foodMenu"
+        >
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'New Food License Application')"
+            >
+
+                <span>
+                    New Application
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Pending License')"
+            >
+
+                <span>
+                    Pending License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Rejected License')"
+            >
+
+                <span>
+                    Rejected License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Approved License')"
+            >
+
+                <span>
+                    Approved License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Reverted License')"
+            >
+
+                <span>
+                    Reverted License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Accepted License')"
+            >
+
+                <span>
+                    Accepted License
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'All License')"
+            >
+
+                <span>
+                    All License
+                </span>
+
+                <span class="count">
+                    2
+                </span>
+
+            </a>
+
+
+        </div>
+
+
+        <!-- ==================================================
+             UDYOG AADHAAR
+             ================================================== -->
+
+        <button
+            class="menu-btn"
+            onclick="toggleMenu('udyogMenu',this)"
+        >
+
+            <span class="menu-left">
+
+                <span>🏭</span>
+
+                <span>
+                    Udyog Aadhaar
+                </span>
+
+            </span>
+
+            <span class="arrow">
+                ▼
+            </span>
+
+        </button>
+
+
+        <div
+            class="submenu"
+            id="udyogMenu"
+        >
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'New Udyog Application')"
+            >
+
+                <span>
+                    New Application
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Pending Udyog')"
+            >
+
+                <span>
+                    Pending Udyog
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Rejected Udyog')"
+            >
+
+                <span>
+                    Rejected Udyog
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'Accepted Udyog')"
+            >
+
+                <span>
+                    Accepted Udyog
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="serviceAlert(event,'All Udyog')"
+            >
+
+                <span>
+                    All Udyog
+                </span>
+
+                <span class="count">
+                    0
+                </span>
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ==================================================
+         LOGOUT
+         ================================================== -->
+
+    <button
+        class="logout-btn"
+        onclick="logout()"
+    >
+
+        🚪 Logout
+
+    </button>
+
+
+</div>
+
+
+<!-- MOBILE OVERLAY -->
+
+<div
+    class="overlay"
+    id="overlay"
+    onclick="closeSidebar()"
+>
+</div>
+
+
+<!-- ==================================================
+     MAIN
+     ================================================== -->
+
+<div class="main">
+
+
+<header class="header">
+
+
+    <div class="header-left">
+
+
+        <button
+            class="mobile-menu"
+            onclick="openSidebar()"
+        >
+            ☰
+        </button>
+
+
+        <h2 id="pageTitle">
+            Dashboard
+        </h2>
+
+
+    </div>
+
+
+    <div class="user-box">
+
+
+        <div class="user-icon">
+            👤
+        </div>
+
+
+        <div class="user-info">
+
+            <strong id="username">
+                User
+            </strong>
+
+            <span>
+                Shree Multi Services
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+</header>
