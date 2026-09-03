@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shree Multi Services - Login</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 400px;
+      background: white;
+      padding: 35px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    }
+
+    .logo {
+      width: 75px;
+      height: 75px;
+      margin: 0 auto 15px;
+      border-radius: 50%;
+      background: #1e3a8a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1e3a8a;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #1e3a8a;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #1e3a8a;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .login-btn:hover {
+      background: #172554;
+    }
+
+    .register {
+      text-align: center;
+      margin-top: 22px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .register a {
+      color: #1e3a8a;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 12px;
+      color: #888;
+    }
+
+    @media (max-width: 480px) {
+      .login-box {
+        margin: 20px;
+        padding: 28px 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-box">
+
+    <div class="logo">SM</div>
+
+    <h1>Shree Multi Services</h1>
+    <p class="subtitle">Online Services Portal</p>
+
+    <form id="loginForm">
+
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        placeholder="Enter Username (SM00001)"
+        required
+      >
+
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter Password"
+        required
+      >
+
+      <button type="submit" class="login-btn">
+        Login
+      </button>
+
+    </form>
+
+    <div class="register">
+      New User?
+      <a href="register.html">Register Now</a>
+    </div>
+
+    <div class="footer">
+      © 2026 Shree Multi Services
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (username === "" || password === "") {
+        alert("Please enter Username and Password");
+        return;
+      }
+
+      alert("Login system will be connected after Register Page is completed.");
+    });
+  </script>
+
+</body>
+</html>
